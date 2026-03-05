@@ -7,7 +7,7 @@ import Reg from "../components/register";
 export default function Register() {
   return ( 
     <ErrorBoundary>
-      <div style={{ backgroundColor: '#0D002B' }} className="relative overflow-hidden min-h-screen">
+      <div className="relative overflow-hidden min-h-screen">
         {/* Background circles */}
         <div className="absolute inset-0 z-0">
           <img
@@ -28,7 +28,7 @@ export default function Register() {
         </div>
 
         {/* Page Content */}
-        <div style={{ backgroundColor: '#0D002B' }} className="relative z-10">
+        <div className="relative z-10">
           <Nav />
           <Reg/>
         </div>

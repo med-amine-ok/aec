@@ -4,14 +4,16 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import Slider from "./swiper";
-import OceanBackground from "./OceanBackground";
+import OceanSurface from "./OceanSurface";
+
 
 export default function First() {
   return (
     <div>
       {/* Hero Section */}
       <div className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
-        <OceanBackground />
+        <OceanSurface />
+        
         <div className="relative flex flex-col items-center text-white text-center gap-2">
           <Image
             src="/bottom.png"

@@ -6,7 +6,7 @@ import Team from "../components/team";
 export default function Accepted() {
   return (
     <ErrorBoundary>
-      <div style={{ backgroundColor: '#0D002B' }} className="relative min-h-screen overflow-hidden">
+      <div className="relative min-h-screen overflow-hidden">
         <Nav />
         <Team />
       </div>

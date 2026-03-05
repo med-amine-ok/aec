@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 // ============================================================
 // Port of the Three.js Ocean Scene (sky + sea only) as a React
@@ -188,6 +189,8 @@ const SKYBOX_VERTEX = /* glsl */ `
 
 const SKYBOX_FRAGMENT = /* glsl */ `
   #include <skybox>
+  uniform float _Time;
+  const float STARS_DRIFT_SPEED = 0.001;
   varying vec3 _worldPos;
   varying vec3 _coord;
   void main() {
@@ -205,6 +208,7 @@ const SKYBOX_FRAGMENT = /* glsl */ `
     vec3 sky = mix(night, day, _SunVisibility);
     sky = mix(sky, twilight, density * clamp(sunLight * 0.5 + 0.5 + dither, 0.0, 1.0) * _TwilightVisibility);
     vec2 cubeCoords = sampleCubeCoords(viewDir);
+    cubeCoords += vec2(_Time * STARS_DRIFT_SPEED, _Time * STARS_DRIFT_SPEED * 0.7);
     vec4 gridValue = texture2D(_Stars, cubeCoords);
     vec2 gridCoords = vec2(cubeCoords.x * _GridSizeScaled, cubeCoords.y * _GridSize);
     vec2 gridCenterCoords = floor(gridCoords) + gridValue.xy;
@@ -329,13 +333,12 @@ export default function OceanBackground() {
     // ---------- Clock ----------
     const clock = new THREE.Clock();
     clock.start();
-    const timeUniform = new THREE.Uniform(clock.elapsedTime);
 
     // ---------- Renderer ----------
     const renderer = new THREE.WebGLRenderer({
       antialias: false,
       alpha: false,
-      depth: false,
+      depth: true,
       stencil: false,
       powerPreference: 'low-power',
     });
@@ -459,14 +462,6 @@ export default function OceanBackground() {
       ditherUniform.value = texture;
     });
 
-    // ---------- Normal maps ----------
-    const normalMap1 = new THREE.Uniform(loader.load('/ocean/waterNormal1.png', (t) => {
-      t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
-    }));
-    const normalMap2 = new THREE.Uniform(loader.load('/ocean/waterNormal2.png', (t) => {
-      t.wrapS = THREE.RepeatWrapping; t.wrapT = THREE.RepeatWrapping;
-    }));
-
     // ---------- Skybox uniforms ----------
     const up = new THREE.Vector3(0, 1, 0);
     const sunVisibility = new THREE.Uniform(1);
@@ -532,69 +527,79 @@ export default function OceanBackground() {
     });
     setSkyboxUniforms(skyMat);
 
+    const skyTimeUniform = new THREE.Uniform(0);
+    skyMat.uniforms._Time = skyTimeUniform;
     const skybox = new THREE.Mesh(skyGeo, skyMat);
     scene.add(skybox);
 
-    // ---------- Ocean surface ----------
-    const oceanHalfSize = 1500;
-    const surfaceVertices = new Float32Array([
-      -oceanHalfSize, 0, -oceanHalfSize,
-       oceanHalfSize, 0, -oceanHalfSize,
-      -oceanHalfSize, 0,  oceanHalfSize,
-       oceanHalfSize, 0,  oceanHalfSize,
-    ]);
-    const surfaceIndices = [2, 3, 0, 3, 1, 0];
-    const surfaceGeo = new THREE.BufferGeometry();
-    surfaceGeo.setAttribute('position', new THREE.BufferAttribute(surfaceVertices, 3));
-    surfaceGeo.setIndex(surfaceIndices);
+    // ---------- Lighting for 3D models ----------
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
+    directionalLight.position.set(100, 200, 50);
+    scene.add(directionalLight);
 
-    const surfaceMat = new THREE.ShaderMaterial({
-      vertexShader: SURFACE_VERTEX,
-      fragmentShader: SURFACE_FRAGMENT,
-      side: THREE.DoubleSide,
-      transparent: true,
-      uniforms: {
-        _Time: timeUniform,
-        _NormalMap1: normalMap1,
-        _NormalMap2: normalMap2,
-      },
+    // ---------- Airplane model ----------
+    let planeModel: THREE.Group | null = null;
+    let planeT = Math.random(); // random start position along flight path
+
+    // Flight path: figure-8 that stays visible in the sky
+    const flightSpeed = 0.06;
+
+    function updatePlanePosition(t: number) {
+      if (!planeModel) return;
+      const angle = t * Math.PI * 2;
+
+      // Figure-8 (lemniscate) path in front of the camera
+      const x = Math.sin(angle) * 400;
+      const z = -200 - Math.cos(angle) * 150; // always in front (negative z)
+      const y = 80 + Math.sin(angle * 2) * 60 + Math.cos(angle * 3) * 15;
+
+      planeModel.position.set(x, y, z);
+
+      // Look toward next point on path
+      const na = (t + 0.002) * Math.PI * 2;
+      const nx = Math.sin(na) * 400;
+      const nz = -200 - Math.cos(na) * 150;
+      const ny = 80 + Math.sin(na * 2) * 60 + Math.cos(na * 3) * 15;
+      planeModel.lookAt(nx, ny, nz);
+
+      // Bank into turns
+      const bankAngle = -Math.cos(angle) * 0.25;
+      planeModel.rotateZ(bankAngle);
+    }
+
+    const gltfLoader = new GLTFLoader();
+    gltfLoader.load('/source/scene.gltf', (gltf) => {
+      const raw = gltf.scene;
+
+      // The Sketchfab GLTF has nested node matrices that rotate the model.
+      // Clear all transforms so we start fresh, then apply our own.
+      raw.traverse((node) => {
+        node.rotation.set(0, 0, 0);
+        node.quaternion.identity();
+        node.matrix.identity();
+        node.matrixAutoUpdate = true;
+      });
+
+      raw.scale.set(0.04, 0.04, 0.04);
+
+      // Outer pivot for lookAt; inner pivot for model orientation correction.
+      // Model geometry: X = wingspan (-1302..1302), Y = fuselage (-470..1344), Z = height (-172..491)
+      // After clearing transforms: nose is at +Y, wings on X, top at +Z.
+      // Three.js lookAt points -Z forward. We need nose → -Z.
+      // rotateX(+π/2): Y → Z, Z → -Y  → nose now at +Z (wrong direction)
+      // rotateX(-π/2): Y → -Z, Z → +Y → nose now at -Z (correct!), top at +Y (correct!)
+      const innerPivot = new THREE.Group();
+      innerPivot.rotation.set(-Math.PI / 2, 0, 0);
+      innerPivot.add(raw);
+
+      const outerPivot = new THREE.Group();
+      outerPivot.add(innerPivot);
+      planeModel = outerPivot;
+      scene.add(planeModel);
+      updatePlanePosition(planeT);
     });
-    setSkyboxUniforms(surfaceMat);
-
-    const surfaceMesh = new THREE.Mesh(surfaceGeo, surfaceMat);
-    scene.add(surfaceMesh);
-
-    // ---------- Ocean volume ----------
-    const oceanDepth = 1000;
-    const volumeVertices = new Float32Array([
-      -oceanHalfSize, -oceanDepth, -oceanHalfSize,
-       oceanHalfSize, -oceanDepth, -oceanHalfSize,
-      -oceanHalfSize, -oceanDepth,  oceanHalfSize,
-       oceanHalfSize, -oceanDepth,  oceanHalfSize,
-      -oceanHalfSize, 0, -oceanHalfSize,
-       oceanHalfSize, 0, -oceanHalfSize,
-      -oceanHalfSize, 0,  oceanHalfSize,
-       oceanHalfSize, 0,  oceanHalfSize,
-    ]);
-    const volumeIndices = [
-      2, 3, 0, 3, 1, 0,
-      0, 1, 4, 1, 5, 4,
-      1, 3, 5, 3, 7, 5,
-      3, 2, 7, 2, 6, 7,
-      2, 0, 6, 0, 4, 6,
-    ];
-    const volumeGeo = new THREE.BufferGeometry();
-    volumeGeo.setAttribute('position', new THREE.BufferAttribute(volumeVertices, 3));
-    volumeGeo.setIndex(volumeIndices);
-
-    const volumeMat = new THREE.ShaderMaterial({
-      vertexShader: VOLUME_VERTEX,
-      fragmentShader: VOLUME_FRAGMENT,
-    });
-    setSkyboxUniforms(volumeMat);
-
-    const volumeMesh = new THREE.Mesh(volumeGeo, volumeMat);
-    surfaceMesh.add(volumeMesh);
 
     // ---------- Resize handler ----------
     function onResize() {
@@ -636,7 +641,9 @@ export default function OceanBackground() {
       lastFrameTime = now;
 
       const dt = Math.min(clock.getDelta(), 1 / 15);
-      timeUniform.value = clock.elapsedTime;
+
+      // Update sky time for star drift
+      skyTimeUniform.value = clock.elapsedTime;
 
       // Sky rotation
       skyAngle += dt * skySpeed;
@@ -646,9 +653,21 @@ export default function OceanBackground() {
       skyInitial.set(0, 1, 0);
       computeSkyUniforms();
 
-      // Keep skybox + ocean centered on camera
+      // Keep skybox centered on camera
       skybox.position.copy(camera.position);
-      surfaceMesh.position.set(camera.position.x, 0, camera.position.z);
+
+      // Animate airplane
+      planeT = (planeT + dt * flightSpeed) % 1;
+      updatePlanePosition(planeT);
+
+      // Update directional light to match sun direction
+      directionalLight.position.set(
+        dirToLight.x * 200,
+        dirToLight.y * 200,
+        dirToLight.z * 200
+      );
+      directionalLight.intensity = Math.max(sunVisibility.value * 1.0, 0.15);
+      ambientLight.intensity = Math.max(sunVisibility.value * 0.6, 0.1);
 
       renderer.clear();
       renderer.render(scene, camera);
@@ -665,14 +684,20 @@ export default function OceanBackground() {
       renderer.dispose();
       skyGeo.dispose();
       skyMat.dispose();
-      surfaceGeo.dispose();
-      surfaceMat.dispose();
-      volumeGeo.dispose();
-      volumeMat.dispose();
       starsTexture.dispose();
       ditherUniform.value?.dispose();
-      normalMap1.value?.dispose();
-      normalMap2.value?.dispose();
+      if (planeModel) {
+        planeModel.traverse((child) => {
+          if (child instanceof THREE.Mesh) {
+            child.geometry?.dispose();
+            if (Array.isArray(child.material)) {
+              child.material.forEach(m => m.dispose());
+            } else {
+              child.material?.dispose();
+            }
+          }
+        });
+      }
       if (container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
@@ -683,9 +708,9 @@ export default function OceanBackground() {
     <div
       ref={containerRef}
       style={{
-        position: 'absolute',
+        position: 'fixed',
         inset: 0,
-        zIndex: 0,
+        zIndex: -1,
         overflow: 'hidden',
       }}
     />

@@ -17,9 +17,9 @@ export default function Navbar() {
   return (
 <header
   style={{ backgroundColor: 'rgba(13, 0, 43, 0)' }} // 0.8 opacity (less transparent)
-  className="p-4 fixed w-full z-50 font-gilroy backdrop-blur-md"
+  className="p-4 fixed w-full z-50 font-gilroy "
 >
-      <div className="flex justify-between items-center backdrop-blur-md w-full">
+      <div className="flex justify-between items-center  w-full">
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex w-full justify-evenly">
           {navItems.map((item) => (

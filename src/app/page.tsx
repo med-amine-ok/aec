@@ -13,7 +13,7 @@ export default function Home() {
 
   return (
     <ErrorBoundary>
-      <div style={{ backgroundColor: '#0D002B' }} className="relative overflow-hidden">
+      <div className="relative overflow-hidden">
         {/* Background circles */}
         <div className="absolute inset-0 z-0">
           <img
