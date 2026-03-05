@@ -448,6 +448,8 @@ export default function OceanBackground() {
     }
 
     const starsTexture = new THREE.DataTexture(starsMap, gridSize * 6, gridSize);
+    starsTexture.wrapS = THREE.RepeatWrapping;
+    starsTexture.wrapT = THREE.RepeatWrapping;
     starsTexture.needsUpdate = true;
     const starsUniform = new THREE.Uniform(starsTexture);
 
