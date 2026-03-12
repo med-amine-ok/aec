@@ -673,38 +673,61 @@ function AboutParallaxPanel({
 // Each phrase emerges from deep Z-space behind the monument, with staggered words.
 // ========================
 
-// Decomposed from: "The Algerian Engineering Competition is a national event that
-// brings together engineering students, recent graduates, and industry experts
-// to solve real-world problems through innovation and teamwork."
+// Decomposed from: "The Algerian Engineering Competition is a national event that brings together engineering students, recent graduates, and industry experts to solve real-world problems through innovation and teamwork."
+// Expanded with key points from the official AEC description.
 const CINEMATIC_PHRASES: { words: string[]; sub: string; start: number; end: number }[] = [
   {
     words: ["THE ALGERIAN", "ENGINEERING", "COMPETITION"],
     sub: "AEC 2026",
     start: 0.40,
-    end: 0.467,
+    end: 0.455,
   },
   {
     words: ["A NATIONAL", "EVENT"],
-    sub: "Uniting Algeria's brightest minds",
-    start: 0.473,
-    end: 0.533,
+    sub: "Simultaneous in many wilayas",
+    start: 0.457,
+    end: 0.485,
+  },
+  {
+    words: ["REAL CHALLENGES", "FROM INDUSTRY"],
+    sub: "Proposed by companies & experts",
+    start: 0.487,
+    end: 0.515,
   },
   {
     words: ["STUDENTS.", "GRADUATES.", "EXPERTS."],
-    sub: "All under one roof",
-    start: 0.538,
-    end: 0.595,
+    sub: "Connecting all generations",
+    start: 0.517,
+    end: 0.545,
   },
   {
     words: ["SOLVING", "REAL-WORLD", "PROBLEMS"],
-    sub: "Through innovation and teamwork",
-    start: 0.600,
-    end: 0.655,
+    sub: "Bridging needs and innovation",
+    start: 0.547,
+    end: 0.575,
+  },
+  {
+    words: ["PARTICIPANTS FROM", "ALL OVER ALGERIA"],
+    sub: "Universities, schools, and diaspora",
+    start: 0.577,
+    end: 0.605,
+  },
+  {
+    words: ["OPPORTUNITY TO", "SHOWCASE TALENT"],
+    sub: "Valorize your skills and creativity",
+    start: 0.607,
+    end: 0.635,
+  },
+  {
+    words: ["SHOWCASE YOUR", "SKILLS & CREATIVITY"],
+    sub: "A real opportunity to shine",
+    start: 0.637,
+    end: 0.665,
   },
   {
     words: ["THE FUTURE", "IS IN YOUR HANDS"],
     sub: "Register · Compete · Inspire",
-    start: 0.660,
+    start: 0.667,
     end: 0.730,
   },
 ];
@@ -1170,35 +1193,27 @@ export default function MaqamScene() {
       <div className="absolute inset-0 overflow-hidden">
         {/* Phase 1 — Cinematic Hero Title */}
         <div
-          className="aec-overlay absolute inset-0 flex flex-col items-center justify-center px-4"
+          className="aec-overlay absolute inset-0 flex flex-col items-center justify-center px-4 pt-24 lg:pt-32"
           style={{
             opacity: phase === 1 ? 1 : 0,
             pointerEvents: phase === 1 ? "auto" : "none",
           }}
         >
-          {/* Main title — scales up */}
-          <h1
-            ref={p1TitleRef}
-            className="aec text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-[10rem] text-[#e6f7ff] drop-shadow-[0_0_80px_rgba(255,194,0,0.35)] leading-none text-center break-words mt-9 md:mt-5"
-            style={{ opacity: 0, transform: "scale(0.88)" }}
-          >
-            AEC
-          </h1>
-
-          {/* Divider */}
+          
           <div
             ref={p1DividerRef}
             className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#e6f7ff]/60 to-transparent mx-auto my-4"
             style={{ opacity: 0, transform: "scaleX(0)" }}
           />
 
-          {/* Subtitle — slides from right */}
+            
+        
           <p
             ref={p1SubtitleRef}
-            className="text-white/50 text-sm md:text-xl tracking-[0.4em] font-light uppercase mb-6"
+            className="text-white/50  text-sm md:text-xl tracking-[0.4em] font-light uppercase"
             style={{ opacity: 0, transform: "translateX(36px)" }}
           >
-            Algerian Engineering Competition
+            AEC
           </p>
 
           {/* Slogan — slides from left */}
@@ -1219,12 +1234,12 @@ export default function MaqamScene() {
               />
               <div className="text-lg xs:text-xl sm:text-2xl md:text-4xl flex flex-col items-center w-full">
                 <div className="slogan font-semibold flex flex-wrap justify-center w-full text-base xs:text-lg sm:text-xl md:text-2xl lg:text-3xl">
-                  <span className="mr-1 xs:mr-2 md:mr-5">THINK</span>
-                  <span className="text-[#e6f7ff] mr-1 xs:mr-2 md:mr-5">
-                    BOLD
+                  <span className="mr-1 xs:mr-2 md:mr-5">ALGERIAN</span>
+                  <span className="text-[#e6f7ff]">
+                    ENGINEERING
                   </span>
-                  <span className="mr-1 xs:mr-2 md:mr-5">. BUILD</span>
-                  <span className="text-[#e6f7ff] mr-1 xs:mr-2 md:mr-5">
+                  <span className="mr-1 xs:mr-2 md:mr-5">COMPETITION</span>
+                  {/* <span className="text-[#e6f7ff] mr-1 xs:mr-2 md:mr-5">
                     SMART
                   </span>
                   <span className="mr-1 xs:mr-2 md:mr-5">.</span>
@@ -1233,7 +1248,7 @@ export default function MaqamScene() {
                   <span className="mr-1 xs:mr-2 md:mr-5">COMPETE</span>
                   <span className="text-[#e6f7ff] mr-1 xs:mr-2 md:mr-5">
                     HARD
-                  </span>
+                  </span> */}
                   <span className="mr-1 xs:mr-2 md:mr-5">.</span>
                 </div>
               </div>
