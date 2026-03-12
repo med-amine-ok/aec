@@ -1259,7 +1259,7 @@ export default function MaqamScene() {
                 100+
               </div>
               <div className="text-white/35 text-[10px] xs:text-xs tracking-[0.18em] xs:tracking-[0.25em] uppercase mt-1">
-                Participants
+                Teams
               </div>
             </div>
             <div
