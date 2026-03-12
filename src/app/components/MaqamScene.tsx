@@ -1256,7 +1256,19 @@ export default function MaqamScene() {
               style={{ opacity: 0, transform: "translateY(22px)" }}
             >
               <div className="aec text-lg xs:text-xl sm:text-2xl md:text-4xl text-[#e6f7ff] leading-none">
-                500+
+                100+
+              </div>
+              <div className="text-white/35 text-[10px] xs:text-xs tracking-[0.18em] xs:tracking-[0.25em] uppercase mt-1">
+                Participants
+              </div>
+            </div>
+            <div
+              ref={p1Stat2Ref}
+              className="text-center min-w-[70px] xs:min-w-[90px]"
+              style={{ opacity: 0, transform: "translateY(22px)" }}
+            >
+              <div className="aec text-lg xs:text-xl sm:text-2xl md:text-4xl text-[#e6f7ff] leading-none">
+                400+
               </div>
               <div className="text-white/35 text-[10px] xs:text-xs tracking-[0.18em] xs:tracking-[0.25em] uppercase mt-1">
                 Participants
@@ -1274,18 +1286,7 @@ export default function MaqamScene() {
                 Wilayas
               </div>
             </div>
-            <div
-              ref={p1Stat2Ref}
-              className="text-center min-w-[70px] xs:min-w-[90px]"
-              style={{ opacity: 0, transform: "translateY(22px)" }}
-            >
-              <div className="aec text-lg xs:text-xl sm:text-2xl md:text-4xl text-[#e6f7ff] leading-none">
-                3
-              </div>
-              <div className="text-white/35 text-[10px] xs:text-xs tracking-[0.18em] xs:tracking-[0.25em] uppercase mt-1">
-                Tracks
-              </div>
-            </div>
+            
           </div>
 
           {/* Scroll hint */}
