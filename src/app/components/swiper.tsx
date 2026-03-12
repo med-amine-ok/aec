@@ -23,17 +23,17 @@ export default function Slider() {
   return (
     <div className="w-full h-full flex flex-col justify-center gap-4 md:gap-6 px-2">
       <div className="flex items-center justify-between text-white">
-        {/* <h3 className="text-[#FFC200] text-xs md:text-sm tracking-[0.2em] uppercase">AEC Gallery</h3>
+        {/* <h3 className="text-[#e6f7ff] text-xs md:text-sm tracking-[0.2em] uppercase">AEC Gallery</h3>
         <div className="flex items-center gap-2">
           <button
             aria-label="Previous slide"
-            className="gallery-prev h-9 w-9 rounded-full bg-[#110038]/70 border border-white/20 text-[#FFC200] hover:bg-[#FFC200] hover:text-[#110038] transition"
+            className="gallery-prev h-9 w-9 rounded-full bg-[#110038]/70 border border-white/20 text-[#e6f7ff] hover:bg-[#e6f7ff] hover:text-[#110038] transition"
           >
             &lt;
           </button>
           <button
             aria-label="Next slide"
-            className="gallery-next h-9 w-9 rounded-full bg-[#110038]/70 border border-white/20 text-[#FFC200] hover:bg-[#FFC200] hover:text-[#110038] transition"
+            className="gallery-next h-9 w-9 rounded-full bg-[#110038]/70 border border-white/20 text-[#e6f7ff] hover:bg-[#e6f7ff] hover:text-[#110038] transition"
           >
             &gt;
           </button>
@@ -71,7 +71,7 @@ export default function Slider() {
                 className="object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#110038]/90 via-[#110038]/15 to-transparent" />
-              
+
             </div>
           </SwiperSlide>
         ))}

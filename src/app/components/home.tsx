@@ -13,7 +13,7 @@ export default function First() {
       {/* Hero Section */}
       <div id="hero-section" className="relative w-full h-screen flex flex-col justify-center items-center overflow-hidden">
         <OceanSurface />
-        
+
         <div className="relative flex flex-col items-center text-white text-center gap-2">
           <Image
             src="/bottom.png"
@@ -26,14 +26,14 @@ export default function First() {
           <div className="text-2xl md:text-4xl flex flex-col items-center">
             <div className="slogan text-2xl font-semibold flex flex-wrap justify-center">
               <span className="mr-2 md:mr-5">THINK</span>
-              <span className="text-[#FFC200] mr-2 md:mr-5">BOLD</span>
+              <span className="text-[#e6f7ff] mr-2 md:mr-5">BOLD</span>
               <span className="mr-2 md:mr-5">. BUILD</span>
-              <span className="text-[#FFC200] mr-2 md:mr-5">SMART</span>
+              <span className="text-[#e6f7ff] mr-2 md:mr-5">SMART</span>
               <span className="mr-2 md:mr-5">.</span>
             </div>
             <div className="slogan text-2xl font-semibold flex flex-wrap justify-center">
               <span className="mr-2 md:mr-5">COMPETE</span>
-              <span className="text-[#FFC200] mr-2 md:mr-5">HARD</span>
+              <span className="text-[#e6f7ff] mr-2 md:mr-5">HARD</span>
               <span className="mr-2 md:mr-5">.</span>
             </div>
           </div>
@@ -47,11 +47,11 @@ export default function First() {
             className="absolute -bottom-10 md:-right-10 -right-5 w-[150px] md:w-[350px] object-contain"
           />
           <Link
-                href="/register"
-                className="inline-flex bg-[#FFC200] text-[#110038] py-2 px-5 mt-5 rounded-md font-bold text-lg md:text-2xl"
-              >
-                REGISTER NOW
-              </Link>
+            href="/register"
+            className="inline-flex bg-[#e6f7ff] text-[#110038] py-2 px-5 mt-5 rounded-md font-bold text-lg md:text-2xl"
+          >
+            REGISTER NOW
+          </Link>
         </div>
       </div>
 
@@ -69,7 +69,7 @@ export default function First() {
              
               <Link
                 href="/register"
-                className="inline-flex bg-[#FFC200] text-[#110038] py-2 px-5 rounded-md font-bold text-lg md:text-2xl"
+                className="inline-flex bg-[#e6f7ff] text-[#110038] py-2 px-5 rounded-md font-bold text-lg md:text-2xl"
               >
                 REGISTER NOW
               </Link>

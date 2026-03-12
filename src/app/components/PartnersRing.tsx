@@ -31,14 +31,13 @@ export default function PartnersRing({
     const p = scrollProgress.current;
     const t = state.clock.getElapsedTime();
 
-    // Fade in/out around phase 4 (0.55–0.75)
+    // Fade in/out around phase 4 (custom 0.81–0.91)
     let ringOpacity = 0;
-    if (p >= 0.50 && p < 0.58) {
-      ringOpacity = (p - 0.50) / 0.08;
-    } else if (p >= 0.58 && p < 0.73) {
-      ringOpacity = 1;
-    } else if (p >= 0.73 && p < 0.80) {
-      ringOpacity = 1 - (p - 0.73) / 0.07;
+    if (p >= 0.81 && p < 0.91) {
+      // Fast snap-in over ~2% scroll, hold full until phase end
+      ringOpacity = Math.min(1, (p - 0.81) / 0.015);
+    } else if (p >= 0.91 && p < 0.96) {
+      ringOpacity = 1 - (p - 0.91) / 0.05;
     }
 
     // Slow orbit
@@ -63,12 +62,12 @@ export default function PartnersRing({
           const mat = (c as THREE.Mesh).material as THREE.MeshBasicMaterial;
           mat.transparent = true;
           if (mat.blending === THREE.AdditiveBlending) {
-            // Glow: pulsing additive
+            // Glow: pulsing additive — fast damp
             const glowPulse = 0.15 + Math.sin(t * 1.0 + i * 0.7) * 0.08;
-            mat.opacity = THREE.MathUtils.damp(mat.opacity, target * glowPulse, 5, delta);
+            mat.opacity = THREE.MathUtils.damp(mat.opacity, target * glowPulse, 20, delta);
           } else {
-            // Logo: standard fade
-            mat.opacity = THREE.MathUtils.damp(mat.opacity, target, 5, delta);
+            // Logo: fast fade
+            mat.opacity = THREE.MathUtils.damp(mat.opacity, target, 20, delta);
           }
         }
       });
@@ -83,14 +82,13 @@ export default function PartnersRing({
         const z = Math.sin(angle) * radius;
         return (
           <group key={i} position={[x, 0, z]}>
-            {/* Golden glow halo */}
-            <mesh position={[0, 0, -600]}>
+            {/* Golden glow halo — slightly behind the logo */}
+            <mesh position={[0, 0, -5000]}>
               <planeGeometry args={[5, 5]} />
               <meshBasicMaterial
-                color="#ffc400e3"
+                color="#ffc400"
                 transparent
                 opacity={0}
-                
                 blending={THREE.AdditiveBlending}
                 depthWrite={false}
               />

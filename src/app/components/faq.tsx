@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react';
-import { ChevronDown } from 'lucide-react'; 
+import { ChevronDown } from 'lucide-react';
 import "../globals.css";
 
 export default function FAQ() {
@@ -19,22 +19,22 @@ export default function FAQ() {
 
   return (
     <div id='FAQ' className="min-h-screen w-full flex flex-col items-center justify-center gap-10 px-4">
-      <h1 className="aec text-2xl font-semibold text-[#FFC200] text-center">FAQ</h1>
+      <h1 className="aec text-2xl font-semibold text-[#e6f7ff] text-center">FAQ</h1>
       <div className="w-full lg:w-3/4 xl:w-2/3 p-5 space-y-4">
         {questions.map((item, index) => (
-          <div 
+          <div
             key={index}
             className="bg-gradient-to-r from-violet-500/50 to-indigo-900/50 rounded-3xl border border-violet-700 p-4"
           >
-            <div 
+            <div
               className="flex justify-between items-center cursor-pointer"
               onClick={() => toggle(index)}
             >
               <p className="text-white text-base sm:text-lg md:text-xl font-semibold">
                 {item.question}
               </p>
-              <ChevronDown 
-                className={`text-[#FFC200] transition-all duration-300 transform ${openIndex === index ? 'rotate-180' : 'rotate-0'} text-2xl sm:text-3xl`}
+              <ChevronDown
+                className={`text-[#e6f7ff] transition-all duration-300 transform ${openIndex === index ? 'rotate-180' : 'rotate-0'} text-2xl sm:text-3xl`}
               />
             </div>
             {openIndex === index && (

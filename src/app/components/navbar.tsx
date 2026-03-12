@@ -14,12 +14,12 @@ export default function Navbar() {
   ];
 
   return (
-<header
-  style={{ backgroundColor: 'rgba(13, 0, 43, 0)' }} // 0.8 opacity (less transparent)
-  className="p-4 fixed w-full z-50 font-gilroy "
->
+    <header
+      style={{ backgroundColor: 'rgba(13, 0, 43, 0)' }} // 0.8 opacity (less transparent)
+      className="p-4 fixed w-full z-50 font-gilroy "
+    >
       <div className="flex justify-between items-center  w-full">
-        {/* Desktop Navigation */}
+       
         <nav className="hidden lg:flex w-full justify-evenly">
           {navItems.map((item) => (
             <Link key={item.name} href={item.href} className="navLink active">
@@ -37,16 +37,16 @@ export default function Navbar() {
             aria-label={isOpen ? "Close menu" : "Open menu"}
           >
             {isOpen ? (
-              <X size={30} className="text-[#FFC200]" />
+              <X size={30} className="text-[#e6f7ff]" />
             ) : (
-              <Menu size={30} className="text-[#FFC200]" />
+              <Menu size={30} className="text-[#e6f7ff]" />
             )}
           </button>
 
           {/* Register Button */}
           <Link
             href="/register"
-            className="bg-[#FFC200] text-[#110038] py-2 px-5 rounded-md font-bold text-2xl"
+            className="bg-[#e6f7ff] text-[#110038] py-2 px-5 rounded-md font-bold text-2xl"
           >
             Register
           </Link>

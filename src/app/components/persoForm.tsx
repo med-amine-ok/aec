@@ -3,7 +3,7 @@ import { FormState } from "./types";
 interface PersonalInfoFormProps {
   title: string;
   isLastForm: boolean;
-  onSubmit: () => void; 
+  onSubmit: () => void;
   formData: FormState;
   setFormData: (newData: FormState) => void;
   teamId: number | null;
@@ -23,7 +23,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
 }) => {
   return (
     <div className="space-y-4 bg-purple-900/80 p-10 ">
-      <h3 className="aec text-[#FFC200] text-xl font-semibold">{title}</h3>
+      <h3 className="aec text-[#e6f7ff] text-xl font-semibold">{title}</h3>
 
       {/* Personal Information */}
       <div>
@@ -181,21 +181,21 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
 
       {/* Team Name (conditionally visible for solo participants) */}
       {/* Team Name (only for team leaders) */}
-{title === "Leader" && (
-  <div className="form-group">
-    <label className="block font-medium">Team Name</label>
-    <input
-      type="text"
-      value={formData.team_name}
-      onChange={(e) =>
-        setFormData({ ...formData, team_name: e.target.value })
-      }
-      required
-      className="border p-2 w-full rounded text-white"
-      placeholder="Enter team name"
-    />
-  </div>
-)}
+      {title === "Leader" && (
+        <div className="form-group">
+          <label className="block font-medium">Team Name</label>
+          <input
+            type="text"
+            value={formData.team_name}
+            onChange={(e) =>
+              setFormData({ ...formData, team_name: e.target.value })
+            }
+            required
+            className="border p-2 w-full rounded text-white"
+            placeholder="Enter team name"
+          />
+        </div>
+      )}
 
 
       {/* Submit Button */}
@@ -203,7 +203,7 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({
         <button
           type="button"
           onClick={onSubmit}
-          className="bg-[#FFC200] text-[#110038] px-4 py-2 rounded hover:bg-[#110038] hover:text-[#FFC200] font-semibold"
+          className="bg-[#e6f7ff] text-[#110038] px-4 py-2 rounded hover:bg-[#110038] hover:text-[#e6f7ff] font-semibold"
         >
           Submit
         </button>

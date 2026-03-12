@@ -44,7 +44,8 @@ export default function Home() {
         <div className="relative z-10 flex flex-col">
           <Fisrt />
           {/* AEC Experience scroll spacer — transparent to reveal 3D scene */}
-          <div id="aec-experience" style={{ height: '500vh' }} />
+          {/* 200vh pre-phrase + 200vh phrase zone + 200vh post-phrase = 600vh */}
+          <div id="aec-experience" style={{ height: '600vh' }} />
           <FAQ />
           <Bottom />
         </div>
