@@ -62,7 +62,7 @@ export default function FAQ() {
           <div className="w-16 h-[1px] bg-[#e6f7ff]/30 mx-auto mt-6"></div>
         </div>
 
-        <div className="w-[95%] sm:w-[85%] md:w-3/4 lg:w-[70%] max-w-4xl space-y-4">
+        <div className="w-[90%] sm:w-[85%] md:w-3/4 lg:w-[70%] max-w-4xl space-y-4">
           {questions.map((item, index) => {
             const isOpen = openIndex === index;
             return (
@@ -124,7 +124,7 @@ export default function FAQ() {
 
                 <button
                   type="button"
-                  className="w-full text-left px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-4 flex items-center justify-between cursor-pointer z-10 relative gap-3"
+                  className="w-full text-left px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2 flex items-center justify-between cursor-pointer z-10 relative gap-2"
                   onClick={() => toggle(index)}
                   aria-expanded={isOpen}
                   aria-label={`Toggle FAQ question ${index + 1}`}
@@ -138,9 +138,9 @@ export default function FAQ() {
                       <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-white/55 tech-accent mb-0.5 sm:mb-1">
                         Q{String(index + 1).padStart(2, '0')} • AEC 
                       </p>
-                      <h3 className={`text-[2px] sm:text-xs md:text-sm font-semibold leading-snug sm:leading-normal tracking-[0.01em] transition-colors duration-300 pointer-events-none select-none pr-1 sm:pr-2 drop-shadow-md line-clamp-2 sm:line-clamp-none ${isOpen ? 'text-white' : 'text-[#e6f7ff]/95'}`}>
+                      <span className={`text-[25px] text-xs font-semibold leading-snug sm:leading-normal tracking-[0.01em] transition-colors duration-300 pointer-events-none select-none pr-1 sm:pr-2 drop-shadow-md ${isOpen ? 'text-white' : 'text-[#e6f7ff]/95'}`}>
                         {item.question}
-                      </h3>
+                      </span>
                     </div>
                   </div>
 
@@ -154,7 +154,7 @@ export default function FAQ() {
                 {isOpen && (
                   <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 pt-0.5 animate-in fade-in slide-in-from-top-2 duration-500 z-10 relative">
                     <div className="pl-0 sm:pl-6 border-t border-white/10 pt-3 sm:pt-4">
-                      <p className="text-white/85 text-[15px] sm:text-xs md:text-sm leading-relaxed font-light tracking-[0.01em] drop-shadow max-w-[92ch]">
+                      <p className="text-white/85 text-lg sm:text-xl md:text-2xl leading-relaxed font-light tracking-[0.01em] drop-shadow max-w-[92ch]">
                         {item.answer}
                       </p>
                     </div>
