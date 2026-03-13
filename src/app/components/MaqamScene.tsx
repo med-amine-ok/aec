@@ -382,11 +382,11 @@ function AboutParallaxPanel({
 
   // Parallax intensity config per element
   const PARALLAX = {
-    panel:  { moveX: 8,  moveY: 6,  rotX: 4,  rotY: 5,  z: 20,  scale: 0.03 },
-    icons:  { moveX: 25, moveY: 20, rotX: 3,  rotY: 4,  z: 60 },
-    title:  { moveX: 18, moveY: 14, rotX: 2,  rotY: 3,  z: 40 },
-    text:   { moveX: 10, moveY: 8,  rotX: 1,  rotY: 1.5, z: 20 },
-    cta:    { moveX: 5,  moveY: 4,  rotX: 0.5, rotY: 0.8, z: 30 },
+    panel: { moveX: 8, moveY: 6, rotX: 4, rotY: 5, z: 20, scale: 0.03 },
+    icons: { moveX: 25, moveY: 20, rotX: 3, rotY: 4, z: 60 },
+    title: { moveX: 18, moveY: 14, rotX: 2, rotY: 3, z: 40 },
+    text: { moveX: 10, moveY: 8, rotX: 1, rotY: 1.5, z: 20 },
+    cta: { moveX: 5, moveY: 4, rotX: 0.5, rotY: 0.8, z: 30 },
   };
 
   const DAMPING = 0.08; // Lower = smoother/slower follow
@@ -573,23 +573,20 @@ function AboutParallaxPanel({
 
         {/* Top shimmer line */}
         <div
-          className={`absolute top-0 left-6 right-6 h-[1px] about-shimmer-top ${
-            isVisible ? "about-shimmer-active" : ""
-          }`}
+          className={`absolute top-0 left-6 right-6 h-[1px] about-shimmer-top ${isVisible ? "about-shimmer-active" : ""
+            }`}
         />
 
         {/* Bottom shimmer line */}
         <div
-          className={`absolute bottom-0 left-8 right-8 h-[1px] about-shimmer-bottom ${
-            isVisible ? "about-shimmer-active" : ""
-          }`}
+          className={`absolute bottom-0 left-8 right-8 h-[1px] about-shimmer-bottom ${isVisible ? "about-shimmer-active" : ""
+            }`}
         />
 
         {/* Left glow edge */}
         <div
-          className={`absolute top-8 bottom-8 left-0 w-[1px] about-glow-edge ${
-            isVisible ? "about-glow-edge-active" : ""
-          }`}
+          className={`absolute top-8 bottom-8 left-0 w-[1px] about-glow-edge ${isVisible ? "about-glow-edge-active" : ""
+            }`}
         />
 
         {/* Floating Engineering Icons — maximum parallax */}
@@ -676,58 +673,41 @@ function AboutParallaxPanel({
 // Decomposed from: "The Algerian Engineering Competition is a national event that brings together engineering students, recent graduates, and industry experts to solve real-world problems through innovation and teamwork."
 // Expanded with key points from the official AEC description.
 const CINEMATIC_PHRASES: { words: string[]; sub: string; start: number; end: number }[] = [
+  
   {
-    words: ["THE ALGERIAN", "ENGINEERING", "COMPETITION"],
-    sub: "AEC 2026",
+    words: ["A NATIONAL", "EVENT"],
+    sub: "Simultaneous in many wilayas",
     start: 0.40,
     end: 0.455,
   },
   {
-    words: ["A NATIONAL", "EVENT"],
-    sub: "Simultaneous in many wilayas",
-    start: 0.457,
-    end: 0.485,
-  },
-  {
-    words: ["REAL CHALLENGES", "FROM INDUSTRY"],
-    sub: "Proposed by companies & experts",
-    start: 0.487,
-    end: 0.515,
-  },
-  {
-    words: ["STUDENTS.", "GRADUATES.", "EXPERTS."],
+     words: ["STUDENTS.", "GRADUATES.", "EXPERTS."],
     sub: "Connecting all generations",
-    start: 0.517,
-    end: 0.545,
+    start: 0.457,
+    end: 0.512,
   },
   {
     words: ["SOLVING", "REAL-WORLD", "PROBLEMS"],
     sub: "Bridging needs and innovation",
-    start: 0.547,
-    end: 0.575,
+    start: 0.514,
+    end: 0.569,
   },
   {
     words: ["PARTICIPANTS FROM", "ALL OVER ALGERIA"],
     sub: "Universities, schools, and diaspora",
-    start: 0.577,
-    end: 0.605,
+    start: 0.571,
+    end: 0.626,
   },
   {
-    words: ["OPPORTUNITY TO", "SHOWCASE TALENT"],
-    sub: "Valorize your skills and creativity",
-    start: 0.607,
-    end: 0.635,
-  },
-  {
-    words: ["SHOWCASE YOUR", "SKILLS & CREATIVITY"],
+     words: ["SHOWCASE YOUR", "SKILLS & CREATIVITY"],
     sub: "A real opportunity to shine",
-    start: 0.637,
-    end: 0.665,
+    start: 0.628,
+    end: 0.683,
   },
   {
     words: ["THE FUTURE", "IS IN YOUR HANDS"],
     sub: "Register · Compete · Inspire",
-    start: 0.667,
+    start: 0.685,
     end: 0.730,
   },
 ];
@@ -1199,15 +1179,15 @@ export default function MaqamScene() {
             pointerEvents: phase === 1 ? "auto" : "none",
           }}
         >
-          
+
           <div
             ref={p1DividerRef}
             className="w-32 h-[1px] bg-gradient-to-r from-transparent via-[#e6f7ff]/60 to-transparent mx-auto my-4"
             style={{ opacity: 0, transform: "scaleX(0)" }}
           />
 
-            
-        
+
+
           <p
             ref={p1SubtitleRef}
             className="text-white/50  text-sm md:text-xl tracking-[0.4em] font-light uppercase"
@@ -1301,7 +1281,7 @@ export default function MaqamScene() {
                 Wilayas
               </div>
             </div>
-            
+
           </div>
 
           {/* Scroll hint */}

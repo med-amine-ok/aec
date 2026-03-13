@@ -155,24 +155,24 @@ export default function Navbar() {
   const highlightStart = mixHex("#4db8ff", "#186abf", skyProgress); // Sea side
   const highlightEnd = mixHex("#ffd073", "#cc7c2f", skyProgress); // Sahara side
 
-  const shellBackground = `linear-gradient(90deg, ${seaTone} 0%, ${coastTone} 35%, ${duneTone} 65%, ${saharaTone} 100%)`;
+  const shellBackground = "#050914";
   const shellBorder = `rgba(230, 247, 255, ${isNight ? 0.12 : 0.22})`;
   const overlayShine = `linear-gradient(120deg, rgba(255,255,255,${isNight ? 0.05 : 0.15}) 0%, rgba(255,255,255,0) 45%, rgba(255,216,156,${isNight ? 0.08 : 0.18}) 100%)`;
 
   return (
     <header className="fixed inset-x-0 top-0 z-50 font-gilroy">
       <div
-        className="relative mx-3 mt-3 overflow-hidden rounded-2xl border shadow-[0_14px_48px_rgba(5,25,53,0.35)] backdrop-blur-md sm:mx-6 transition-colors duration-700"
+        className="relative  mx-3 mt-3 overflow-hidden rounded-2xl border shadow-[0_14px_48px_rgba(5,25,53,0.35)] backdrop-blur-md sm:mx-6 transition-colors duration-700"
         style={{
           backgroundImage: shellBackground,
           borderColor: shellBorder,
         }}
       >
         {/* Shine Overlay Layer */}
-        <div className="absolute inset-0 pointer-events-none" style={{ backgroundImage: overlayShine }} />
+        <div className="absolute  inset-0 pointer-events-none" style={{ backgroundImage: overlayShine }} />
 
         {/* Animated Wave to Sand Dune SVG Border */}
-        <div className="pointer-events-none absolute bottom-0 left-0 right-0 h-8 w-full overflow-hidden mix-blend-overlay">
+        <div className="pointer-events-none  absolute bottom-0 left-0 right-0 h-8 w-full overflow-hidden mix-blend-overlay">
           <svg
             className="absolute bottom-0 left-0 h-full w-[120%]"
             preserveAspectRatio="none"
@@ -223,7 +223,7 @@ export default function Navbar() {
           </Link>
 
           <nav
-            className="hidden lg:block relative w-[56%] max-w-2xl"
+            className="hidden  lg:block relative w-[56%] max-w-2xl"
             aria-label="Main navigation"
           >
              <div
