@@ -66,88 +66,101 @@ export default function FAQ() {
           {questions.map((item, index) => {
             const isOpen = openIndex === index;
             return (
-              <div
+              <article
                 key={index}
-                className={`group relative overflow-hidden transition-all duration-500 ease-in-out border rounded-xl backdrop-blur-md pointer-events-auto
+                className={`group relative overflow-hidden transition-all duration-500 ease-out border rounded-xl sm:rounded-2xl backdrop-blur-md pointer-events-auto
                   ${isOpen
-                    ? 'shadow-[0_4px_30px_rgba(0,191,255,0.1),0_4px_30px_rgba(255,194,0,0.1)] border-white/30 scale-[1.01]'
-                    : 'shadow-xl border-white/10 hover:border-white/20'
+                    ? 'shadow-[0_12px_38px_rgba(0,191,255,0.15),0_10px_34px_rgba(255,194,0,0.12)] border-white/30 sm:scale-[1.01]'
+                    : 'shadow-[0_8px_24px_rgba(0,0,0,0.22)] border-white/10 hover:border-white/25 hover:shadow-[0_12px_30px_rgba(0,0,0,0.32)]'
                   }`}
               >
-                {/* --- LEFT SIDE: MEDITERRANEAN SEA --- */}
+                {/* Algeria identity stripe */}
+                <div className="absolute top-0 right-0 left-0 h-[2px] z-[1] bg-gradient-to-r from-[#0f7a3f] via-white to-[#d62828] opacity-80"></div>
+
+                {/* Mediterranean side */}
                 <div
-                  className="absolute inset-0  group-hover:from-[#091D3C]/90 group-hover:to-[#173F8E]/90 transition-colors duration-700 pointer-events-none"
+                  className="absolute inset-0  group-hover:from-[#0a2040]/90 group-hover:via-[#123267]/85 group-hover:to-[#1a4da3]/80 transition-colors duration-700 pointer-events-none"
                   style={{ clipPath: 'polygon(0 0, 52% 0, 38% 100%, 0 100%)' }}
-                >
+                />
 
-
-                </div>
-
-                {/* --- RIGHT SIDE: SAHARA DESERT --- */}
+                {/* Sahara side */}
                 <div
-                  className="absolute inset-0 group-hover:from-[#2E1B03]/90 group-hover:to-[#573504]/90 transition-colors duration-700 pointer-events-none"
+                  className="absolute inset-0  group-hover:from-[#392105]/90 group-hover:via-[#70420a]/85 group-hover:to-[#a96b0f]/80 transition-colors duration-700 pointer-events-none"
                   style={{ clipPath: 'polygon(52% 0, 100% 0, 100% 100%, 38% 100%)' }}
-                >
+                />
 
+                {/* Blueprint grid + engineering texture */}
+                <div className="absolute inset-0 opacity-35 pointer-events-none z-[1]">
+                  <svg className="w-full h-full" preserveAspectRatio="none">
+                    <defs>
+                      <pattern id={`card-grid-${index}`} width="26" height="26" patternUnits="userSpaceOnUse">
+                        <path d="M 26 0 L 0 0 0 26" fill="none" stroke="rgba(230,247,255,0.12)" strokeWidth="0.7" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill={`url(#card-grid-${index})`} />
+                    <path d="M 12% 82% C 28% 70%, 52% 70%, 68% 84%" fill="none" stroke="rgba(255,255,255,0.17)" strokeWidth="1" strokeDasharray="8 5" />
+                    <path d="M 70% 30% L 78% 30% L 82% 38%" fill="none" stroke="rgba(230,247,255,0.22)" strokeWidth="1" />
+                    <circle cx="82%" cy="38%" r="2" fill="rgba(230,247,255,0.35)" />
+                  </svg>
                 </div>
 
-                {/* --- DIAGONAL SPLIT ACCENT & CIRCUIT TRACES --- */}
-                <svg className="absolute inset-0 w-full h-full pointer-events-none" preserveAspectRatio="none">
+                {/* Diagonal split accent */}
+                <svg className="absolute inset-0 w-full h-full pointer-events-none z-[2]" preserveAspectRatio="none">
                   <defs>
-                    <linearGradient id="split-glow" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <linearGradient id={`split-glow-${index}`} x1="0%" y1="0%" x2="0%" y2="100%">
                       <stop offset="0%" stopColor="#00bfff" stopOpacity="0.8" />
                       <stop offset="50%" stopColor="#ffffff" stopOpacity="0.5" />
                       <stop offset="100%" stopColor="#FFC200" stopOpacity="0.8" />
                     </linearGradient>
                   </defs>
 
-                  {/* Main static split line */}
                   <line x1="52%" y1="0" x2="38%" y2="100%" stroke="rgba(255,255,255,0.15)" strokeWidth="1.5" />
-
-                  {/* Glowing tracing animation split line */}
-                  <line x1="52%" y1="0" x2="38%" y2="100%" stroke="url(#split-glow)" strokeWidth="2" strokeDasharray="20 80" className="opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
-
-                  {/* Subtle circuit nodes branching off split */}
+                  <line x1="52%" y1="0" x2="38%" y2="100%" stroke={`url(#split-glow-${index})`} strokeWidth="2" strokeDasharray="20 80" className="opacity-40 group-hover:opacity-100 transition-opacity duration-500" />
                   <path d="M 45% 50% L 42% 50% L 40% 45%" fill="none" stroke="rgba(0,191,255,0.4)" strokeWidth="1" className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
                   <circle cx="40%" cy="45%" r="2" fill="#00bfff" className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-100" />
-
                   <path d="M 48% 65% L 51% 65% L 53% 70%" fill="none" stroke="rgba(255,194,0,0.4)" strokeWidth="1" className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200" />
                   <circle cx="53%" cy="70%" r="2" fill="#FFC200" className="opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-200" />
                 </svg>
 
-                {/* --- INTERACTIVE CONTENT --- */}
-                <div
-                  className="p-4 flex items-center justify-between cursor-pointer z-10 relative"
+                <button
+                  type="button"
+                  className="w-full text-left px-4 py-3 sm:px-5 sm:py-4 md:px-6 md:py-4 flex items-center justify-between cursor-pointer z-10 relative gap-3"
                   onClick={() => toggle(index)}
+                  aria-expanded={isOpen}
+                  aria-label={`Toggle FAQ question ${index + 1}`}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* Tiny animated indicator dot */}
-                    <div className="hidden sm:flex relative items-center justify-center w-4 h-4 mr-1">
+                  <div className="flex items-center gap-2.5 sm:gap-3 min-w-0 flex-1">
+                    <div className="hidden sm:flex relative items-center justify-center w-3.5 h-3.5 mr-0.5 flex-shrink-0">
                       <div className={`absolute w-1.5 h-1.5 rounded-full transition-colors duration-500 ${isOpen ? 'bg-amber-400 shadow-[0_0_8px_#FFC200]' : 'bg-cyan-400 group-hover:bg-amber-400 shadow-[0_0_8px_#00bfff]'}`}></div>
                     </div>
 
-                    <h3 className={`text-xs sm:text-sm font-normal tracking-wide transition-colors duration-300 pointer-events-none select-none pr-4 drop-shadow-md ${isOpen ? 'text-white' : 'text-[#e6f7ff]/90'}`}>
-                      {item.question}
-                    </h3>
+                    <div className="min-w-0 flex-1">
+                      <p className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-white/55 tech-accent mb-0.5 sm:mb-1">
+                        Q{String(index + 1).padStart(2, '0')} • AEC 
+                      </p>
+                      <h3 className={`text-[2px] sm:text-xs md:text-sm font-semibold leading-snug sm:leading-normal tracking-[0.01em] transition-colors duration-300 pointer-events-none select-none pr-1 sm:pr-2 drop-shadow-md line-clamp-2 sm:line-clamp-none ${isOpen ? 'text-white' : 'text-[#e6f7ff]/95'}`}>
+                        {item.question}
+                      </h3>
+                    </div>
                   </div>
 
-                  <div className={`flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full transition-all duration-500 pointer-events-none border ${isOpen ? 'bg-amber-400/10 border-amber-400/30 text-amber-400 shadow-[0_0_12px_rgba(255,194,0,0.15)]' : 'bg-white/5 border-white/10 text-white/50 group-hover:border-cyan-400/30 group-hover:text-cyan-400 group-hover:bg-cyan-400/10'}`}>
+                  <div className={`flex-shrink-0 flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full transition-all duration-500 pointer-events-none border ${isOpen ? 'bg-amber-400/10 border-amber-400/30 text-amber-400 shadow-[0_0_12px_rgba(255,194,0,0.15)]' : 'bg-white/5 border-white/10 text-white/50 group-hover:border-cyan-400/30 group-hover:text-cyan-400 group-hover:bg-cyan-400/10'}`}>
                     <ChevronDown
-                      className={`transition-transform duration-500 w-4 h-4 sm:w-5 sm:h-5 ${isOpen ? 'rotate-180' : ''}`} strokeWidth={1.5}
+                      className={`transition-transform duration-500 w-3.5 h-3.5 sm:w-4.5 sm:h-4.5 ${isOpen ? 'rotate-180' : ''}`} strokeWidth={1.6}
                     />
                   </div>
-                </div>
+                </button>
 
                 {isOpen && (
-                  <div className="px-5 pb-5 pt-1 animate-in fade-in slide-in-from-top-3 duration-500 z-10 relative">
-                    <div className="pl-0 sm:pl-8">
-                      <p className="text-white/80 text-xs sm:text-sm leading-relaxed font-light drop-shadow">
+                  <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 pt-0.5 animate-in fade-in slide-in-from-top-2 duration-500 z-10 relative">
+                    <div className="pl-0 sm:pl-6 border-t border-white/10 pt-3 sm:pt-4">
+                      <p className="text-white/85 text-[15px] sm:text-xs md:text-sm leading-relaxed font-light tracking-[0.01em] drop-shadow max-w-[92ch]">
                         {item.answer}
                       </p>
                     </div>
                   </div>
                 )}
-              </div>
+              </article>
             );
           })}
         </div>
