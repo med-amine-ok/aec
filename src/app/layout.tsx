@@ -1,18 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Lato, Montserrat, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import OceanBackground from "./components/OceanBackground";
 import ErrorBoundary from "./components/error";
 
-// Load fonts
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Global typography system
+const lato = Lato({
+  variable: "--font-body",
+  weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
+  variable: "--font-heading",
+  weight: ["400", "500", "600", "700", "800"],
+  subsets: ["latin"],
+});
+
+const shareTechMono = Share_Tech_Mono({
+  variable: "--font-tech",
+  weight: ["400"],
   subsets: ["latin"],
 });
 
@@ -32,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body className={`${lato.variable} ${montserrat.variable} ${shareTechMono.variable} antialiased`}>
         <ErrorBoundary>
           <OceanBackground />
         </ErrorBoundary>

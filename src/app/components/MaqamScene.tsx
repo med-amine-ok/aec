@@ -856,9 +856,9 @@ function CinematicPhrases({ scrollProgress }: { scrollProgress: React.MutableRef
                   if (!wordRefs.current[idx]) wordRefs.current[idx] = [];
                   wordRefs.current[idx][wi] = el;
                 }}
-                className="block text-[#e6f7ff] font-light uppercase"
+                className="block text-[#e6f7ff] font-bold uppercase"
                 style={{
-                  fontSize: "clamp(1.05rem, 3.8vw, 2.8rem)",
+                  fontSize: "clamp(1.4rem, 4.5vw, 3.5rem)",
                   letterSpacing: "0.28em",
                   lineHeight: 1.15,
                   textShadow: "0 2px 30px rgba(0,0,0,0.9), 0 0 18px rgba(255,194,0,0.18)",
@@ -874,7 +874,7 @@ function CinematicPhrases({ scrollProgress }: { scrollProgress: React.MutableRef
           {/* Sub-label */}
           <span
             ref={(el) => { subRefs.current[idx] = el; }}
-            className="block mt-3 text-[#FFC200] text-[9px] sm:text-[10px] md:text-xs uppercase tracking-[0.55em] font-light"
+            className="block mt-3 text-[#FFC200] text-[11px] sm:text-[12px] md:text-sm uppercase tracking-[0.55em] font-bold"
             style={{
               opacity: 0,
               textShadow: "0 2px 12px rgba(0,0,0,0.7)",
