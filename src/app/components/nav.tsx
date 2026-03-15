@@ -18,7 +18,7 @@ export default function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 font-gilroy transition-all duration-300">
+    <header className="fixed inset-x-0 top-0 z-50 font-[Raleway] transition-all duration-300">
       <div 
         className={`mx-auto flex max-w-7xl items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
           isScrolled 

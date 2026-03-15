@@ -69,8 +69,14 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-body);
-  --font-mono: var(--font-tech);
+  --font-sans: var(--font-primary);
+  --font-serif: var(--font-secondary);
+}
+
+/* ── Font system variables ── */
+:root {
+  --font-primary: 'Milker', var(--font-secondary), sans-serif;
+  --font-secondary: var(--font-secondary), 'Raleway', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -80,29 +86,27 @@
   }
 }
 
+/* ── Primary Font: Milker (self-hosted) ── */
+/* Place Milker.ttf (and optionally Milker-Bold.ttf) in public/fonts/ */
 @font-face {
-  font-family: 'Gilroy';
-  src: url('/fonts/Gilroy-Regular.ttf') format('truetype');
+  font-family: 'Milker';
+  src: url('/fonts/Milker.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 @font-face {
-  font-family: 'Bookantique';
-  src: url('/fonts/bookantiqua.ttf') format('truetype');
-  font-weight: 400;
+  font-family: 'Milker';
+  src: url('/fonts/Milker-Bold.ttf') format('truetype');
+  font-weight: 700;
   font-style: normal;
-}
-@font-face {
-  font-family: 'Request';
-  src: url('/fonts/Request Personal Use Only.ttf') format('truetype');
-  font-weight: 400;
-  font-style: normal;
+  font-display: swap;
 }
 
 body {
   background: #0D002B;
   color: var(--foreground);
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-secondary), 'Raleway', sans-serif;
 }
 
 h1,
@@ -114,7 +118,7 @@ h6,
 .aec,
 .slogan,
 .regc {
-  font-family: var(--font-heading), sans-serif;
+  font-family: 'Milker', var(--font-secondary), sans-serif;
 }
 
 code,
@@ -123,7 +127,7 @@ kbd,
 samp,
 .timer,
 .tech-accent {
-  font-family: var(--font-tech), monospace;
+  font-family: var(--font-secondary), 'Raleway', monospace;
 }
 /* Transition for mobile nav */
 
@@ -263,7 +267,7 @@ h2 {
 
 
 header {
-  font-family: var(--font-body), sans-serif;
+  font-family: var(--font-secondary), 'Raleway', sans-serif;
 }
 html {
   scroll-behavior: smooth;
@@ -341,8 +345,8 @@ html {
   background: #0D002B;
   border-radius: 8px;
 }
-.butto{
-  font-family: var(--font-body), sans-serif;
+.butto {
+  font-family: var(--font-secondary), 'Raleway', sans-serif;
 }
 
 /* AEC Cinematic Experience Overlays */

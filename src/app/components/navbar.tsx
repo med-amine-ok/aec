@@ -160,7 +160,7 @@ export default function Navbar() {
   const overlayShine = `linear-gradient(120deg, rgba(255,255,255,${isNight ? 0.05 : 0.15}) 0%, rgba(255,255,255,0) 45%, rgba(255,216,156,${isNight ? 0.08 : 0.18}) 100%)`;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 font-gilroy">
+    <header className="fixed inset-x-0 top-0 z-50 font-[Raleway]">
       <div
         className="relative  mx-3 mt-3 overflow-hidden rounded-2xl border shadow-[0_14px_48px_rgba(5,25,53,0.35)] backdrop-blur-md sm:mx-6 transition-colors duration-700"
         style={{
@@ -179,7 +179,7 @@ export default function Navbar() {
             viewBox="0 0 1200 120"
             aria-hidden="true"
           >
-            <path fill={isNight ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.4)"} className="transition-all duration-700">
+            <path fill={isNight ? "rgba(255,255,255,0.15)" : "rgba(255, 255, 255, 0.15)"} className="transition-all duration-700">
               <animate
                 attributeName="d"
                 dur="5s"
@@ -191,7 +191,7 @@ export default function Navbar() {
                 "
               />
             </path>
-            <path fill={isNight ? "rgba(255,255,255,0.25)" : "rgba(255,255,255,0.55)"} className="transition-all duration-700">
+            <path fill={isNight ? "rgba(255, 255, 255, 0.18)" : "rgba(255, 255, 255, 0.18)"} className="transition-all duration-700">
               <animate
                 attributeName="d"
                 dur="7s"
@@ -251,10 +251,10 @@ export default function Navbar() {
                         isActive
                           ? isNight
                             ? "text-[#f1edff]"
-                            : "text-[#122c4a]"
+                            : "text-[#f1edff]"
                           : isNight
                             ? "text-[#a9b6d8] hover:text-[#f1edff]"
-                            : "text-[#0d345e] hover:text-[#122c4a]"
+                            : "text-[#f1edff] hover:text-[#122c4a]"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                     >

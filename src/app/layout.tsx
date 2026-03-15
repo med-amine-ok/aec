@@ -1,27 +1,16 @@
 import type { Metadata } from "next";
-import { Lato, Montserrat, Share_Tech_Mono } from "next/font/google";
+import { Raleway } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import OceanBackground from "./components/OceanBackground";
 import ErrorBoundary from "./components/error";
 
-// Global typography system
-const lato = Lato({
-  variable: "--font-body",
-  weight: ["300", "400", "700", "900"],
-  subsets: ["latin"],
-});
-
-const montserrat = Montserrat({
-  variable: "--font-heading",
+// Secondary font — Raleway (loaded from Google Fonts)
+const raleway = Raleway({
+  variable: "--font-secondary",
   weight: ["400", "500", "600", "700", "800"],
   subsets: ["latin"],
-});
-
-const shareTechMono = Share_Tech_Mono({
-  variable: "--font-tech",
-  weight: ["400"],
-  subsets: ["latin"],
+  display: "swap",
 });
 
 // Metadata with favicon
@@ -29,7 +18,7 @@ export const metadata: Metadata = {
   title: "Algerian Engineering Competition",
   description: "Algeria's #1 Engineering Competition",
   icons: {
-    icon: "/aec.png", // place this image in the public folder
+    icon: "/aec.png",
   },
 };
 
@@ -40,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${lato.variable} ${montserrat.variable} ${shareTechMono.variable} antialiased`}>
+      <body className={`${raleway.variable} antialiased`}>
         <ErrorBoundary>
           <OceanBackground />
         </ErrorBoundary>
