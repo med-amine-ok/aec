@@ -2,7 +2,7 @@
 'use client';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
-import { supabase } from '../lib/supabaseClient';
+import { getSupabaseClient, missingSupabaseEnvMessage } from '../lib/supabaseClient';
 
 const wilayas = [
   'Alger',
@@ -243,6 +243,13 @@ const Reg = () => {
       toast.error('Please fill all required fields.');
       return;
     }
+
+    const supabase = getSupabaseClient() as any;
+    if (!supabase) {
+      toast.error(missingSupabaseEnvMessage);
+      return;
+    }
+
     setLoading(true);
     toast.loading('Submitting...');
     try {
