@@ -10,7 +10,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/thumbs';
 import { A11y, Autoplay, Keyboard, Navigation, Pagination, Thumbs } from 'swiper/modules';
 
-const galleryItems = Array.from({ length: 22 }, (_, i) => ({
+const galleryItems = Array.from({ length: 8 }, (_, i) => ({
   src: `/image${i + 1}.jpg`,
   title: `AEC Moment ${String(i + 1).padStart(2, '0')}`,
   subtitle: 'Innovation • Teamwork • Competition',

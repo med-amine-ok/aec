@@ -301,6 +301,7 @@ export default function OceanSurface() {
     renderer.setPixelRatio(isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(window.devicePixelRatio, 1.5));
     renderer.setSize(container.clientWidth, container.clientHeight, false);
     renderer.domElement.style.display = 'block';
+    renderer.domElement.style.pointerEvents = 'none';
     container.appendChild(renderer.domElement);
 
     const scene = new THREE.Scene();
@@ -583,6 +584,7 @@ export default function OceanSurface() {
         inset: 0,
         zIndex: 0,
         overflow: 'hidden',
+        pointerEvents: 'none',
       }}
     />
   );

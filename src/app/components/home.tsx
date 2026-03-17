@@ -42,7 +42,7 @@ export default function First() {
       <div id="hero-section" className="relative w-full overflow-hidden" style={{ minHeight: '100vh' }}>
 
         {/* 3D Ocean Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 pointer-events-none">
           <OceanSurface />
         </div>
 
@@ -54,60 +54,62 @@ export default function First() {
         </div>
 
         {/* ── Hero Content — truly centered in visible area ── */}
-        <div className="relative z-10 flex flex-col justify-center items-center w-full h-[100dvh] min-h-[600px] px-4 sm:px-6 md:pt-16 pb-32 md:pb-24">
+        <div className="relative z-10 flex flex-col justify-center items-center w-full min-h-[calc(100dvh-170px)] px-4 sm:px-6 md:pt-16 pb-8 md:pb-10">
           <div className="flex flex-col items-center text-center w-full max-w-4xl mx-auto gap-6 sm:gap-8">
 
             {/* Event Title */}
-            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-[#e2e8f0] to-[#38bdf8] drop-shadow-lg leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-extrabold mt-10 tracking-tighter bg-clip-text text-transparent bg-gradient-to-br from-white via-[#e2e8f0] to-[#38bdf8] drop-shadow-lg leading-[1.1]">
               Engineering<br />Innovation Summit
             </h1>
 
-            {/* Taglines */}
-            {/* <div className="flex flex-wrap justify-center items-center gap-2 md:gap-4 text-xs sm:text-sm md:text-xl font-bold tracking-[0.15em] md:tracking-[0.2em] text-white/80">
-              <span className="text-[#38bdf8]">INNOVATE.</span>
-              <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-[#38bdf8]/50"></span>
-              <span>ENGINEER.</span>
-              <span className="w-1 h-1 md:w-1.5 md:h-1.5 rounded-full bg-[#38bdf8]/50"></span>
-              <span className="text-[#38bdf8]">INSPIRE.</span>
-            </div> */}
-
             {/* Event Details */}
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-8 text-xs sm:text-sm md:text-lg text-[#cbd5e1] font-medium bg-[#0f172a]/60 backdrop-blur-xl border border-white/10 px-4 sm:px-6 py-3 sm:py-4 rounded-2xl shadow-xl w-full sm:w-auto">
-              {/* Date */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] shrink-0">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
+            
+              <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6 sm:gap-8 md:gap-12 bg-gradient-to-br from-[#172554]/80 via-[#0f172a]/70 to-[#38bdf8]/10 border border-[#38bdf8]/20 px-6 sm:px-10 py-6 sm:py-8 rounded-3xl shadow-2xl w-full sm:w-auto">
+                {/* Date */}
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center h-12 w-12 rounded-full bg-gradient-to-br from-[#38bdf8]/30 via-[#60a5fa]/20 to-[#e0f2fe]/10 border border-[#38bdf8]/30 shadow-md">
+                    <svg className="w-4 h-4" fill="none" stroke="#38bdf8" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-base md:text-lg font-semibold text-[#e0f2fe] tracking-wide">March 15-17, 2026</span>
+                    <span className="text-[10px] text-[#60a5fa] font-medium">Save the date</span>
+                  </div>
                 </div>
-                <span className="tracking-wide">March 15-17, 2026</span>
-              </div>
 
-              <div className="hidden sm:block w-px self-stretch bg-white/10"></div>
+                <div className="hidden sm:block w-px self-stretch bg-gradient-to-b from-[#38bdf8]/30 to-[#e0f2fe]/10"></div>
 
-              {/* Location */}
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="p-1.5 sm:p-2 rounded-lg bg-[#38bdf8]/10 text-[#38bdf8] shrink-0">
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
+                {/* Location */}
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center justify-center h-8 w-8 rounded-full bg-gradient-to-br from-[#38bdf8]/30 via-[#60a5fa]/20 to-[#e0f2fe]/10 border border-[#38bdf8]/30 shadow-md">
+                    <svg className="w-4 h-4" fill="none" stroke="#38bdf8" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="text-base md:text-lg font-semibold text-[#e0f2fe] tracking-wide">la bib</span>
+                    <span className="text-[10px] text-[#60a5fa] font-medium">Venue</span>
+                  </div>
                 </div>
-                <span className="tracking-wide">la bib</span>
               </div>
-            </div>
+            
 
             {/* Register Button */}
             <Link
               href="/register"
-              className="group relative inline-flex items-center justify-center px-7 sm:px-10 py-3.5 sm:py-5 text-sm sm:text-base md:text-lg font-bold text-white bg-gradient-to-r from-[#0ea5e9] to-[#2563eb] rounded-full overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_50px_rgba(14,165,233,0.6)] border border-[#38bdf8]/30"
+              className="group mb-8 relative inline-flex items-center justify-center px-5 sm:px-8 py-2 sm:py-3 text-sm md:text-base font-bold text-[#172554] bg-gradient-to-r from-[#e0f2fe] via-[#38bdf8]/80 to-[#60a5fa]/80 rounded-full border border-[#38bdf8]/30 shadow-md overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(56,189,248,0.25)] focus:outline-none focus:ring-2 focus:ring-[#38bdf8]/20"
             >
-              <span className="absolute inset-0 w-full h-full -mt-1 rounded-lg opacity-30 bg-gradient-to-b from-transparent via-transparent to-black"></span>
-              <span className="absolute inset-0 w-full h-full transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left bg-gradient-to-r from-[#38bdf8] to-[#3b82f6]"></span>
-              <span className="relative tracking-wider flex items-center gap-2 sm:gap-3 md:text-2xl">
-                REGISTER NOW
-                <svg className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:translate-x-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <span className="absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-[#38bdf8]/40 to-transparent"></span>
+              <span className="relative tracking-wider flex items-center gap-2 md:text-lg">
+                <svg className="w-4 h-4 text-[#38bdf8]" fill="none" stroke="#38bdf8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+                REGISTER NOW
+                <svg className="w-4 h-4 text-[#38bdf8]" fill="none" stroke="#38bdf8" viewBox="0 0 24 24">
+                  <circle cx="12" cy="12" r="10" stroke="#38bdf8" strokeWidth="2" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3" />
                 </svg>
               </span>
             </Link>
@@ -115,36 +117,49 @@ export default function First() {
         </div>
 
         {/* ── Social Proof / Infinite Marquee ── */}
-        <div className="absolute bottom-0 left-0 right-0 z-20 w-full mt-40">
-          <div className="py-5  mx-4 sm:mx-8 md:mx-16 rounded-2xl">
-            <p className="text-center text-[#94a3b8] text-[10px] sm:text-xs font-semibold uppercase tracking-[0.3em] mb-4">
-              Trusted by Industry Leaders
-            </p>
-            <div className="relative flex overflow-hidden w-full max-w-7xl mx-auto">
-             
-              {/* Fade edges */}
-              {/* <div className="absolute left-0 top-0 bottom-0 w-12 sm:w-24 z-10 bg-gradient-to-r from-[#0a0f1d]/60 to-transparent pointer-events-none rounded-l-2xl"></div>
-              <div className="absolute right-0 top-0 bottom-0 w-12 sm:w-24 z-10 bg-gradient-to-l from-[#0a0f1d]/60 to-transparent pointer-events-none rounded-r-2xl"></div> */}
+        <div className="relative z-20 w-full pb-4 sm:pb-6">
+          <div
+            className="mx-3 sm:mx-6 md:mx-12 rounded-2xl border backdrop-blur-md overflow-hidden shadow-[0_14px_48px_rgba(5,25,53,0.35)]"
+            style={{
+              backgroundColor: '#05091400',
+              borderColor: 'rgba(230, 247, 255, 0.22)',
+              backgroundImage:
+                'linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 45%, rgba(255,216,156,0.18) 100%)',
+            }}
+          >
+            {/* <div className="pointer-events-none absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 0%, rgba(56,189,248,0.35), transparent 60%)' }} /> */}
 
-              <div className="animate-marquee py-2 flex items-center">
-                {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex gap-8 sm:gap-16 lg:gap-24 px-4 items-center justify-around min-w-full">
-                    {sponsors.map((logo, idx) => (
-                      <div
-                        key={`${i}-${idx}`}
-                        className="relative h-6 sm:h-10 w-24 sm:w-32 grayscale opacity-40 hover:grayscale-0 hover:opacity-100 mix-blend-screen hover:mix-blend-normal transition-all duration-500 ease-in-out hover:scale-110 cursor-pointer shrink-0 drop-shadow-md"
-                      >
-                        <Image
-                          src={logo}
-                          alt={logo.replace('/', '').replace('.png', '')}
-                          fill
-                          className="object-contain"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
+            <div className="relative py-4 sm:py-5">
+              <p className="text-center text-[#e6f7ff] text-[10px] sm:text-xs font-semibold uppercase tracking-[0.28em] mb-3 sm:mb-4">
+                Sponsored by
+              </p>
+
+              <div className="relative flex overflow-hidden w-full max-w-7xl mx-auto">
+                {/* Fade edges */}
+                {/* <div className="absolute left-0 top-0 bottom-0 w-10 sm:w-20 md:w-28 z-10 bg-gradient-to-r from-[#050914] to-transparent pointer-events-none" />
+                <div className="absolute right-0 top-0 bottom-0 w-10 sm:w-20 md:w-28 z-10 bg-gradient-to-l from-[#050914] to-transparent pointer-events-none" /> */}
+
+                <div className="animate-marquee py-1 sm:py-2 flex items-center">
+                  {[...Array(2)].map((_, i) => (
+                    <div key={i} className="flex gap-2 sm:gap-12 lg:gap-16 px-1 sm:px-4 items-center justify-around min-w-full">
+                      {sponsors.map((logo, idx) => (
+                        <div
+                          key={`${i}-${idx}`}
+                          className="relative h-9 sm:h-12 md:h-14 w-24 sm:w-32 md:w-40 cursor-pointer shrink-0 group"
+                        >
+                          <div className="absolute inset-0 rounded-xl bg-white/0 group-hover:bg-white/5 transition-colors duration-300" />
+                          <Image
+                            src={logo}
+                            alt={logo.replace('/', '').replace('.png', '')}
+                            fill
+                            className="object-contain transition-all duration-300 group-hover:scale-110 group-hover:-translate-y-0.5 group-hover:drop-shadow-[0_0_18px_rgba(56,189,248,0.55)]"
+                            sizes="(max-width: 768px) 96px, (max-width: 1200px) 128px, 160px"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>

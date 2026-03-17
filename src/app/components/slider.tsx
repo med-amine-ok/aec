@@ -2,7 +2,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 /* ─── Gallery images ─── */
-const images = Array.from({ length: 22 }, (_, i) => `/image${i + 1}.jpg`);
+const images = Array.from({ length: 8 }, (_, i) => `/image${i + 1}.jpg`);
 const TOTAL = images.length;
 
 /* ─── Accent ─── */

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import OceanBackground from "./components/OceanBackground";
 import ErrorBoundary from "./components/error";
+import GlobalSplashScreen from "./components/GlobalSplashScreen";
 
 // Secondary font — Raleway (loaded from Google Fonts)
 const raleway = Raleway({
@@ -29,8 +30,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${raleway.variable} antialiased`}>
+      <body className={`${raleway.variable} antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
+          <GlobalSplashScreen />
           <OceanBackground />
         </ErrorBoundary>
         {children}

@@ -74,6 +74,16 @@ export default function FAQ() {
                     : 'shadow-[0_8px_24px_rgba(0,0,0,0.22)] border-white/10 hover:border-white/25 hover:shadow-[0_12px_30px_rgba(0,0,0,0.32)]'
                   }`}
               >
+                {/* Background Image per card */}
+                <div 
+                  className="absolute inset-0 z-0 pointer-events-none bg-cover bg-center transition-opacity duration-500" 
+                  style={{ 
+                    backgroundImage: `url('/${index + 1}.webp')`,
+                    WebkitMaskImage: 'linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)',
+                    maskImage: 'linear-gradient(to left, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 100%)'
+                  }}
+                />
+
                 {/* Algeria identity stripe */}
                 <div className="absolute top-0 right-0 left-0 h-[2px] z-[1] bg-gradient-to-r from-[#0f7a3f] via-white to-[#d62828] opacity-80"></div>
 
@@ -124,7 +134,7 @@ export default function FAQ() {
 
                 <button
                   type="button"
-                  className="w-full text-left px-2 py-2 sm:px-3 sm:py-2 md:px-4 md:py-2 flex items-center justify-between cursor-pointer z-10 relative gap-2"
+                  className="w-full text-left px-2 py-4 sm:px-3 sm:py-5 md:px-4 md:py-6 flex items-center justify-between cursor-pointer z-10 relative gap-4 min-h-[90px] md:min-h-[110px]"
                   onClick={() => toggle(index)}
                   aria-expanded={isOpen}
                   aria-label={`Toggle FAQ question ${index + 1}`}
