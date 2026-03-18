@@ -48,6 +48,11 @@ export default function Navbar() {
         icon: <Trophy className="h-4 w-4" aria-hidden="true" />,
       },
       {
+        name: "Sponsors",
+        href: "#sponsors",
+        icon: <img src="/aec.png" alt="Sponsors" className="h-6 w-6" />,
+      },
+      {
         name: "FAQ",
         href: "#FAQ",
         icon: <Palmtree className="h-4 w-4" aria-hidden="true" />,
@@ -206,18 +211,18 @@ export default function Navbar() {
           </svg>
         </div>
 
-        <div className="relative flex items-center justify-between px-4 py-3 lg:px-8">
+        <div className="relative flex items-center justify-between px-3 py-2 lg:px-8">
           <Link
             href="#home"
             className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#ffe0a3] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c2f56]"
             aria-label="Go to home"
           >
             <Image 
-              src="/aec.png" 
+              src="/AEC_NEW-02.png" 
               alt="AEC Logo" 
-              width={160} 
-              height={64}
-              className="h-10 sm:h-12 w-auto object-contain drop-shadow-[0_2px_8px_rgba(255,255,255,0.2)] transition-transform duration-300 hover:scale-[1.03]"
+              width={220} 
+              height={80}
+              className="h-14 sm:h-16 w-auto object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.35)] transition-transform duration-300 hover:scale-[1.06] filter brightness-0 invert"
               priority
             />
           </Link>
@@ -286,7 +291,7 @@ export default function Navbar() {
                   width: `${itemWidth}%`,
                   transform: `translateX(${journeyTravel}%)`,
                   backgroundImage: `linear-gradient(90deg, ${highlightStart}, ${highlightEnd})`,
-                  boxShadow: `0 0 10px ${isNight ? "rgba(255,208,115,0.4)" : "rgba(25,97,143,0.3)"}`
+                  boxShadow: `0 0 10px ${isNight ? "rgba(255, 208, 115, 0)" : "rgba(25,97,143,0.3)"}`
                 }}
               />
             </div>
@@ -309,11 +314,11 @@ export default function Navbar() {
               href="/register"
               className="relative z-10 rounded-full border px-4 py-2 text-sm font-bold uppercase tracking-[0.14em] shadow-[0_8px_24px_rgba(255,197,97,0.4)] transition-transform duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_28px_rgba(255,197,97,0.55)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#fff2d2]"
               style={{
-                borderColor: isNight ? "rgba(186, 202, 255, 0.45)" : "rgba(255, 227, 172, 0.6)",
+                borderColor: isNight ? "rgba(186, 202, 255, 0.45)" : "rgba(255, 227, 172, 0.06)",
                 color: isNight ? "#f3f0ff" : "#112344",
                 backgroundImage: isNight
                   ? "linear-gradient(90deg, rgba(38,54,105,0.94), rgba(86,53,76,0.92))"
-                  : "linear-gradient(90deg, rgba(236,247,255,0.98), rgba(255,209,138,0.95))",
+                  : "linear-gradient(90deg, rgba(236,247,255,0.98), rgba(255, 208, 138, 0.16))",
               }}
             >
               Register
@@ -336,7 +341,7 @@ export default function Navbar() {
           className="overflow-hidden rounded-2xl border p-3 backdrop-blur-xl transition-colors duration-700"
           style={{
             borderColor: shellBorder,
-            backgroundImage: `linear-gradient(180deg, ${seaTone} 0%, ${saharaTone} 100%)`,
+            backgroundImage: `linear-gradient(180deg, ${seaTone} 100%, ${saharaTone} 10%)`,
             boxShadow: isOpen ? "0 20px 48px rgba(9, 18, 38, 0.45)" : "none",
           }}
         >

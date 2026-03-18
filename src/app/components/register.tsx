@@ -224,11 +224,11 @@ const Reg = () => {
         return false;
       }
       if (!isValidPhone(m.phone)) {
-        toast.error(`Member ${i + 1} phone must be numeric (8 to 15 digits).`);
+        toast.error(`Member ${i + 1} phone must be numeric (10 digits).`);
         return false;
       }
       if (!isValidUrl(m.linkedin)) {
-        toast.error(`Member ${i + 1} LinkedIn must be a valid URL (http/https).`);
+        toast.error(`Member ${i + 1} LinkedIn must be a valid URL.`);
         return false;
       }
     }

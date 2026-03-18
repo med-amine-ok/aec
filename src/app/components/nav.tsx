@@ -22,7 +22,7 @@ export default function Nav() {
       <div 
         className={`mx-auto flex max-w-7xl items-center justify-between transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)] ${
           isScrolled 
-            ? "mt-4 w-[95%] sm:w-[90%] rounded-full border border-white/15 bg-white/5 px-6 py-3 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl" 
+            ? "mt-4 w-[95%] sm:w-[90%] rounded-full border border-white/15 bg-white/5 px-6 py-1 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl" 
             : "mt-6 w-full px-6 sm:px-12 py-4 bg-transparent border-transparent"
         }`}
       >
@@ -33,11 +33,11 @@ export default function Nav() {
           aria-label="Go to home"
         >
           <Image 
-            src="/aec.png" 
+            src="/AEC_NEW-02.png" 
             alt="AEC Logo" 
-            width={140} 
-            height={56}
-            className="h-9 sm:h-11 w-auto object-contain drop-shadow-[0_2px_8px_rgba(255,255,255,0.15)] transition-transform duration-500 hover:scale-[1.04]"
+            width={260} 
+            height={100}
+            className="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.22)] transition-transform duration-500 hover:scale-[1.08] filter brightness-0 invert"
             priority
           />
         </Link>

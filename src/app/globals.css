@@ -88,7 +88,7 @@
 
 /* ── Primary Font: Milker (self-hosted) ── */
 /* Place Milker.ttf (and optionally Milker-Bold.ttf) in public/fonts/ */
-@font-face {
+/* @font-face {
   font-family: 'Milker';
   src: url('/fonts/Milker.ttf') format('truetype');
   font-weight: 400;
@@ -101,7 +101,7 @@
   font-weight: 700;
   font-style: normal;
   font-display: swap;
-}
+} */
 
 body {
   background: #10375C;
