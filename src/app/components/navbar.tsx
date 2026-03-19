@@ -3,7 +3,8 @@ import "../globals.css";
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Waves, Palmtree, Menu, MoonStar, Sun, X, Trophy } from "lucide-react";
+import { motion } from "framer-motion";
+import { Home, Trophy, Handshake, MessageCircleQuestion, Users, Menu, MoonStar, Sun, X } from "lucide-react";
 
 function hexToRgb(hex: string) {
   const sanitized = hex.replace("#", "");
@@ -40,7 +41,7 @@ export default function Navbar() {
       {
         name: "Home",
         href: "#home",
-        icon: <Waves className="h-4 w-4" aria-hidden="true" />,
+        icon: <Home className="h-4 w-4" aria-hidden="true" />,
       },
       {
         name: "AEC",
@@ -50,12 +51,17 @@ export default function Navbar() {
       {
         name: "Sponsors",
         href: "#sponsors",
-        icon: <img src="/aec.png" alt="Sponsors" className="h-6 w-6" />,
+        icon: <Handshake className="h-4 w-4" aria-hidden="true" />,
       },
       {
         name: "FAQ",
         href: "#FAQ",
-        icon: <Palmtree className="h-4 w-4" aria-hidden="true" />,
+        icon: <MessageCircleQuestion className="h-4 w-4" aria-hidden="true" />,
+      },
+      {
+        name: "About Us",
+        href: "#about-us",
+        icon: <Users className="h-4 w-4" aria-hidden="true" />,
       },
     ],
     [],
@@ -165,7 +171,12 @@ export default function Navbar() {
   const overlayShine = `linear-gradient(120deg, rgba(255,255,255,${isNight ? 0.05 : 0.15}) 0%, rgba(255,255,255,0) 45%, rgba(255,216,156,${isNight ? 0.08 : 0.18}) 100%)`;
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 font-[Raleway]">
+    <motion.header 
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="fixed inset-x-0 top-0 z-50 font-[Raleway]"
+    >
       <div
         className="relative  mx-3 mt-3 overflow-hidden rounded-2xl border shadow-[0_14px_48px_rgba(5,25,53,0.35)] backdrop-blur-md sm:mx-6 transition-colors duration-700"
         style={{
@@ -380,6 +391,6 @@ export default function Navbar() {
           </nav>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

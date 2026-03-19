@@ -39,15 +39,15 @@ const heardAboutOptions = [
 ];
 
 const glass =
-  'bg-[#0A1128]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-[#1E90FF]/30 p-8 md:p-12 relative overflow-hidden';
+  'bg-[#10375C]/60 backdrop-blur-xl rounded-2xl shadow-2xl border border-[#EB8317]/30 p-8 md:p-12 relative overflow-hidden';
 
-const inputClass = "w-full p-3.5 rounded-xl bg-[#0A1128]/50 border border-[#1E90FF]/30 text-white placeholder-white/40 focus:outline-none focus:border-[#1E90FF] focus:ring-1 focus:ring-[#1E90FF] transition-all duration-300";
+const inputClass = "w-full p-3.5 rounded-xl bg-[#10375C]/50 border border-[#EB8317]/30 text-white placeholder-white/40 focus:outline-none focus:border-[#EB8317] focus:ring-1 focus:ring-[#EB8317] transition-all duration-300";
 const labelClass = "block text-white/80 text-sm font-medium mb-2 tracking-wide";
 const buttonClass = "px-8 py-3 rounded-lg font-bold tracking-wider transition-all duration-300 transform hover:scale-105 active:scale-95";
-const primaryButton = `${buttonClass} bg-gradient-to-r from-[#1E90FF] to-[#0A84FF] text-white shadow-[0_0_15px_rgba(30,144,255,0.4)] hover:shadow-[0_0_25px_rgba(30,144,255,0.6)]`;
+const primaryButton = `${buttonClass} bg-gradient-to-r from-[#EB8317] to-[#F3C623] text-white shadow-[0_0_15px_rgba(235,131,23,0.4)] hover:shadow-[0_0_25px_rgba(235,131,23,0.6)]`;
 const secondaryButton = `${buttonClass} bg-transparent border-2 border-white/20 text-white hover:border-white/50 hover:bg-white/5`;
 const radioLabelClass = "flex items-center space-x-3 cursor-pointer group";
-const radioInputClass = "appearance-none w-5 h-5 border-2 border-[#1E90FF]/50 rounded-full checked:border-[#1E90FF] checked:bg-[#1E90FF] transition-all duration-200 relative before:content-[''] before:absolute before:inset-[3px] before:rounded-full checked:before:bg-white";
+const radioInputClass = "appearance-none w-5 h-5 border-2 border-[#EB8317]/50 rounded-full checked:border-[#EB8317] checked:bg-[#EB8317] transition-all duration-200 relative before:content-[''] before:absolute before:inset-[3px] before:rounded-full checked:before:bg-white";
 
 import { CheckCircle2, ChevronRight, User, Users, MapPin, CheckSquare, Send } from 'lucide-react';
 
@@ -319,22 +319,22 @@ const Reg = () => {
         onSubmit={handleSubmit}
       >
         {/* Decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#1E90FF] to-transparent opacity-50"></div>
-        <div className="absolute top-0 right-0 w-32 h-32 bg-[#1E90FF] rounded-full blur-[100px] opacity-20 -z-10"></div>
-        <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#0A84FF] rounded-full blur-[120px] opacity-20 -z-10"></div>
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#EB8317] to-transparent opacity-50"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#EB8317] rounded-full blur-[100px] opacity-20 -z-10"></div>
+        <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#F3C623] rounded-full blur-[120px] opacity-20 -z-10"></div>
 
         <div className="flex flex-col items-center mb-10">
-          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#1E90FF]/10 border border-[#1E90FF]/30 mb-6 drop-shadow-[0_0_15px_rgba(30,144,255,0.3)]">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#1E90FF]">
+          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#EB8317]/10 border border-[#EB8317]/30 mb-6 drop-shadow-[0_0_15px_rgba(235,131,23,0.3)]">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#EB8317]">
               <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
               <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#E0F2FE] to-[#1E90FF] text-center tracking-tight mb-4 drop-shadow-sm">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#BAD7E9] to-[#EB8317] text-center tracking-tight mb-4 drop-shadow-sm">
             Event Registration
           </h1>
-          <p className="text-[#bae6fd] text-center max-w-2xl text-lg font-medium leading-relaxed">
+          <p className="text-[#BAD7E9] text-center max-w-2xl text-lg font-medium leading-relaxed">
             Join the premier engineering competition. Build, innovate, and connect.
           </p>
         </div>
@@ -343,7 +343,7 @@ const Reg = () => {
         <div className="relative mb-12 hidden md:block">
           <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 rounded-full hidden sm:block"></div>
           <div 
-            className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#1E90FF] to-[#0A84FF] -translate-y-1/2 rounded-full transition-all duration-500 ease-out hidden sm:block shadow-[0_0_10px_rgba(30,144,255,0.5)]" 
+            className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#EB8317] to-[#F3C623] -translate-y-1/2 rounded-full transition-all duration-500 ease-out hidden sm:block shadow-[0_0_10px_rgba(235,131,23,0.5)]" 
             style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
           ></div>
           
@@ -353,9 +353,9 @@ const Reg = () => {
                 <div 
                   className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-300 ${
                     step > i 
-                      ? 'bg-[#1E90FF] text-white shadow-[0_0_15px_rgba(30,144,255,0.6)] ring-2 ring-[#0A84FF]/50 ring-offset-2 ring-offset-[#0A1128]' 
+                      ? 'bg-[#EB8317] text-white shadow-[0_0_15px_rgba(235,131,23,0.6)] ring-2 ring-[#F3C623]/50 ring-offset-2 ring-offset-[#10375C]' 
                       : step === i 
-                        ? 'bg-[#0A1128] border-2 border-[#1E90FF] text-[#1E90FF] shadow-[0_0_20px_rgba(30,144,255,0.4)] scale-110' 
+                        ? 'bg-[#10375C] border-2 border-[#EB8317] text-[#EB8317] shadow-[0_0_20px_rgba(235,131,23,0.4)] scale-110' 
                         : 'bg-white/5 border border-white/10 text-white/40'
                   }`}
                 >
@@ -373,29 +373,29 @@ const Reg = () => {
 
         {/* Mobile progress indicator */}
         <div className="md:hidden flex flex-col items-center mb-8">
-           <div className="text-[#1E90FF] font-bold text-lg mb-2 flex items-center gap-2">
+           <div className="text-[#EB8317] font-bold text-lg mb-2 flex items-center gap-2">
              {steps[step].icon} {steps[step].title}
            </div>
            <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
              <div 
-               className="h-full bg-gradient-to-r from-[#1E90FF] to-[#0A84FF] transition-all duration-500"
+               className="h-full bg-gradient-to-r from-[#EB8317] to-[#F3C623] transition-all duration-500"
                style={{ width: `${((step + 1) / steps.length) * 100}%` }}
              ></div>
            </div>
         </div>
 
-        <div className="bg-[#0A1128]/40 border border-[#1E90FF]/20 rounded-xl p-4 md:p-6 mb-8 shadow-inner backdrop-blur-sm">
+        <div className="bg-[#10375C]/40 border border-[#EB8317]/20 rounded-xl p-4 md:p-6 mb-8 shadow-inner backdrop-blur-sm">
           <p className="text-[#94a3b8] text-sm md:text-base leading-relaxed flex items-start gap-3">
-             <span className="text-[#1E90FF] shrink-0 mt-0.5"><CheckCircle2 className="w-5 h-5"/></span>
-             <span><strong className="text-white font-semibold">Important Notes:</strong> Each team must consist of 3 or 4 participants. Members can be from different universities or schools. Only the <strong className="text-[#1E90FF] font-semibold">team leader</strong> should fill out this form on behalf of the team.</span>
+             <span className="text-[#EB8317] shrink-0 mt-0.5"><CheckCircle2 className="w-5 h-5"/></span>
+             <span><strong className="text-white font-semibold">Important Notes:</strong> Each team must consist of 3 or 4 participants. Members can be from different universities or schools. Only the <strong className="text-[#EB8317] font-semibold">team leader</strong> should fill out this form on behalf of the team.</span>
           </p>
         </div>
 
         {/* Section 1: Wilaya */}
         {step === 0 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#1E90FF]/30 pb-3 flex items-center gap-3">
-              <span className="bg-[#1E90FF] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(30,144,255,0.5)]">1</span>
+            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#EB8317]/30 pb-3 flex items-center gap-3">
+              <span className="bg-[#EB8317] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(235,131,23,0.5)]">1</span>
               Competition Location
             </h2>
             <div className="mb-8">
@@ -409,10 +409,10 @@ const Reg = () => {
                 >
                   <option value="" disabled className="text-gray-500">Select Wilaya</option>
                   {wilayas.map((w) => (
-                    <option key={w} value={w} className="bg-[#0A1128] text-white">{w}</option>
+                    <option key={w} value={w} className="bg-[#10375C] text-white">{w}</option>
                   ))}
                 </select>
-                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#1E90FF]">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-4 pointer-events-none text-[#EB8317]">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                 </div>
               </div>
@@ -432,8 +432,8 @@ const Reg = () => {
         {/* Section 2: Team Info */}
         {step === 1 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#1E90FF]/30 pb-3 flex items-center gap-3">
-              <span className="bg-[#1E90FF] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(30,144,255,0.5)]">2</span>
+            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#EB8317]/30 pb-3 flex items-center gap-3">
+              <span className="bg-[#EB8317] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(235,131,23,0.5)]">2</span>
               Team Information
             </h2>
             <div className="space-y-6 mb-8">
@@ -449,7 +449,7 @@ const Reg = () => {
                 />
               </div>
               
-              <div className="bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>Number of Team Members</label>
                 <div className="flex gap-8 mt-3">
                   {[3, 4].map((n) => (
@@ -468,7 +468,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              <div className="bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>Are your team members from different universities?</label>
                 <div className="flex gap-8 mt-3">
                   {['Yes', 'No'].map((v) => (
@@ -487,7 +487,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              <div className="bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>If your team is selected, will you be able to attend the competition physically?</label>
                 <div className="flex gap-8 mt-3">
                   {['Yes', 'No'].map((v) => (
@@ -506,7 +506,7 @@ const Reg = () => {
                 </div>
               </div>
 
-              <div className="bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>Have you participated in engineering competitions before?</label>
                 <div className="flex gap-8 mt-3 mb-4">
                   {['Yes', 'No'].map((v) => (
@@ -536,7 +536,7 @@ const Reg = () => {
                 )}
               </div>
 
-              <div className="bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>Do you have experience with hands-on building or prototyping?</label>
                 <div className="flex gap-8 mt-3 mb-4">
                   {['Yes', 'No'].map((v) => (
@@ -597,8 +597,8 @@ const Reg = () => {
         {/* Section 3: Team Leader */}
         {step === 2 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#1E90FF]/30 pb-3 flex items-center gap-3">
-              <span className="bg-[#1E90FF] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(30,144,255,0.5)]">3</span>
+            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#EB8317]/30 pb-3 flex items-center gap-3">
+              <span className="bg-[#EB8317] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(235,131,23,0.5)]">3</span>
               Team Leader Information
             </h2>
             
@@ -626,7 +626,7 @@ const Reg = () => {
               
               <div className="md:col-span-2 mt-4 pt-6 border-t border-white/10">
                 <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                  <svg className="w-5 h-5 text-[#1E90FF]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
+                  <svg className="w-5 h-5 text-[#EB8317]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" /></svg>
                   Academic Details
                 </h3>
               </div>
@@ -640,7 +640,7 @@ const Reg = () => {
                 <input className={inputClass} placeholder="e.g. Computer Science, Mechanical Eng." name="field_of_study" value={leader.field_of_study} onChange={handleLeader} required />
               </div>
               
-              <div className="md:col-span-2 bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="md:col-span-2 bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>Year of Study</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-3">
                   {years.map((y) => (
@@ -652,13 +652,13 @@ const Reg = () => {
                 </div>
               </div>
               
-              <div className="md:col-span-2 bg-[#0A1128]/30 p-5 rounded-xl border border-white/5">
+              <div className="md:col-span-2 bg-[#10375C]/30 p-5 rounded-xl border border-white/5">
                 <label className={labelClass}>What software or tools are you comfortable using?</label>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-3">
                   {softwareOptions.map((s) => (
                     <label key={s} className="flex items-center space-x-3 cursor-pointer group">
                       <div className="relative flex items-center justify-center">
-                        <input type="checkbox" className="appearance-none w-5 h-5 border-2 border-[#1E90FF]/50 rounded bg-transparent checked:bg-[#1E90FF] checked:border-[#1E90FF] transition-all duration-200" name="software_tools" value={s} checked={leader.software_tools.includes(s)} onChange={handleLeader} />
+                        <input type="checkbox" className="appearance-none w-5 h-5 border-2 border-[#EB8317]/50 rounded bg-transparent checked:bg-[#EB8317] checked:border-[#EB8317] transition-all duration-200" name="software_tools" value={s} checked={leader.software_tools.includes(s)} onChange={handleLeader} />
                         <svg className={`absolute w-3.5 h-3.5 text-white pointer-events-none transition-opacity duration-200 ${leader.software_tools.includes(s) ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                         </svg>
@@ -680,20 +680,20 @@ const Reg = () => {
         {/* Section 4: Team Members */}
         {step === 3 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#1E90FF]/30 pb-3 flex items-center gap-3">
-              <span className="bg-[#1E90FF] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(30,144,255,0.5)]">4</span>
+            <h2 className="text-2xl font-bold text-white mb-6 border-b border-[#EB8317]/30 pb-3 flex items-center gap-3">
+              <span className="bg-[#EB8317] text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shadow-[0_0_10px_rgba(235,131,23,0.5)]">4</span>
               Team Members Information
             </h2>
             
             <div className="space-y-12 mb-8">
               {members.map((m, idx) => (
-                <div key={idx} className="bg-[#0A1128]/40 p-6 rounded-2xl border border-white/10 relative shadow-lg">
-                  <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-br from-[#1E90FF] to-[#0A84FF] rounded-xl flex items-center justify-center text-white font-bold shadow-[0_0_15px_rgba(30,144,255,0.4)] border border-white/20 z-10">
+                <div key={idx} className="bg-[#10375C]/40 p-6 rounded-2xl border border-white/10 relative shadow-lg">
+                  <div className="absolute -top-4 -left-4 w-10 h-10 bg-gradient-to-br from-[#EB8317] to-[#F3C623] rounded-xl flex items-center justify-center text-white font-bold shadow-[0_0_15px_rgba(235,131,23,0.4)] border border-white/20 z-10">
                     M{idx + 1}
                   </div>
                   
                   <h3 className="text-xl font-bold text-white mb-6 ml-6 flex items-center gap-2">
-                    <User className="w-5 h-5 text-[#1E90FF]" /> Member {idx + 1}
+                    <User className="w-5 h-5 text-[#EB8317]" /> Member {idx + 1}
                   </h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -729,7 +729,7 @@ const Reg = () => {
                       <input className={inputClass} placeholder="e.g. Electrical Eng." name="field_of_study" value={m.field_of_study} onChange={(e) => handleMember(idx, e)} required />
                     </div>
                     
-                    <div className="md:col-span-2 bg-[#0A1128]/50 p-4 rounded-xl">
+                    <div className="md:col-span-2 bg-[#10375C]/50 p-4 rounded-xl">
                       <label className={labelClass}>Year of Study</label>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
                         {years.map((y) => (
@@ -741,13 +741,13 @@ const Reg = () => {
                       </div>
                     </div>
                     
-                    <div className="md:col-span-2 bg-[#0A1128]/50 p-4 rounded-xl">
+                    <div className="md:col-span-2 bg-[#10375C]/50 p-4 rounded-xl">
                       <label className={labelClass}>What software or tools are you comfortable using?</label>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mt-2">
                         {softwareOptions.map((s) => (
                           <label key={s} className="flex items-center space-x-3 cursor-pointer group">
                             <div className="relative flex items-center justify-center">
-                              <input type="checkbox" className="appearance-none w-5 h-5 border-2 border-[#1E90FF]/50 rounded bg-transparent checked:bg-[#1E90FF] checked:border-[#1E90FF] transition-all duration-200" name="software_tools" value={s} checked={m.software_tools.includes(s)} onChange={(e) => handleMember(idx, e)} />
+                              <input type="checkbox" className="appearance-none w-5 h-5 border-2 border-[#EB8317]/50 rounded bg-transparent checked:bg-[#EB8317] checked:border-[#EB8317] transition-all duration-200" name="software_tools" value={s} checked={m.software_tools.includes(s)} onChange={(e) => handleMember(idx, e)} />
                               <svg className={`absolute w-3.5 h-3.5 text-white pointer-events-none transition-opacity duration-200 ${m.software_tools.includes(s) ? 'opacity-100' : 'opacity-0'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                               </svg>
@@ -773,27 +773,27 @@ const Reg = () => {
         {step === 4 && (
           <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="text-center mb-10">
-              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#1E90FF]/20 border border-[#1E90FF]/50 mb-6 relative">
-                <CheckSquare className="w-10 h-10 text-[#1E90FF]" />
-                <div className="absolute inset-0 rounded-full border-2 border-[#1E90FF] border-dashed animate-[spin_10s_linear_infinite] opacity-30"></div>
+              <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#EB8317]/20 border border-[#EB8317]/50 mb-6 relative">
+                <CheckSquare className="w-10 h-10 text-[#EB8317]" />
+                <div className="absolute inset-0 rounded-full border-2 border-[#EB8317] border-dashed animate-[spin_10s_linear_infinite] opacity-30"></div>
               </div>
               <h2 className="text-3xl font-bold text-white mb-2 tracking-tight">Almost Done!</h2>
               <p className="text-white/60">Final details before submitting your application.</p>
             </div>
             
-            <div className="bg-[#0A1128]/30 p-6 rounded-xl border border-white/5 mb-8">
+            <div className="bg-[#10375C]/30 p-6 rounded-xl border border-white/5 mb-8">
               <label className="block text-white font-semibold mb-4 text-lg">How did you hear about AEC?</label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {heardAboutOptions.map((h) => (
                   <label key={h} className={`
                     flex items-center p-4 rounded-xl border transition-all duration-200 cursor-pointer
                     ${team.heard_about === h 
-                      ? 'bg-[#1E90FF]/20 border-[#1E90FF] shadow-[0_0_15px_rgba(30,144,255,0.2)]' 
-                      : 'bg-[#0A1128]/50 border-white/10 hover:border-white/30 hover:bg-[#0A1128]/80'}
+                      ? 'bg-[#EB8317]/20 border-[#EB8317] shadow-[0_0_15px_rgba(235,131,23,0.2)]' 
+                      : 'bg-[#10375C]/50 border-white/10 hover:border-white/30 hover:bg-[#10375C]/80'}
                   `}>
                     <input type="radio" name="heard_about" className="hidden" value={h} checked={team.heard_about === h} onChange={handleTeamInfo} /> 
-                    <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center transition-colors ${team.heard_about === h ? 'border-[#1E90FF]' : 'border-white/30'}`}>
-                      {team.heard_about === h && <div className="w-2.5 h-2.5 bg-[#1E90FF] rounded-full"></div>}
+                    <div className={`w-5 h-5 rounded-full border-2 mr-3 flex items-center justify-center transition-colors ${team.heard_about === h ? 'border-[#EB8317]' : 'border-white/30'}`}>
+                      {team.heard_about === h && <div className="w-2.5 h-2.5 bg-[#EB8317] rounded-full"></div>}
                     </div>
                     <span className="text-white font-medium">{h}</span>
                   </label>
@@ -820,7 +820,7 @@ const Reg = () => {
                   w-full sm:w-auto flex items-center justify-center gap-3 px-10 py-4 rounded-xl font-bold tracking-widest text-lg transition-all duration-300 transform
                   ${loading 
                     ? 'bg-white/10 border border-white/20 text-white/50 cursor-not-allowed cursor-wait' 
-                    : 'bg-gradient-to-r from-[#1E90FF] via-[#0055ff] to-[#0A84FF] text-white shadow-[0_0_20px_rgba(30,144,255,0.5)] hover:shadow-[0_0_35px_rgba(30,144,255,0.7)] hover:scale-105 active:scale-95 border border-[#1E90FF]/50'}
+                    : 'bg-gradient-to-r from-[#EB8317] via-[#F0A81D] to-[#F3C623] text-white shadow-[0_0_20px_rgba(235,131,23,0.5)] hover:shadow-[0_0_35px_rgba(235,131,23,0.7)] hover:scale-105 active:scale-95 border border-[#EB8317]/50'}
                 `}
                 disabled={loading}
               >

@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
-import { Raleway } from "next/font/google";
+import { Raleway, Geist } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
 import OceanBackground from "./components/OceanBackground";
 import ErrorBoundary from "./components/error";
 import GlobalSplashScreen from "./components/GlobalSplashScreen";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
 
 // Secondary font — Raleway (loaded from Google Fonts)
 const raleway = Raleway({
@@ -29,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${raleway.variable} antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
           <GlobalSplashScreen />

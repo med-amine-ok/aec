@@ -6,65 +6,75 @@ import FAQ from "./components/faq";
 import Navbar from "./components/navbar";
 import "./globals.css";
 import Fisrt from "./components/home";
+import Aec from "./components/Aec";
 import LogoLoop from "./components/LogoLoop";
-const MaqamScene = dynamic(() => import("./components/MaqamScene"), {
-  ssr: false,
-});
-
 
 export default function Home() {
   return (
     <ErrorBoundary>
-      <div className="relative overflow-hidden">
-        {/* Cinematic scroll-driven Maqam Experience (fixed, z-20) */}
-        <MaqamScene />
-
+      <div className="relative w-full overflow-x-hidden max-w-[100vw]">
         {/* Navbar — above all layers (fixed, z-50) */}
         <Navbar />
 
         {/* Page Content */}
         <div className="relative z-30 flex flex-col">
           <Fisrt />
-          {/* AEC Experience scroll spacer  transparent to reveal MaqamScene */}
-          {/* 4 phases  150vh each = 600vh total */}
-          <div id="aec-experience" style={{ height: "600vh" }} />
+          {/* Main AEC section */}
+          <Aec />
         </div>
 
         {/* Sponsors Logo Scroll Section */}
-        <div id="sponsors" className="relative z-30 flex flex-col items-center py-1 w-full">
-          <h2 className="aec text-3xl md:text-5xl text-[#e6f7ff] font-semibold ">Our Sponsors</h2>
-            <div className="w-full mt-5">
-            <LogoLoop
-              logos={[
-                { src: "/aec.png", alt: "AEC" },
-                { src: "/caat.png", alt: "CAAT" },
-                { src: "/cmc.png", alt: "CMC" },
-                { src: "/dev.png", alt: "DEV" },
-                { src: "/iec.png", alt: "IEC" },
-                { src: "/pc.png", alt: "PC" },
-                { src: "/petro.png", alt: "PETRO" },
-                { src: "/quanta.png", alt: "QUANTA" },
-                { src: "/seg.png", alt: "SEG" },
-                { src: "/spe.png", alt: "SPE" },
-                { src: "/tala.png", alt: "TALA" },
-                { src: "/window.svg", alt: "WINDOW" },
-                { src: "/youtube.png", alt: "YOUTUBE" }
-              ]}
-              speed={100}
-              direction="left"
-              logoHeight={60}
-              gap={60}
-              scaleOnHover
-              fadeOut
-              fadeOutColor="#e6f7ff00"
-              ariaLabel="Sponsors logos"
-            />
+        <div
+          id="sponsors"
+          className="relative z-30 flex flex-col items-center w-full py-16 md:py-20"
+          style={{ background: '#1B4D80' }}
+        >
+          {/* Decorative top line */}
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#F3C623] to-transparent opacity-30"></div>
+
+          <span className="inline-block text-xs font-semibold tracking-[0.25em] uppercase text-[#EB8317] mb-3">
+            Proudly Supported By
+          </span>
+          <h2
+            className="aec text-3xl md:text-5xl font-semibold mb-2"
+            style={{
+              background: 'linear-gradient(135deg, #F4F6FF 0%, #BAD7E9 50%, #F3C623 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            Our Sponsors
+          </h2>
+          <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#F3C623] to-transparent mb-8 rounded-full"></div>
+
+          <div className="w-full max-w-6xl mx-auto mt-8 bg-[#F4F6FF] py-8 md:py-12 px-4 rounded-3xl shadow-[0_12px_40px_rgba(244,246,255,0.05)] border border-white/20 relative overflow-hidden">
+            {/* Subtle inner shine */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"></div>
+            
+            <div className="relative z-10 w-full">
+              <LogoLoop
+                logos={[
+                  { src: "/viclogo.png", alt: "VIC" },
+                  { src: "/inphamedis.png", alt: "INPHAMEDIS" },
+                ]}
+                speed={100}
+                direction="left"
+                logoHeight={80}
+                gap={80}
+                scaleOnHover
+                fadeOut
+                fadeOutColor="#F4F6FF"
+                ariaLabel="Sponsors logos"
+              />
+            </div>
           </div>
         </div>
 
-        {/* Bottom content  above MaqamScene (z-30) */}
         <div className="relative z-30 flex flex-col">
           <FAQ />
+          {/* Decorative divider between FAQ and footer */}
+          <div className="w-full h-[2px] bg-gradient-to-r from-transparent via-[#BAD7E9]/20 to-transparent"></div>
           <Bottom />
         </div>
       </div>

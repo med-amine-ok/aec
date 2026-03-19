@@ -582,7 +582,7 @@ export default function OceanSurface() {
       style={{
         position: 'absolute',
         inset: 0,
-        zIndex: 0,
+        zIndex: -5,
         overflow: 'hidden',
         pointerEvents: 'none',
       }}

@@ -14,6 +14,7 @@ export default function Register() {
                 </div>
         <div className="relative z-10">
           <Nav />
+          {/* <Regclose/> */}
           <Reg/>
         </div>
       </div>
