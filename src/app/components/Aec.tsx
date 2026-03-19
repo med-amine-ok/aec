@@ -390,7 +390,7 @@ export default function Aec() {
         <div className="w-16 h-[2px] bg-gradient-to-r from-[#EB8317] to-[#F3C623]" />
 
         <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md">
-          Explore highlights from past editions of the Algerian Engineering Competition —
+          Explore highlights from past editions of the Algerian Engineering Competition,
           where innovation, engineering, and creativity meet in one place.
         </p>
 
