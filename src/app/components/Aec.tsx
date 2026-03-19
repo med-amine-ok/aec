@@ -98,7 +98,7 @@ export default function Aec() {
                 "problem-solving.",
                 " Previous editions have brought together participants from across ",
                 "the country",
-                " and the diaspora, offering a platform to showcase skills, creativity, and impact.",
+                " and the diaspora, offering a platform to showcase skills, creativity, and impact",
                 ".",
               ].map((word, i) => (
                 <motion.span
@@ -220,13 +220,14 @@ export default function Aec() {
         </div>
 
         {/* 🟢 MAP & NODES SYNCRONIZED CONTAINER */}
-        <div className="relative w-[1000px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-1/2 -mt-16 md:-mt-10">
+        <div className="relative w-[750px] sm:w-[800px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-1/2 -mt-16 md:-mt-10">
 
           {/* 🔵 BACKGROUND MAP */}
           <img
             src="/alg.svg"
             alt="Algeria map"
-            className="absolute inset-0 w-full h-full pointer-events-none filter brightness-0 opacity-45 md:opacity-45"
+            className="absolute inset-0 w-full h-full object-fill block pointer-events-none opacity-40 md:opacity-45"
+            style={{ filter: "brightness(0)", WebkitFilter: "brightness(0)", transform: "translateZ(0)" }}
           />
 
           {/* 🔥 CONNECTION LINES */}
