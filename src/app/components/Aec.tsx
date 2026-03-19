@@ -220,7 +220,7 @@ export default function Aec() {
         </div>
 
         {/* 🟢 MAP & NODES SYNCRONIZED CONTAINER */}
-        <div className="relative w-[750px] sm:w-[800px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-1/2 -mt-16 md:-mt-10">
+        <div className="relative w-[750px] sm:w-[800px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-[58%] sm:-translate-x-[54%] md:-translate-x-1/2 -mt-16 md:-mt-10">
 
           {/* 🔵 BACKGROUND MAP */}
           <img
