@@ -5,17 +5,69 @@ import { motion } from "framer-motion";
 import { MapPin, Instagram } from "lucide-react";
 import Slider from "./swiper";
 
-
+import { useEffect, useRef, useState } from "react";
 
 const cities = [
-  { id: "algiers", name: "Algiers", x: "53%", y: "11%", logo: "/viclogo.png", club: "Visionary Innovation Club", place: "National School Polytechnic of Algiers", insta: "https://www.instagram.com/vic.enp/" },
-  { id: "oran", name: "Oran", x: "36%", y: "16%", logo: "/epc.png", club: "Engineering Pioneers Club", place: "National School Polytechnic of Oran", insta: "https://www.instagram.com/engineering_pioneers_club/" },
+  { id: "algiers", name: "Algiers", x: "53%", y: "8%", logo: "/viclogo.png", club: "Visionary Innovation Club", place: "National School Polytechnic of Algiers", insta: "https://www.instagram.com/vic.enp/" },
+  { id: "oran", name: "Oran", x: "40%", y: "16%", logo: "/epc.png", club: "Engineering Pioneers Club", place: "National School Polytechnic of Oran", insta: "https://www.instagram.com/engineering_pioneers_club/" },
   { id: "constantine", name: "Constantine", x: "65%", y: "13%", logo: "/skybridge.png", club: "Skybridge Club", place: "National School Polytechnic of Constantine", insta: "https://www.instagram.com/skybridge.club/" },
   { id: "ouargla", name: "Ouargla", x: "61%", y: "38%", logo: "/SCO.PNG", club: "Scientific Corner Ouargla", place: "University of Ouargla", insta: "https://www.instagram.com/scientific_corner/" },
 ];
 
+type City = {
+  x: string;
+  y: string;
+};
+
+const toPx = (value: string, size: number) => {
+  return (parseFloat(value) / 100) * size;
+};
+
+const getCurvedPath = (
+  from: City,
+  to: City,
+  width: number,
+  height: number,
+  curvature: number = 1
+): string => {
+  const x1 = toPx(from.x, width);
+  const y1 = toPx(from.y, height);
+
+  const x2 = toPx(to.x, width);
+  const y2 = toPx(to.y, height);
+
+  const midX = (x1 + x2) / 2;
+  const midY = (y1 + y2) / 2;
+
+  // Use the ID or coordinates to create a stable "random" direction for SSR
+  const dx = parseFloat(from.x) - parseFloat(to.x);
+  const direction = dx > 0 ? 1 : -1;
+
+  const baseOffset = 60 * direction;
+  const finalOffset = baseOffset * curvature;
+
+  return `M ${x1},${y1} Q ${midX},${midY + finalOffset} ${x2},${y2}`;
+};
+
+
 
 export default function Aec() {
+  const svgRef = useRef<SVGSVGElement | null>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useEffect(() => {
+    const updateSize = () => {
+      if (svgRef.current) {
+        const rect = svgRef.current.getBoundingClientRect();
+        setSize({ width: rect.width, height: rect.height });
+      }
+    };
+
+    updateSize();
+    window.addEventListener("resize", updateSize);
+
+    return () => window.removeEventListener("resize", updateSize);
+  }, []);
   return (
     <div id="aec-experience" className="w-full flex flex-col items-center">
       {/* Subtle radial glow behind this section */}
@@ -75,7 +127,7 @@ export default function Aec() {
 
             {/* 🧠 PROGRESSIVE TEXT */}
             <motion.p
-              className="bg-gradient-to-br from-[#F4F6FF] to-[#BAD7E9] bg-clip-text text-transparent drop-shadow-[0_4px_2px_rgba(27,77,128,0.6)] leading-relaxed"
+              className="bg-gradient-to-br font-medium from-[#F4F6FF] to-[#F4F6FF] bg-clip-text text-transparent drop-shadow-[0_4px_2px_rgba(27,77,128,0.6)] leading-relaxed"
               variants={{
                 hidden: {},
                 visible: {
@@ -149,7 +201,7 @@ export default function Aec() {
             {[
               { value: "100+", label: "Teams", desc: "Solving challenges", accent: "#EB8317" },
               { value: "400+", label: "Participants", desc: "Top tech talents", accent: "#F3C623" },
-              { value: "48", label: "Wilayas", desc: "National reach", accent: "#BAD7E9" },
+              { value: "69", label: "Wilayas", desc: "National reach", accent: "#BAD7E9" },
               { value: "5", label: "Editions", desc: "Years of success", accent: "#EB8317" },
             ].map((stat, i) => (
               <motion.div
@@ -179,11 +231,11 @@ export default function Aec() {
                 >
                   {stat.value}
                 </span>
-                
+
                 <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white uppercase relative z-10 mb-1">
                   {stat.label}
                 </span>
-                
+
                 <span className="text-[9px] md:text-[10px] text-[#BAD7E9]/60 font-medium relative z-10 group-hover:text-[#BAD7E9] transition-colors text-center">
                   {stat.desc}
                 </span>
@@ -231,16 +283,21 @@ export default function Aec() {
           />
 
           {/* 🔥 CONNECTION LINES */}
-          <svg className="absolute inset-0 w-full h-full pointer-events-none z-10">
+          <svg
+            ref={svgRef}
+            className="absolute inset-0 w-full h-full pointer-events-none z-10"
+          >
             <defs>
               <linearGradient id="trackGradient" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#1B4D80" stopOpacity="0.4" />
-                <stop offset="100%" stopColor="#1B4D80" stopOpacity="0.6" />
+                <stop offset="0%" stopColor="#1B4D80" stopOpacity="0.2" />
+                <stop offset="50%" stopColor="#BAD7E9" stopOpacity="0.6" />
+                <stop offset="100%" stopColor="#1B4D80" stopOpacity="0.2" />
               </linearGradient>
+
               <filter id="glow">
-                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                <feGaussianBlur stdDeviation="4" result="blur" />
                 <feMerge>
-                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="blur" />
                   <feMergeNode in="SourceGraphic" />
                 </feMerge>
               </filter>
@@ -250,44 +307,70 @@ export default function Aec() {
               { target: 2, delay: 0 },
               { target: 1, delay: 0.4 },
               { target: 3, delay: 0.8 },
-            ].map((conn, idx) => (
-              <g key={`conn-${idx}`}>
-                {/* Base Track */}
-                <motion.line
-                  x1={cities[0].x} y1={cities[0].y}
-                  x2={cities[conn.target].x} y2={cities[conn.target].y}
-                  stroke="url(#trackGradient)"
-                  strokeWidth="2"
-                  strokeDasharray="6 8"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  whileInView={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1.8, ease: "easeInOut", delay: conn.delay }}
-                />
+            ].map((conn, idx) => {
+              const from = cities[conn.target];
+              const to = cities[0];
 
-                {/* Travelling Energy Pulse */}
-                <motion.line
-                  x1={cities[0].x} y1={cities[0].y}
-                  x2={cities[conn.target].x} y2={cities[conn.target].y}
-                  stroke="#1B4D80"
-                  strokeWidth="3"
-                  strokeLinecap="round"
-                  filter="url(#glow)"
-                  initial={{ pathLength: 0, pathOffset: 0, opacity: 0 }}
-                  whileInView={{
-                    pathLength: [0, 0.15, 0.15, 0],
-                    pathOffset: [0, 0, 0.85, 1],
-                    opacity: [0, 1, 1, 0]
-                  }}
-                  transition={{
-                    duration: 2.2,
-                    repeat: Infinity,
-                    times: [0, 0.2, 0.8, 1],
-                    ease: "easeInOut",
-                    delay: conn.delay + 1.8
-                  }}
-                />
-              </g>
-            ))}
+              if (!from || !to || !size.width) return null;
+
+              // Neural bundle of fibers
+              const filaments = [
+                { curve: 0.8, opacity: 0.1, width: 1, delay: 0 },
+                { curve: 1.0, opacity: 0.25, width: 2, delay: 0.1 },
+                { curve: 1.2, opacity: 0.1, width: 1, delay: 0.2 },
+              ];
+
+              return (
+                <g key={idx}>
+                  {filaments.map((f, fIdx) => {
+                    const path = getCurvedPath(from, to, size.width, size.height, f.curve);
+                    return (
+                      <g key={`f-${fIdx}`}>
+                        {/* BASE FIBER */}
+                        <motion.path
+                          d={path}
+                          stroke="url(#trackGradient)"
+                          strokeWidth={f.width}
+                          fill="none"
+                          strokeDasharray={fIdx === 1 ? "none" : "4 8"}
+                          initial={{ pathLength: 0, opacity: 0 }}
+                          whileInView={{ pathLength: 1, opacity: f.opacity }}
+                          transition={{
+                            duration: 2.5,
+                            ease: "easeInOut",
+                            delay: conn.delay + f.delay,
+                          }}
+                        />
+
+                        {/* NEURAL PULSE (Firing Signal) */}
+                        {fIdx === 1 && (
+                          <motion.path
+                            d={path}
+                            stroke="#1B4D80"
+                            strokeWidth="3"
+                            fill="none"
+                            strokeLinecap="round"
+                            filter="url(#glow)"
+                            initial={{ pathLength: 0, pathOffset: 0, opacity: 0 }}
+                            whileInView={{
+                              pathLength: [0, 0.15, 0.15, 0],
+                              pathOffset: [0, 0, 0.85, 1],
+                              opacity: [0, 1, 1, 0],
+                            }}
+                            transition={{
+                              duration: 3,
+                              repeat: Infinity,
+                              ease: "easeInOut",
+                              delay: conn.delay + 2,
+                            }}
+                          />
+                        )}
+                      </g>
+                    );
+                  })}
+                </g>
+              );
+            })}
           </svg>
 
           {/* 🟠 NODES */}
@@ -351,77 +434,77 @@ export default function Aec() {
       </section>
 
       {/* Carousel Section */}
-     <section
-  id="aec-carousel"
-  className="relative w-full px-4 md:px-10 py-16 md:py-24 overflow-hidden bg-[#F4F6FF]"
->
-  {/* Ambient background glow */}
-  {/* <div className="absolute inset-0">
+      <section
+        id="aec-carousel"
+        className="relative w-full px-4 md:px-10 py-16 md:py-24 overflow-hidden bg-[#F4F6FF]"
+      >
+        {/* Ambient background glow */}
+        {/* <div className="absolute inset-0">
     <div className="absolute top-[-20%] left-[-10%] w-[400px] h-[400px] bg-[#BAD7E9]/20 blur-[120px]" />
     <div className="absolute bottom-[-20%] right-[-10%] w-[400px] h-[400px] bg-[#EB8317]/20 blur-[120px]" />
   </div> */}
 
-  <motion.div
-    initial={{ opacity: 0, y: 40 }}
-    whileInView={{ opacity: 1, y: 0 }}
-    transition={{ duration: 0.9, ease: "easeOut" }}
-    viewport={{ once: true, amount: 0.2 }}
-    className="relative mx-auto max-w-7xl rounded-[32px] border border-white/10 overflow-hidden bg-[#1B4D80]"
-    style={{
-      // background:
-      //   "radial-gradient(circle at top left, rgba(186,215,233,0.12), transparent 45%), linear-gradient(135deg, rgba(27,77,128,0.55), rgba(16,55,92,0.85))",
-      boxShadow:
-        "0 40px 140px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255, 255, 255, 0)",
-      backdropFilter: "blur(22px)",
-    }}
-  >
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.2fr] gap-8 lg:gap-12 items-center p-6 md:p-10">
-      
-      {/* LEFT CONTENT */}
-      <div className="text-white space-y-6">
-        <p className="text-xs md:text-sm tracking-[0.35em] text-[#BAD7E9]/70 uppercase">
-          AEC GALLERY
-        </p>
-
-        <h2 className="text-3xl md:text-5xl font-bold leading-tight">
-          Relive AEC <br /> Moments
-        </h2>
-
-        <div className="w-16 h-[2px] bg-gradient-to-r from-[#EB8317] to-[#F3C623]" />
-
-        <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md">
-          Explore highlights from past editions of the Algerian Engineering Competition,
-          where innovation, engineering, and creativity meet in one place.
-        </p>
-
-        <Link
-          href="/register"
-          className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300"
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: "easeOut" }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="relative mx-auto max-w-7xl rounded-[32px] border border-white/10 overflow-hidden bg-[#1B4D80]"
           style={{
-            background: "linear-gradient(135deg, #EB8317, #F3C623)",
-            color: "#10375C",
+            // background:
+            //   "radial-gradient(circle at top left, rgba(186,215,233,0.12), transparent 45%), linear-gradient(135deg, rgba(27,77,128,0.55), rgba(16,55,92,0.85))",
+            boxShadow:
+              "0 40px 140px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255, 255, 255, 0)",
+            backdropFilter: "blur(22px)",
           }}
         >
-          REGISTER NOW
-          <span className="transition-transform duration-300 group-hover:translate-x-1">
-            →
-          </span>
-        </Link>
-      </div>
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_2.2fr] gap-8 lg:gap-12 items-center p-6 md:p-10">
 
-      {/* RIGHT: CAROUSEL */}
-      <div className="relative h-auto md:h-[75vh] w-full rounded-2xl overflow-hidden mt-6 md:mt-0">
-        {/* Soft inner glow */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 pointer-events-none" />
+            {/* LEFT CONTENT */}
+            <div className="text-white space-y-6">
+              <p className="text-xs md:text-sm tracking-[0.35em] text-[#BAD7E9]/70 uppercase">
+                AEC GALLERY
+              </p>
 
-        {/* Carousel */}
-        <div className="relative w-full h-full">
-          <Slider />
-        </div>
-      </div>
-    </div>
-  </motion.div>
-</section>
+              <h2 className="text-3xl md:text-5xl font-bold leading-tight">
+                Relive AEC <br /> Moments
+              </h2>
+
+              <div className="w-16 h-[2px] bg-gradient-to-r from-[#EB8317] to-[#F3C623]" />
+
+              <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-md">
+                Explore highlights from past editions of the Algerian Engineering Competition,
+                where innovation, engineering, and creativity meet in one place.
+              </p>
+
+              <Link
+                href="/register"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm md:text-base transition-all duration-300"
+                style={{
+                  background: "linear-gradient(135deg, #EB8317, #F3C623)",
+                  color: "#10375C",
+                }}
+              >
+                REGISTER NOW
+                <span className="transition-transform duration-300 group-hover:translate-x-1">
+                  →
+                </span>
+              </Link>
+            </div>
+
+            {/* RIGHT: CAROUSEL */}
+            <div className="relative h-auto md:h-[75vh] w-full rounded-2xl overflow-hidden mt-6 md:mt-0">
+              {/* Soft inner glow */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent z-10 pointer-events-none" />
+
+              {/* Carousel */}
+              <div className="relative w-full h-full">
+                <Slider />
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </section>
     </div>
   );
 }

@@ -124,7 +124,10 @@ const Reg = () => {
     if (name === 'num_members') {
       const n = Number(value);
       setTeam((t) => ({ ...t, num_members: n }));
-      setMembers(Array.from({ length: n - 1 }, () => ({ ...initialMember })));
+      setMembers((prev) => {
+        const count = n - 1;
+        return Array.from({ length: count }, (_, i) => prev[i] || { ...initialMember });
+      });
     }
   };
   const handleLeader = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -144,7 +147,8 @@ const Reg = () => {
     }
   };
   const handleMember = (idx: number, e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+    let { name, value, type, checked } = e.target;
+    if (name.startsWith('year_of_study_')) name = 'year_of_study';
     setMembers((prev) => {
       const arr = [...prev];
       if (type === 'checkbox') {
@@ -164,7 +168,16 @@ const Reg = () => {
 
   // Validation helpers
   const validateTeam = () => {
-    if (!team.wilaya || !team.team_name || !team.num_members) return false;
+    if (
+      !team.wilaya || 
+      !team.team_name || 
+      !team.num_members || 
+      !team.different_universities || 
+      !team.can_attend_physically || 
+      !team.participated_before || 
+      !team.hands_on_experience || 
+      !team.motivation
+    ) return false;
     return true;
   };
   const validateLeader = () => {
@@ -224,7 +237,7 @@ const Reg = () => {
         return false;
       }
       if (!isValidPhone(m.phone)) {
-        toast.error(`Member ${i + 1} phone must be numeric (10 digits).`);
+        toast.error(`Member ${i + 1} phone must be numeric (8 to 15 digits).`);
         return false;
       }
       if (!isValidUrl(m.linkedin)) {
@@ -239,8 +252,21 @@ const Reg = () => {
   // Submission
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!validateTeam() || !validateLeader() || !validateMembers()) {
-      toast.error('Please fill all required fields.');
+    if (!validateTeam()) {
+      toast.error('Please fill all required team information in Step 1 & 2.');
+      setStep(1);
+      return;
+    }
+    if (!validateLeader()) {
+      setStep(2);
+      return;
+    }
+    if (!validateMembers()) {
+      setStep(3);
+      return;
+    }
+    if (!team.heard_about) {
+      toast.error('Please let us know how you heard about us.');
       return;
     }
 
@@ -441,7 +467,7 @@ const Reg = () => {
                 <label className={labelClass}>Team Name</label>
                 <input
                   className={inputClass}
-                  placeholder="Enter your epic team name"
+                  placeholder="Enter your team name"
                   name="team_name"
                   value={team.team_name}
                   onChange={handleTeamInfo}
@@ -733,8 +759,16 @@ const Reg = () => {
                       <label className={labelClass}>Year of Study</label>
                       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-2">
                         {years.map((y) => (
-                          <label key={y} className={radioLabelClass}>
-                            <input type="radio" name="year_of_study" className={radioInputClass} value={y} checked={m.year_of_study === y} onChange={(e) => handleMember(idx, e)} /> 
+                          <label key={y} htmlFor={`year_m${idx}_${y}`} className={radioLabelClass}>
+                            <input 
+                              id={`year_m${idx}_${y}`}
+                              type="radio" 
+                              name={`year_of_study_${idx}`} 
+                              className={radioInputClass} 
+                              value={y} 
+                              checked={m.year_of_study === y} 
+                              onChange={(e) => handleMember(idx, e)} 
+                            /> 
                             <span className="text-white text-sm">{y}</span>
                           </label>
                         ))}
