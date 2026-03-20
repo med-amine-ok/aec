@@ -35,14 +35,7 @@ export default function Regclose() {
 
     
 
-      {/* Decorative PC element */}
-      <div className="absolute bottom-4 lg:bottom-auto left-1/2 lg:left-auto -translate-x-1/2 lg:translate-x-0 lg:right-[5%] lg:top-[15%] z-30 animate-float" style={{ animation: 'float 6s ease-in-out infinite' }}>
-        <img
-          src="/pc1.png"
-          alt="PC Decor"
-          className="w-[160px] sm:w-[220px] lg:w-[300px] xl:w-[450px] object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.5)] opacity-90"
-        />
-      </div>
+    
 
       {/* Central Glassmorphism Card */}
       <motion.div 
