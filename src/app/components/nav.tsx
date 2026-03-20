@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowLeft } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
 export default function Nav() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -27,20 +28,22 @@ export default function Nav() {
         }`}
       >
         {/* Logo */}
-        <Link
-          href="/"
-          className="flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-lg"
-          aria-label="Go to home"
-        >
-          <Image 
-            src="/AEC_NEW-02.png" 
-            alt="AEC Logo" 
-            width={260} 
-            height={100}
-            className="h-16 sm:h-20 w-auto object-contain drop-shadow-[0_2px_12px_rgba(255,255,255,0.22)] transition-transform duration-500 hover:scale-[1.08] filter brightness-0 invert"
-            priority
-          />
-        </Link>
+         <Link href="#home" className="flex items-center">
+            <div className="relative group/logo">
+              <motion.div
+                className="absolute inset-0 bg-white/20 blur-3xl rounded-full opacity-0 group-hover/logo:opacity-50 transition-opacity duration-700"
+                layoutId="logoGlow"
+              />
+            <Image
+  src="/aecWH.svg"
+  alt="AEC Logo"
+  width={450}
+  height={120}
+  className="h-12 sm:h-14 w-auto object-contain scale-[1.6] sm:scale-[2] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.7] sm:group-hover/logo:scale-[2.1] group-hover/logo:brightness-110 drop-shadow-[0_2px_4px_rgba(255,255,255,0.15)] drop-shadow-[0_8px_20px_rgba(255,255,255,0.25)] drop-shadow-[0_20px_60px_rgba(255,255,255,0.12)]"
+  priority
+/>
+            </div>
+          </Link>
 
         {/* Home Button */}
         <div>

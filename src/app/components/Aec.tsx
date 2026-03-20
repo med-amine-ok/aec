@@ -127,11 +127,13 @@ export default function Aec() {
 
             {/* 🧠 PROGRESSIVE TEXT */}
             <motion.p
-              className="bg-gradient-to-br font-medium from-[#F4F6FF] to-[#F4F6FF] bg-clip-text text-transparent drop-shadow-[0_4px_2px_rgba(27,77,128,0.6)] leading-relaxed"
+              className="font-medium text-[#F4F6FF] leading-relaxed"
+              initial="hidden"
+              animate="visible"
               variants={{
                 hidden: {},
                 visible: {
-                  transition: { staggerChildren: 0.3 },
+                  transition: { staggerChildren: 0.15 },
                 },
               }}
             >
@@ -155,13 +157,17 @@ export default function Aec() {
               ].map((word, i) => (
                 <motion.span
                   key={i}
-                  variants={{
-                    hidden: { opacity: 0, y: 10 },
-                    visible: { opacity: 1, y: 0 },
+                  initial={{ opacity: 0, y: 20, filter: "blur(8px)" }}
+                  whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                  viewport={{ once: true, margin: "-20px" }}
+                  transition={{ 
+                    duration: 1.1, 
+                    delay: i * 0.15,
+                    ease: [0.21, 0.47, 0.32, 0.98]
                   }}
                   className={
                     ["national engineering event ", "real-world challenges", "AEC", "innovation", "problem-solving.", "the country"].includes(word)
-                      ? "mx-1 px-1 rounded bg-gradient-to-r from-[#EB8317] to-[#F3C623] text-white"
+                      ? "mx-1 px-1 rounded bg-gradient-to-r from-[#EB8317] to-[#F3C623] text-white inline-block"
                       : ""
                   }
                 >
@@ -272,7 +278,7 @@ export default function Aec() {
         </div>
 
         {/* 🟢 MAP & NODES SYNCRONIZED CONTAINER */}
-        <div className="relative w-[750px] sm:w-[800px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-[58%] sm:-translate-x-[54%] md:-translate-x-1/2 -mt-16 md:-mt-10">
+        <div className="relative w-[750px] sm:w-[800px] md:w-[900px] aspect-[4/3] left-1/2 transform -translate-x-[53%] sm:-translate-x-[54%] md:-translate-x-1/2 -mt-16 md:-mt-10">
 
           {/* 🔵 BACKGROUND MAP */}
           <img

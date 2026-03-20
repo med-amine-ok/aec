@@ -463,18 +463,17 @@ export default function Navbar() {
             y: e.clientY - rect.top,
           });
         }}
-        className="relative mx-3 mt-3 rounded-4xl border backdrop-blur-xl sm:mx-6 overflow-hidden"
+        className="relative mx-3 mt-3 rounded-4xl border backdrop-blur-3xl sm:mx-6 overflow-hidden shadow-[0_30px_70px_rgba(5,25,53,0.5)]"
         style={{
           background: "rgba(255, 255, 255, 0.09)",
-          borderColor: "#eb851728",
-          
+          borderColor: "rgba(235, 133, 23, 0.15)",
         }}
       >
         {/* ✨ CURSOR GLOW */}
         <div
           className="pointer-events-none absolute inset-0"
           style={{
-            background: `radial-gradient(200px circle at ${mouse.x}px ${mouse.y}px, rgba(27,77,128,0.08), transparent 60%)`,
+            background: `radial-gradient(300px circle at ${mouse.x}px ${mouse.y}px, rgba(235,133,23,0.1), transparent 70%)`,
           }}
         />
 
@@ -482,14 +481,21 @@ export default function Navbar() {
           
           {/* LOGO */}
           <Link href="#home" className="flex items-center">
-            <Image
-              src="/AEC_NEW-02.png"
-              alt="AEC Logo"
-              width={200}
-              height={60}
-              className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 hover:scale-[1.04]"
-              priority
-            />
+            <div className="relative group/logo">
+              <motion.div
+                className="absolute inset-0 bg-white/20 blur-3xl rounded-full opacity-0 group-hover/logo:opacity-50 transition-opacity duration-700"
+                layoutId="logoGlow"
+              />
+              <Image
+                src="/aecCH.svg"
+                alt="AEC Logo"
+                width={450}
+                height={120}
+                className="h-12 sm:h-14 w-auto object-contain scale-[1.6] sm:scale-[2] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.7] sm:group-hover/logo:scale-[2.1] group-hover/logo:brightness-110 drop-shadow-[0_12px_45px_rgba(255,255,255,0.35)]"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[200%] group-hover/logo:animate-[shimmer_2s_infinite] pointer-events-none" />
+            </div>
           </Link>
 
           {/* DESKTOP NAV */}

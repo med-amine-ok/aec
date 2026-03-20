@@ -76,7 +76,7 @@ export default function Bottom() {
             viewport={{ once: true }}
             transition={{ delay: .2, duration: .6, ease: "easeOut" }}
           >
-            <img src="/AEC_NEW-02.png" className="w-[150px] mt-auto filter brightness-0 invert" />
+            <img src="/aecWH.svg" className="w-[150px]  mb-10" />
           </motion.div>
         </div>
       </motion.div>

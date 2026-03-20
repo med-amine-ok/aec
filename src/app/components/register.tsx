@@ -312,13 +312,7 @@ const Reg = () => {
       }
       toast.dismiss();
       toast.success('Registration successful!');
-      setStep(0);
-      setTeam({ ...initialTeam });
-      setLeader({ ...initialMember });
-      setMembers([
-        { ...initialMember },
-        { ...initialMember },
-      ]);
+      setStep(5);
     } catch (err) {
       toast.dismiss();
       let msg = 'Submission failed.';
@@ -349,29 +343,32 @@ const Reg = () => {
         <div className="absolute top-0 right-0 w-32 h-32 bg-[#EB8317] rounded-full blur-[100px] opacity-20 -z-10"></div>
         <div className="absolute bottom-0 left-0 w-40 h-40 bg-[#F3C623] rounded-full blur-[120px] opacity-20 -z-10"></div>
 
-        <div className="flex flex-col items-center mb-10">
-          <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#EB8317]/10 border border-[#EB8317]/30 mb-6 drop-shadow-[0_0_15px_rgba(235,131,23,0.3)]">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#EB8317]">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        {step < 5 && (
+          <div className="flex flex-col items-center mb-10">
+            <div className="inline-flex items-center justify-center p-3 rounded-2xl bg-[#EB8317]/10 border border-[#EB8317]/30 mb-6 drop-shadow-[0_0_15px_rgba(235,131,23,0.3)]">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-[#EB8317]">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#BAD7E9] to-[#EB8317] text-center tracking-tight mb-4 drop-shadow-sm">
+              Event Registration
+            </h1>
+            <p className="text-[#BAD7E9] text-center max-w-2xl text-lg font-medium leading-relaxed">
+              Join the premier engineering competition. Build, innovate, and connect.
+            </p>
           </div>
-          <h1 className="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#BAD7E9] to-[#EB8317] text-center tracking-tight mb-4 drop-shadow-sm">
-            Event Registration
-          </h1>
-          <p className="text-[#BAD7E9] text-center max-w-2xl text-lg font-medium leading-relaxed">
-            Join the premier engineering competition. Build, innovate, and connect.
-          </p>
-        </div>
+        )}
 
         {/* High-tech Stepper */}
-        <div className="relative mb-12 hidden md:block">
-          <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 rounded-full hidden sm:block"></div>
-          <div 
-            className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#EB8317] to-[#F3C623] -translate-y-1/2 rounded-full transition-all duration-500 ease-out hidden sm:block shadow-[0_0_10px_rgba(235,131,23,0.5)]" 
-            style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
-          ></div>
+        {step < 5 && (
+          <div className="relative mb-12 hidden md:block">
+            <div className="absolute top-1/2 left-0 w-full h-0.5 bg-white/10 -translate-y-1/2 rounded-full hidden sm:block"></div>
+            <div 
+              className="absolute top-1/2 left-0 h-0.5 bg-gradient-to-r from-[#EB8317] to-[#F3C623] -translate-y-1/2 rounded-full transition-all duration-500 ease-out hidden sm:block shadow-[0_0_10px_rgba(235,131,23,0.5)]" 
+              style={{ width: `${(step / (steps.length - 1)) * 100}%` }}
+            ></div>
           
           <div className="flex justify-between items-center relative z-10 gap-2">
             {steps.map((s, i) => (
@@ -396,26 +393,31 @@ const Reg = () => {
             ))}
           </div>
         </div>
+        )}
 
         {/* Mobile progress indicator */}
-        <div className="md:hidden flex flex-col items-center mb-8">
-           <div className="text-[#EB8317] font-bold text-lg mb-2 flex items-center gap-2">
-             {steps[step].icon} {steps[step].title}
-           </div>
-           <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
-             <div 
-               className="h-full bg-gradient-to-r from-[#EB8317] to-[#F3C623] transition-all duration-500"
-               style={{ width: `${((step + 1) / steps.length) * 100}%` }}
-             ></div>
-           </div>
-        </div>
+        {step < 5 && (
+          <div className="md:hidden flex flex-col items-center mb-8">
+             <div className="text-[#EB8317] font-bold text-lg mb-2 flex items-center gap-2">
+               {steps[step].icon} {steps[step].title}
+             </div>
+             <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+               <div 
+                 className="h-full bg-gradient-to-r from-[#EB8317] to-[#F3C623] transition-all duration-500"
+                 style={{ width: `${((step + 1) / steps.length) * 100}%` }}
+               ></div>
+             </div>
+          </div>
+        )}
 
-        <div className="bg-[#10375C]/40 border border-[#EB8317]/20 rounded-xl p-4 md:p-6 mb-8 shadow-inner backdrop-blur-sm">
-          <p className="text-[#94a3b8] text-sm md:text-base leading-relaxed flex items-start gap-3">
-             <span className="text-[#EB8317] shrink-0 mt-0.5"><CheckCircle2 className="w-5 h-5"/></span>
-             <span><strong className="text-white font-semibold">Important Notes:</strong> Each team must consist of 3 or 4 participants. Members can be from different universities or schools. Only the <strong className="text-[#EB8317] font-semibold">team leader</strong> should fill out this form on behalf of the team.</span>
-          </p>
-        </div>
+        {step < 5 && (
+          <div className="bg-[#10375C]/40 border border-[#EB8317]/20 rounded-xl p-4 md:p-6 mb-8 shadow-inner backdrop-blur-sm">
+            <p className="text-[#94a3b8] text-sm md:text-base leading-relaxed flex items-start gap-3">
+               <span className="text-[#EB8317] shrink-0 mt-0.5"><CheckCircle2 className="w-5 h-5"/></span>
+               <span><strong className="text-white font-semibold">Important Notes:</strong> Each team must consist of 3 or 4 participants. Members can be from different universities or schools. Only the <strong className="text-[#EB8317] font-semibold">team leader</strong> should fill out this form on behalf of the team.</span>
+            </p>
+          </div>
+        )}
 
         {/* Section 1: Wilaya */}
         {step === 0 && (
@@ -799,6 +801,49 @@ const Reg = () => {
             <div className="flex justify-between pt-6 border-t border-white/10">
               <button type="button" className={secondaryButton} onClick={() => setStep(2)}>Back</button>
               <button type="button" className={`${primaryButton} flex items-center gap-2`} onClick={() => validateMembers() ? setStep(4) : toast.error('Please fill all required member fields.')}>Continue <ChevronRight className="w-5 h-5" /></button>
+            </div>
+          </div>
+        )}
+
+        {/* Section 6: Success */}
+        {step === 5 && (
+          <div className="animate-in fade-in zoom-in duration-700 py-6 md:py-10 px-2">
+            <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl border border-green-400/25 bg-gradient-to-b from-[#10375C]/70 via-[#0f2f4e]/75 to-[#0b2239]/85 p-6 md:p-9 shadow-[0_25px_60px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+              <div className="pointer-events-none absolute -top-12 -right-8 h-40 w-40 rounded-full bg-green-400/15 blur-3xl"></div>
+              <div className="pointer-events-none absolute -bottom-14 -left-10 h-44 w-44 rounded-full bg-emerald-500/10 blur-3xl"></div>
+
+              <div className="relative z-10 flex flex-col items-center justify-center text-center">
+                <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-green-400/30 bg-green-500/10 px-4 py-1.5 text-xs font-semibold tracking-[0.18em] text-green-200">
+                  APPLICATION RECEIVED
+                </div>
+
+                <div className="relative mb-5">
+                  <div className="absolute inset-0 rounded-full bg-green-500/25 blur-[40px]"></div>
+                  <div className="relative flex h-20 w-20 items-center justify-center rounded-full border-2 border-green-400/50 bg-gradient-to-br from-[#10375C] to-green-500/20 shadow-[0_0_35px_rgba(34,197,94,0.3)]">
+                    <CheckCircle2 className="h-10 w-10 text-green-300" />
+                  </div>
+                </div>
+
+                <h2 className="mb-4 text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-green-200 via-green-300 to-emerald-400 md:text-4xl">
+                  Registration Successful!
+                </h2>
+
+                <div className="w-full rounded-2xl border border-white/10 bg-[#0b2742]/55 px-5 py-5 shadow-inner">
+                  <p className="text-base leading-relaxed text-[#d3e8f8] md:text-lg">
+                    Thank you for registering for AEC. We have received your team's application and will review it carefully.
+                  </p>
+                  <p className="mt-3 border-t border-white/10 pt-3 text-sm italic text-white/70 md:text-[15px]">
+                    We will contact the team leader soon with the final response.
+                  </p>
+                </div>
+
+                <a
+                  href="/"
+                  className="mt-7 inline-flex items-center justify-center gap-2.5 rounded-xl border border-green-400/50 bg-gradient-to-r from-green-500 to-emerald-600 px-7 py-3 text-sm font-bold tracking-[0.14em] text-white transition-all duration-300 hover:scale-105 hover:shadow-[0_0_28px_rgba(34,197,94,0.55)] active:scale-95 md:px-8 md:py-3.5 md:text-base"
+                >
+                  Back to Home Page <ChevronRight className="h-5 w-5" />
+                </a>
+              </div>
             </div>
           </div>
         )}

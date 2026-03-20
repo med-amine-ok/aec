@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 export default function Regclose() {
   return (
-    <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden font-sans" style={{ background: '#0a192f' }}>
+    <div className="relative w-full min-h-screen flex items-center justify-center overflow-hidden font-sans" style={{ background: '#F4F6FF' }}>
       
       {/* Background radial gradient for depth */}
       <div 

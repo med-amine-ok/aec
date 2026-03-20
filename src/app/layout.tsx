@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   title: "Algerian Engineering Competition",
   description: "Algeria's #1 Engineering Competition",
   icons: {
-    icon: "/aec.png",
+    icon: "/aecWV.svg",
   },
 };
 
