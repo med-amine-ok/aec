@@ -491,7 +491,7 @@ export default function Navbar() {
                 alt="AEC Logo"
                 width={450}
                 height={120}
-                className="h-12 sm:h-14 w-auto object-contain scale-[1.6] sm:scale-[2] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.7] sm:group-hover/logo:scale-[2.1] group-hover/logo:brightness-110 drop-shadow-[0_12px_45px_rgba(255,255,255,0.35)]"
+                className="h-12 sm:h-14 w-auto object-contain scale-[1.2] sm:scale-[1.2] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.7] sm:group-hover/logo:scale-[2.1] group-hover/logo:brightness-110 drop-shadow-[0_12px_45px_rgba(255,255,255,0.35)]"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[200%] group-hover/logo:animate-[shimmer_2s_infinite] pointer-events-none" />
