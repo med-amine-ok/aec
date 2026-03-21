@@ -37,8 +37,6 @@ import {
   TeamStatus,
   clearAdminSession,
   getAdminSession,
-  loadTeamStatusMap,
-  saveTeamStatusMap,
 } from "../lib/adminAuth";
 import { getSupabaseClient } from "../lib/supabaseClient";
 
@@ -46,6 +44,7 @@ type TeamRow = {
   id: number;
   wilaya: string;
   team_name: string;
+  status: TeamStatus;
   num_members: number;
   different_universities: boolean | null;
   can_attend_physically: boolean | null;
@@ -301,7 +300,6 @@ export default function AdminDashboardPage() {
   const [activeFilter, setActiveFilter] = useState<"all" | TeamStatus>("all");
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<DetailTab>("overview");
-  const [statusMapReady, setStatusMapReady] = useState(false);
   const [isPending, startTransition] = useTransition();
 
   const deferredSearch = useDeferredValue(searchQuery);
@@ -319,18 +317,7 @@ export default function AdminDashboardPage() {
     if (!isReady) {
       return;
     }
-
-    setStatusMap(loadTeamStatusMap());
-    setStatusMapReady(true);
   }, [isReady]);
-
-  useEffect(() => {
-    if (!isReady || !statusMapReady) {
-      return;
-    }
-
-    saveTeamStatusMap(statusMap);
-  }, [isReady, statusMap, statusMapReady]);
 
   const loadDashboardData = async (showToast = false) => {
     const supabase = getSupabaseClient() as any;
@@ -357,6 +344,13 @@ export default function AdminDashboardPage() {
       const teamRows = (teamData ?? []) as TeamRow[];
       const teamIds = teamRows.map((team) => team.id);
 
+      setStatusMap(
+        teamRows.reduce<Record<string, TeamStatus>>((accumulator, team) => {
+          accumulator[String(team.id)] = team.status ?? "pending";
+          return accumulator;
+        }, {})
+      );
+
       let memberRows: MemberRow[] = [];
 
       if (teamIds.length > 0) {
@@ -374,17 +368,6 @@ export default function AdminDashboardPage() {
 
       setTeams(teamRows);
       setMembers(memberRows);
-      setStatusMap((current) => {
-        const next = { ...current };
-
-        teamRows.forEach((team) => {
-          if (!next[String(team.id)]) {
-            next[String(team.id)] = "pending";
-          }
-        });
-
-        return next;
-      });
 
       if (showToast) {
         toast.success("Dashboard refreshed");
@@ -466,14 +449,39 @@ export default function AdminDashboardPage() {
   }, [dashboardTeams]);
 
   const updateStatus = (teamId: number, nextStatus: TeamStatus) => {
-    startTransition(() => {
+    startTransition(async () => {
       setStatusMap((current) => ({
         ...current,
         [String(teamId)]: nextStatus,
       }));
-    });
 
-    toast.success(`Marked as ${statusLabels[nextStatus].toLowerCase()}`);
+      const supabase = getSupabaseClient() as any;
+
+      if (!supabase) {
+        toast.error("Supabase client is unavailable.");
+        return;
+      }
+
+      const { error } = await supabase.rpc("update_team_status", {
+        p_team_id: teamId,
+        p_status: nextStatus,
+      });
+
+      if (error) {
+        toast.error(error.message ?? "Failed to save status.");
+        setStatusMap((current) => {
+          const fallbackStatus = teams.find((team) => team.id === teamId)?.status ?? "pending";
+
+          return {
+            ...current,
+            [String(teamId)]: fallbackStatus,
+          };
+        });
+        return;
+      }
+
+      toast.success(`Marked as ${statusLabels[nextStatus].toLowerCase()}`);
+    });
   };
 
   const handleRefresh = () => {
