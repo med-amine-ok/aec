@@ -1,11 +1,30 @@
 import "../globals.css";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, useInView, animate } from "framer-motion";
 import { MapPin, Instagram } from "lucide-react";
 import Slider from "./swiper";
 
 import { useEffect, useRef, useState } from "react";
+
+function Counter({ value }: { value: number }) {
+  const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+  useEffect(() => {
+    if (isInView) {
+      const controls = animate(0, value, {
+        duration: 1.5,
+        ease: "easeOut",
+        onUpdate: (latest) => setCount(Math.floor(latest)),
+      });
+      return () => controls.stop();
+    }
+  }, [value, isInView]);
+
+  return <span ref={ref}>{count}</span>;
+}
 
 const cities = [
   { id: "algiers", name: "Algiers", x: "53%", y: "8%", logo: "/viclogo.png", club: "Visionary Innovation Club", place: "National School Polytechnic of Algiers", insta: "https://www.instagram.com/vic.enp/" },
@@ -205,10 +224,10 @@ export default function Aec() {
             />
 
             {[
-              { value: "100+", label: "Teams", desc: "Solving challenges", accent: "#EB8317" },
-              { value: "400+", label: "Participants", desc: "Top tech talents", accent: "#F3C623" },
-              { value: "69", label: "Wilayas", desc: "National reach", accent: "#BAD7E9" },
-              { value: "5", label: "Editions", desc: "Years of success", accent: "#EB8317" },
+              { number: 100, suffix: "+", label: "Teams", desc: "Solving challenges", accent: "#EB8317" },
+              { number: 400, suffix: "+", label: "Participants", desc: "Top tech talents", accent: "#F3C623" },
+              { number: 69, suffix: "", label: "Wilayas", desc: "National reach", accent: "#BAD7E9" },
+              { number: 5, suffix: "", label: "Editions", desc: "Years of success", accent: "#EB8317" },
             ].map((stat, i) => (
               <motion.div
                 key={i}
@@ -235,7 +254,7 @@ export default function Aec() {
                   className="aec text-4xl md:text-5xl font-black mb-1 relative z-10 drop-shadow-[0_2px_10px_rgba(0,0,0,0.3)] transition-transform duration-500 group-hover:scale-105"
                   style={{ color: stat.accent }}
                 >
-                  {stat.value}
+                  <Counter value={stat.number} />{stat.suffix}
                 </span>
 
                 <span className="text-[10px] md:text-xs font-bold tracking-[0.2em] text-white uppercase relative z-10 mb-1">
@@ -261,7 +280,7 @@ export default function Aec() {
         <div className="absolute inset-0 bg-[linear-gradient(rgba(27,77,128,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(27,77,128,0.05)_1px,transparent_1px)] bg-[size:40px_40px]" />
 
         {/* CONTENT WRAPPER */}
-        <div className="relative z-10 max-w-6xl mx-auto text-center px-4">
+        <div className="relative z-10 max-w-6xl mx-auto text-center px-4 mb-15">
           <motion.div
             className="relative pointer-events-none z-20"
             initial={{ opacity: 0, y: 30 }}
@@ -295,9 +314,9 @@ export default function Aec() {
           >
             <defs>
               <linearGradient id="trackGradient" gradientUnits="userSpaceOnUse">
-                <stop offset="0%" stopColor="#1B4D80" stopOpacity="0.2" />
-                <stop offset="50%" stopColor="#BAD7E9" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#1B4D80" stopOpacity="0.2" />
+                <stop offset="0%" stopColor="#1B4D80" stopOpacity="0.6" />
+                <stop offset="50%" stopColor="#BAD7E9" stopOpacity="1" />
+                <stop offset="100%" stopColor="#1B4D80" stopOpacity="1" />
               </linearGradient>
 
               <filter id="glow">
@@ -311,8 +330,8 @@ export default function Aec() {
 
             {[
               { target: 2, delay: 0 },
-              { target: 1, delay: 0.4 },
-              { target: 3, delay: 0.8 },
+              { target: 1, delay: 0.15 },
+              { target: 3, delay: 0.3 },
             ].map((conn, idx) => {
               const from = cities[conn.target];
               const to = cities[0];
@@ -322,8 +341,8 @@ export default function Aec() {
               // Neural bundle of fibers
               const filaments = [
                 { curve: 0.8, opacity: 0.1, width: 1, delay: 0 },
-                { curve: 1.0, opacity: 0.25, width: 2, delay: 0.1 },
-                { curve: 1.2, opacity: 0.1, width: 1, delay: 0.2 },
+                { curve: 1.0, opacity: 0.25, width: 2, delay: 0.05 },
+                { curve: 1.2, opacity: 0.1, width: 1, delay: 0.1 },
               ];
 
               return (
@@ -342,8 +361,8 @@ export default function Aec() {
                           initial={{ pathLength: 0, opacity: 0 }}
                           whileInView={{ pathLength: 1, opacity: f.opacity }}
                           transition={{
-                            duration: 2.5,
-                            ease: "easeInOut",
+                            duration: 1.2,
+                            ease: "easeOut",
                             delay: conn.delay + f.delay,
                           }}
                         />
@@ -364,10 +383,10 @@ export default function Aec() {
                               opacity: [0, 1, 1, 0],
                             }}
                             transition={{
-                              duration: 3,
+                              duration: 2,
                               repeat: Infinity,
                               ease: "easeInOut",
-                              delay: conn.delay + 2,
+                              delay: conn.delay + 1,
                             }}
                           />
                         )}
@@ -388,7 +407,7 @@ export default function Aec() {
               style={{ left: city.x, top: city.y, transform: "translate(-50%, -50%)" }}
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.8 + i * 0.2 }}
+              transition={{ delay: 0.2 + i * 0.1 }}
             >
               {/* GLOW PULSE */}
               <div className="absolute z-0 w-24 h-24 rounded-full bg-[#EB8317]/20 blur-xl opacity-0 group-hover:opacity-100 transition duration-500 animate-pulse pointer-events-none"></div>

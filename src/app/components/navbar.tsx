@@ -441,12 +441,7 @@ export default function Navbar() {
     return () => window.removeEventListener("scroll", updateActive);
   }, [navItems]);
 
-  const activeIndex = Math.max(
-    0,
-    navItems.findIndex((item) => item.href === activeSection)
-  );
 
-  const itemWidth = 100 / navItems.length;
 
   return (
     <motion.header
@@ -491,7 +486,7 @@ export default function Navbar() {
                 alt="AEC Logo"
                 width={450}
                 height={120}
-                className="h-12 sm:h-14 w-auto object-contain scale-[1.2] sm:scale-[1.2] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.7] sm:group-hover/logo:scale-[2.1] group-hover/logo:brightness-110 drop-shadow-[0_12px_45px_rgba(255,255,255,0.35)]"
+                className="h-12 sm:h-14 w-auto object-contain scale-[1] sm:scale-[1] origin-left transition-all duration-700 ease-out group-hover/logo:scale-[1.2] sm:group-hover/logo:scale-[1.1] group-hover/logo:brightness-110 drop-shadow-[0_12px_45px_rgba(255,255,255,0.35)]"
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-[200%] group-hover/logo:animate-[shimmer_2s_infinite] pointer-events-none" />
@@ -500,7 +495,7 @@ export default function Navbar() {
 
           {/* DESKTOP NAV */}
           <nav className="hidden lg:block relative w-[55%] max-w-2xl">
-            <div className="relative rounded-full border px-2 py-1 bg-white/60 backdrop-blur-md border-[#eb851728]">
+            <div className="relative rounded-full border px-2 py-1 bg-white/20 backdrop-blur-md border-[#eb851728]">
               
               <div
                 className="grid"
@@ -508,55 +503,66 @@ export default function Navbar() {
                   gridTemplateColumns: `repeat(${navItems.length}, 1fr)`,
                 }}
               >
-                {navItems.map((item, index) => {
+                {navItems.map((item) => {
                   const isActive = activeSection === item.href;
 
                   return (
                     <Link
                       key={item.name}
                       href={item.href}
-                      className={`group relative flex items-center justify-center gap-2 rounded-full px-4 py-2 text-sm font-medium transition-all duration-300 ${
+                      className={`group relative flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold tracking-tight transition-all duration-300 ${
                         isActive
                           ? "text-[#1B4D80]"
-                          : "text-[#1B4D80]/60 hover:text-[#1B4D80]"
+                          : "text-[#1B4D80]/50 hover:text-[#1B4D80]"
                       }`}
                       onMouseMove={(e) => {
                         const el = e.currentTarget;
                         const rect = el.getBoundingClientRect();
-                        const x = (e.clientX - rect.left - rect.width / 2) * 0.1;
-                        const y = (e.clientY - rect.top - rect.height / 2) * 0.1;
+                        const x = (e.clientX - rect.left - rect.width / 2) * 0.12;
+                        const y = (e.clientY - rect.top - rect.height / 2) * 0.12;
                         el.style.transform = `translate(${x}px, ${y}px)`;
                       }}
                       onMouseLeave={(e) => {
                         e.currentTarget.style.transform = "translate(0,0)";
                       }}
                     >
+                      {/* Active Indicator Background Pill */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activePill"
+                          className="absolute inset-0 bg-white/40 shadow-[0_2px_10px_rgba(27,77,128,0.08)] rounded-full -z-10"
+                          transition={{ type: "spring", bounce: 0.22, duration: 0.6 }}
+                        />
+                      )}
+                      
                       {/* Hover Glow */}
                       <span
                         className="absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition duration-300"
                         style={{
                           background:
-                            "radial-gradient(circle, rgba(27,77,128,0.08), transparent 70%)",
+                            "radial-gradient(circle, rgba(27,77,128,0.1), transparent 70%)",
                         }}
                       />
 
                       <span className="relative z-10">{item.icon}</span>
                       <span className="relative z-10">{item.name}</span>
+                      
+                      {/* Active Indicator Underline (Premium Version) */}
+                      {isActive && (
+                        <motion.div
+                          layoutId="activeIndicator"
+                          className="absolute -bottom-1 left-4 right-4 h-[2.5px] rounded-full z-10"
+                          transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                          style={{
+                            background: "linear-gradient(90deg, #1B4D80, #EB8317)",
+                            boxShadow: "0 2px 10px rgba(27,77,128,0.1), 0 1px 12px rgba(235, 131, 23, 0.35)",
+                          }}
+                        />
+                      )}
                     </Link>
                   );
                 })}
               </div>
-
-              {/* ACTIVE INDICATOR */}
-              <div
-                className="absolute bottom-0 h-[3px] rounded-full transition-all duration-500"
-                style={{
-                  width: `${itemWidth}%`,
-                  transform: `translateX(${activeIndex * 100}%)`,
-                  background: "linear-gradient(90deg, #1B4D80, #EB8317)",
-                  boxShadow: "0 0 8px rgba(27,77,128,0.2)",
-                }}
-              />
             </div>
           </nav>
 

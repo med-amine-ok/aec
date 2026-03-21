@@ -343,22 +343,49 @@ export default function OceanBackground() {
     clock.start();
 
     // ---------- Renderer ----------
-    const renderer = new THREE.WebGLRenderer({
+    // ---------- Renderers ----------
+    // Background Renderer (for the Skybox at -1)
+    const bgRenderer = new THREE.WebGLRenderer({
       antialias: false,
       alpha: false,
-      depth: true,
-      stencil: false,
-      powerPreference: 'low-power',
     });
-    renderer.autoClearColor = false;
+    
+    // Overlay Renderer (for the Plane at 40)
+    const overlayRenderer = new THREE.WebGLRenderer({
+      antialias: true,
+      alpha: true,
+      depth: true,
+      powerPreference: 'high-performance',
+    });
+    overlayRenderer.setClearColor(0x000000, 0);
+
     const isMobile = window.innerWidth < 768;
-    renderer.setPixelRatio(isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(window.devicePixelRatio, 1.5));
-    renderer.setSize(container.clientWidth, container.clientHeight, false);
-    renderer.domElement.style.display = 'block';
-    container.appendChild(renderer.domElement);
+    const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(window.devicePixelRatio, 1.5);
+    
+    [bgRenderer, overlayRenderer].forEach(r => {
+      r.setPixelRatio(pixelRatio);
+      r.setSize(container.clientWidth, container.clientHeight, false);
+      r.domElement.style.display = 'block';
+    });
+
+    container.appendChild(bgRenderer.domElement);
+
+    // Create a dynamic overlay container for the plane
+    const overlayContainer = document.createElement('div');
+    Object.assign(overlayContainer.style, {
+      position: 'fixed',
+      inset: 0,
+      zIndex: 40,
+      pointerEvents: 'none',
+      overflow: 'hidden',
+    });
+    document.body.appendChild(overlayContainer);
+    overlayContainer.appendChild(overlayRenderer.domElement);
 
     // ---------- Scene & Camera ----------
-    const scene = new THREE.Scene();
+    // ---------- Scenes & Camera ----------
+    const bgScene = new THREE.Scene();
+    const overlayScene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
       70,
       container.clientWidth / container.clientHeight,
@@ -541,14 +568,14 @@ export default function OceanBackground() {
     const skyTimeUniform = new THREE.Uniform(0);
     skyMat.uniforms._Time = skyTimeUniform;
     const skybox = new THREE.Mesh(skyGeo, skyMat);
-    scene.add(skybox);
+    bgScene.add(skybox); // Back in the background scene
 
-    // ---------- Lighting for 3D models ----------
+    // ---------- Lighting for 3D models (in Overlay Scene) ----------
     const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-    scene.add(ambientLight);
+    overlayScene.add(ambientLight);
     const directionalLight = new THREE.DirectionalLight(0xffffff, 1.0);
     directionalLight.position.set(100, 200, 50);
-    scene.add(directionalLight);
+    overlayScene.add(directionalLight);
 
     // ---------- Airplane model ----------
     let planeModel: THREE.Group | null = null;
@@ -593,7 +620,7 @@ export default function OceanBackground() {
         node.matrixAutoUpdate = true;
       });
 
-      raw.scale.set(0.04, 0.04, 0.04);
+      raw.scale.set(0.02, 0.02, 0.02);
 
       // Outer pivot for lookAt; inner pivot for model orientation correction.
       // Model geometry: X = wingspan (-1302..1302), Y = fuselage (-470..1344), Z = height (-172..491)
@@ -608,7 +635,7 @@ export default function OceanBackground() {
       const outerPivot = new THREE.Group();
       outerPivot.add(innerPivot);
       planeModel = outerPivot;
-      scene.add(planeModel);
+      overlayScene.add(planeModel); // In the overlay scene
       updatePlanePosition(planeT);
     });
 
@@ -617,7 +644,8 @@ export default function OceanBackground() {
       if (!container) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
-      renderer.setSize(w, h, false);
+      bgRenderer.setSize(w, h, false);
+      overlayRenderer.setSize(w, h, false);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
@@ -633,6 +661,8 @@ export default function OceanBackground() {
     };
     document.addEventListener('visibilitychange', onVisibilityChange);
 
+    // Disable IntersectionObserver to keep plane visible across all sections
+    /*
     const observer = new IntersectionObserver(
       ([entry]) => {
         isVisible = entry?.isIntersecting ?? true;
@@ -640,6 +670,7 @@ export default function OceanBackground() {
       { threshold: 0.05 }
     );
     observer.observe(container);
+    */
 
     // ---------- Animation loop ----------
     let animId = 0;
@@ -665,6 +696,7 @@ export default function OceanBackground() {
       computeSkyUniforms();
 
       // Keep skybox centered on camera
+      // Keep skybox centered on camera
       skybox.position.copy(camera.position);
 
       // Animate airplane
@@ -680,8 +712,8 @@ export default function OceanBackground() {
       directionalLight.intensity = Math.max(sunVisibility.value * 1.0, 0.15);
       ambientLight.intensity = Math.max(sunVisibility.value * 0.6, 0.1);
 
-      renderer.clear();
-      renderer.render(scene, camera);
+      bgRenderer.render(bgScene, camera);
+      overlayRenderer.render(overlayScene, camera);
     }
     animate();
 
@@ -691,8 +723,9 @@ export default function OceanBackground() {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', onResize);
       document.removeEventListener('visibilitychange', onVisibilityChange);
-      observer.disconnect();
-      renderer.dispose();
+      // observer.disconnect(); // Disabled with observer removal
+      bgRenderer.dispose();
+      overlayRenderer.dispose();
       skyGeo.dispose();
       skyMat.dispose();
       starsTexture.dispose();
@@ -709,8 +742,11 @@ export default function OceanBackground() {
           }
         });
       }
-      if (container.contains(renderer.domElement)) {
-        container.removeChild(renderer.domElement);
+      if (container.contains(bgRenderer.domElement)) {
+        container.removeChild(bgRenderer.domElement);
+      }
+      if (document.body.contains(overlayContainer)) {
+        document.body.removeChild(overlayContainer);
       }
     };
   }, []);
