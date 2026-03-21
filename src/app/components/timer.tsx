@@ -56,7 +56,7 @@ export default function Timer({ targetDate = '2026-04-04T00:00:00' }: TimerProps
       }}
     >
       <span className="text-xs sm:text-sm font-semibold tracking-[0.2em] uppercase text-[#BAD7E9] drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] text-center">
-        Registration<br className="hidden md:block"/> Closes In
+        Registration<br className="hidden md:block"/> Opeen In
       </span>
       
       <div className="hidden md:block w-px h-10 bg-[#BAD7E9]/20"></div>

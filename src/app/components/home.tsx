@@ -28,9 +28,9 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
           className="text-3xl sm:text-3xl md:text-4xl font-extrabold leading-tight tracking-tight bg-gradient-to-br from-[#F4F6FF] to-[#BAD7E9] bg-clip-text text-transparent drop-shadow-[0_4px_2px_rgba(27,77,128,0.6)] text-center w-[95vw] md:w-full max-w-[140%] mt-10"
         >
-          From North to South, East to West
+          From North to South, East to West,
           <br />
-          <span className="block mt-1">48hours, one winning team</span>
+          <span className="block mt-1">one winning team</span>
         </motion.h1>
 
         {/* Outlined background text */}
@@ -107,7 +107,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="w-full flex justify-center"
         >
-          <Timer targetDate="2026-04-04T00:00:00" />
+          <Timer targetDate="2026-03-22T22:00:00" />
         </motion.div>
 
         {/* CTA */}
