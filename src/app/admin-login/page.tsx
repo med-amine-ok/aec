@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
 
               <div className="space-y-4">
                 <h1 className="text-4xl font-semibold tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-                  AEC competition dashboard, protected for organizers only.
+                  AEC competition dashboard, protected for Respos only.
                 </h1>
                 <p className="max-w-2xl text-sm leading-7 text-slate-600 sm:text-base">
                   Sign in to review registrations, export teams, and manage acceptance statuses from one premium control surface.
