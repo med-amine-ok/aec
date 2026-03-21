@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { usePathname } from 'next/navigation';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
@@ -315,6 +316,8 @@ const VOLUME_FRAGMENT = /* glsl */ `
 
 export default function OceanBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+  const showPlane = pathname !== '/dufgwetyfgvwiteyc';
 
   useEffect(() => {
     const container = containerRef.current;
@@ -607,37 +610,39 @@ export default function OceanBackground() {
       planeModel.rotateZ(bankAngle);
     }
 
-    const gltfLoader = new GLTFLoader();
-    gltfLoader.load('/source/scene.gltf', (gltf) => {
-      const raw = gltf.scene;
+    if (showPlane) {
+      const gltfLoader = new GLTFLoader();
+      gltfLoader.load('/source/scene.gltf', (gltf) => {
+        const raw = gltf.scene;
 
-      // The Sketchfab GLTF has nested node matrices that rotate the model.
-      // Clear all transforms so we start fresh, then apply our own.
-      raw.traverse((node) => {
-        node.rotation.set(0, 0, 0);
-        node.quaternion.identity();
-        node.matrix.identity();
-        node.matrixAutoUpdate = true;
+        // The Sketchfab GLTF has nested node matrices that rotate the model.
+        // Clear all transforms so we start fresh, then apply our own.
+        raw.traverse((node) => {
+          node.rotation.set(0, 0, 0);
+          node.quaternion.identity();
+          node.matrix.identity();
+          node.matrixAutoUpdate = true;
+        });
+
+        raw.scale.set(0.02, 0.02, 0.02);
+
+        // Outer pivot for lookAt; inner pivot for model orientation correction.
+        // Model geometry: X = wingspan (-1302..1302), Y = fuselage (-470..1344), Z = height (-172..491)
+        // After clearing transforms: nose is at +Y, wings on X, top at +Z.
+        // Three.js lookAt points -Z forward. We need nose → -Z.
+        // rotateX(+π/2): Y → Z, Z → -Y  → nose now at +Z (wrong direction)
+        // rotateX(-π/2): Y → -Z, Z → +Y → nose now at -Z (correct!), top at +Y (correct!)
+        const innerPivot = new THREE.Group();
+        innerPivot.rotation.set(-Math.PI / 2, 0, 0);
+        innerPivot.add(raw);
+
+        const outerPivot = new THREE.Group();
+        outerPivot.add(innerPivot);
+        planeModel = outerPivot;
+        overlayScene.add(planeModel); // In the overlay scene
+        updatePlanePosition(planeT);
       });
-
-      raw.scale.set(0.02, 0.02, 0.02);
-
-      // Outer pivot for lookAt; inner pivot for model orientation correction.
-      // Model geometry: X = wingspan (-1302..1302), Y = fuselage (-470..1344), Z = height (-172..491)
-      // After clearing transforms: nose is at +Y, wings on X, top at +Z.
-      // Three.js lookAt points -Z forward. We need nose → -Z.
-      // rotateX(+π/2): Y → Z, Z → -Y  → nose now at +Z (wrong direction)
-      // rotateX(-π/2): Y → -Z, Z → +Y → nose now at -Z (correct!), top at +Y (correct!)
-      const innerPivot = new THREE.Group();
-      innerPivot.rotation.set(-Math.PI / 2, 0, 0);
-      innerPivot.add(raw);
-
-      const outerPivot = new THREE.Group();
-      outerPivot.add(innerPivot);
-      planeModel = outerPivot;
-      overlayScene.add(planeModel); // In the overlay scene
-      updatePlanePosition(planeT);
-    });
+    }
 
     // ---------- Resize handler ----------
     function onResize() {
