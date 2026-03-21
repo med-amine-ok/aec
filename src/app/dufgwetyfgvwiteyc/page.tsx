@@ -102,6 +102,8 @@ const filterTabs: Array<{ id: "all" | TeamStatus; label: string }> = [
   { id: "rejected", label: "Rejected" },
 ];
 
+const wilayaFilters = ["all", "Alger", "Oran", "Ouargla", "Constantine"] as const;
+
 const dashboardStats = [
   { key: "total", label: "Total teams", icon: LayoutDashboard, tone: "from-sky-500 to-cyan-400" },
   { key: "pending", label: "Pending", icon: CircleDashed, tone: "from-amber-500 to-orange-400" },
@@ -298,6 +300,7 @@ export default function AdminDashboardPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<"all" | TeamStatus>("all");
+  const [activeWilaya, setActiveWilaya] = useState<(typeof wilayaFilters)[number]>("all");
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<DetailTab>("overview");
   const [isPending, startTransition] = useTransition();
@@ -425,11 +428,19 @@ export default function AdminDashboardPage() {
 
     return dashboardTeams.filter((entry) => {
       const matchesFilter = activeFilter === "all" ? true : entry.status === activeFilter;
+      const matchesWilaya = activeWilaya === "all" ? true : entry.team.wilaya === activeWilaya;
       const matchesSearch = trimmedSearch.length === 0 ? true : entry.searchIndex.includes(trimmedSearch);
 
-      return matchesFilter && matchesSearch;
+      return matchesFilter && matchesWilaya && matchesSearch;
     });
-  }, [activeFilter, dashboardTeams, deferredSearch]);
+  }, [activeFilter, activeWilaya, dashboardTeams, deferredSearch]);
+
+  const wilayaCounts = useMemo(() => {
+    return dashboardTeams.reduce<Record<string, number>>((accumulator, entry) => {
+      accumulator[entry.team.wilaya] = (accumulator[entry.team.wilaya] ?? 0) + 1;
+      return accumulator;
+    }, {});
+  }, [dashboardTeams]);
 
   const selectedTeam = selectedTeamId === null ? null : dashboardTeams.find((entry) => entry.team.id === selectedTeamId) ?? null;
   const selectedMembers = selectedTeam?.members ?? [];
@@ -699,7 +710,7 @@ export default function AdminDashboardPage() {
 
         <section className="mt-5 rounded-[32px] border border-white/70 bg-white/80 p-4 shadow-[0_22px_80px_rgba(27,77,128,0.10)] backdrop-blur-xl sm:p-5">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
-            <div className="grid flex-1 gap-3 md:grid-cols-[1fr_auto] md:items-end">
+            <div className="grid flex-1 gap-3 xl:grid-cols-[1fr_auto] xl:items-end">
               <div className="space-y-2">
                 <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Search teams</label>
                 <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-inner transition focus-within:border-[#1B4D80]/30 focus-within:bg-white">
@@ -731,6 +742,31 @@ export default function AdminDashboardPage() {
                         }`}
                       >
                         {tab.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="space-y-2 xl:col-span-2">
+                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Wilaya</label>
+                <div className="flex flex-wrap gap-2">
+                  {wilayaFilters.map((wilaya) => {
+                    const active = activeWilaya === wilaya;
+                    const count = wilaya === "all" ? dashboardTeams.length : wilayaCounts[wilaya] ?? 0;
+
+                    return (
+                      <button
+                        key={wilaya}
+                        type="button"
+                        onClick={() => setActiveWilaya(wilaya)}
+                        className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                          active
+                            ? "border-[#1B4D80] bg-[#1B4D80] text-white shadow-[0_12px_30px_rgba(27,77,128,0.25)]"
+                            : "border-slate-200 bg-white text-slate-600 hover:border-[#1B4D80]/25 hover:text-[#1B4D80]"
+                        }`}
+                      >
+                        {wilaya === "all" ? `All wilayas (${count})` : `${wilaya} (${count})`}
                       </button>
                     );
                   })}
