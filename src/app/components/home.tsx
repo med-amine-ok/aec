@@ -87,7 +87,7 @@ export default function Hero() {
         >
           <div className="text-center sm:text-left">
             <p className="text-sm text-[#BAD7E9]/70">Date</p>
-            <p className="font-semibold text-[#F4F6FF]">April 16–18, 2026</p>
+            <p className="font-semibold text-[#F4F6FF]">Stay Tuned!</p>
           </div>
 
           <div className=" sm:block w-px h-8 bg-[#BAD7E9]/20"></div>
