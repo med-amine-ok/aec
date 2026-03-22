@@ -15,7 +15,7 @@ export default function Register() {
         <div className="relative z-10">
           <Nav />
           <Regclose/>
-          {/* <Reg/> */}
+          <Reg/> 
         </div>
       </div>
     </ErrorBoundary>
