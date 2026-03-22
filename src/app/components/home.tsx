@@ -107,7 +107,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
           className="w-full flex justify-center"
         >
-          <Timer targetDate="2026-03-22T22:00:00" />
+          <Timer targetDate="2026-04-04T00:00:00" />
         </motion.div>
 
         {/* CTA */}
