@@ -75,8 +75,12 @@ export default function Bottom() {
             whileInView={{ y: 0, opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: .2, duration: .6, ease: "easeOut" }}
+            className="w-full flex justify-center"
           >
-            <img src="/aecWH.svg" className="w-[150px]  mb-10" />
+            <img
+              src="/aecc.svg"
+              className="mt-1 w-[90vw] max-w-[90vw] h-auto object-contain "
+            />
           </motion.div>
         </div>
       </motion.div>

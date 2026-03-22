@@ -187,7 +187,7 @@ export default function FAQ() {
                     >
                       <div className="px-4 sm:px-5 md:px-6 pb-4 sm:pb-5 pt-0.5 z-10 relative">
                         <div className="pl-0 sm:pl-6 border-t border-white/10 pt-3 sm:pt-4">
-                          <p className="text-white/85 text-lg sm:text-xl md:text-2xl leading-relaxed font-light tracking-[0.01em] drop-shadow max-w-[92ch]">
+                          <p className="text-white/85 text-lg sm:text-xl md:text-2xl leading-relaxed font-light tracking-[0.01em] drop-shadow-[0_4px_2px_rgba(0,0,0,0.75)] max-w-[92ch]">
                             {item.answer}
                           </p>
                         </div>
