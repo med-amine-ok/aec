@@ -143,3 +143,24 @@ $$;
 
 revoke all on function public.update_team_status(bigint, text) from public;
 grant execute on function public.update_team_status(bigint, text) to anon;
+
+create or replace function public.delete_teams(p_team_ids bigint[])
+returns integer
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  deleted_count integer;
+begin
+  delete from public.teams
+  where id = any(p_team_ids);
+
+  get diagnostics deleted_count = row_count;
+
+  return deleted_count;
+end;
+$$;
+
+revoke all on function public.delete_teams(bigint[]) from public;
+grant execute on function public.delete_teams(bigint[]) to anon;

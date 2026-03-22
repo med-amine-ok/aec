@@ -30,6 +30,7 @@ import {
   ShieldCheck,
   Sparkles,
   SquareSlash,
+  Trash2,
   X,
 } from "lucide-react";
 import {
@@ -295,6 +296,7 @@ export default function AdminDashboardPage() {
   const [teams, setTeams] = useState<TeamRow[]>([]);
   const [members, setMembers] = useState<MemberRow[]>([]);
   const [statusMap, setStatusMap] = useState<Record<string, TeamStatus>>({});
+  const [selectedTeamIds, setSelectedTeamIds] = useState<number[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -445,6 +447,10 @@ export default function AdminDashboardPage() {
   const selectedTeam = selectedTeamId === null ? null : dashboardTeams.find((entry) => entry.team.id === selectedTeamId) ?? null;
   const selectedMembers = selectedTeam?.members ?? [];
   const selectedStatus = selectedTeam ? statusMap[String(selectedTeam.team.id)] ?? "pending" : "pending";
+  const selectedTeamIdSet = useMemo(() => new Set(selectedTeamIds), [selectedTeamIds]);
+  const selectedTeamCount = selectedTeamIds.length;
+  const visibleTeamIds = useMemo(() => visibleTeams.map((team) => team.team.id), [visibleTeams]);
+  const allVisibleTeamsSelected = visibleTeamIds.length > 0 && visibleTeamIds.every((teamId) => selectedTeamIdSet.has(teamId));
 
   const stats = useMemo(() => {
     const totals = dashboardTeams.reduce(
@@ -495,6 +501,85 @@ export default function AdminDashboardPage() {
     });
   };
 
+  const toggleTeamSelection = (teamId: number) => {
+    setSelectedTeamIds((current) =>
+      current.includes(teamId) ? current.filter((currentId) => currentId !== teamId) : [...current, teamId]
+    );
+  };
+
+  const toggleVisibleTeamSelection = () => {
+    setSelectedTeamIds((current) => {
+      if (visibleTeamIds.length === 0) {
+        return current;
+      }
+
+      const currentSet = new Set(current);
+      const shouldSelectAllVisible = !visibleTeamIds.every((teamId) => currentSet.has(teamId));
+
+      if (shouldSelectAllVisible) {
+        return Array.from(new Set([...current, ...visibleTeamIds]));
+      }
+
+      return current.filter((teamId) => !visibleTeamIds.includes(teamId));
+    });
+  };
+
+  const clearSelectedTeams = () => {
+    setSelectedTeamIds([]);
+  };
+
+  const deleteTeams = (teamIds: number[]) => {
+    if (teamIds.length === 0) {
+      return;
+    }
+
+    const teamsToDelete = dashboardTeams.filter((entry) => teamIds.includes(entry.team.id));
+    const previewNames = teamsToDelete.slice(0, 3).map((entry) => entry.team.team_name);
+    const previewText = previewNames.length > 0 ? `\n\n${previewNames.join("\n")}${teamsToDelete.length > previewNames.length ? "\n..." : ""}` : "";
+    const confirmed = window.confirm(
+      `Delete ${teamIds.length} team${teamIds.length === 1 ? "" : "s"}? This permanently removes the team records and their members.${previewText}`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    startTransition(async () => {
+      const supabase = getSupabaseClient() as any;
+
+      if (!supabase) {
+        toast.error("Supabase client is unavailable.");
+        setRefreshing(false);
+        return;
+      }
+
+      setRefreshing(true);
+
+      const { data, error } = await supabase.rpc("delete_teams", {
+        p_team_ids: teamIds,
+      });
+
+      if (error) {
+        setRefreshing(false);
+        toast.error(error.message ?? "Failed to delete teams.");
+        return;
+      }
+
+      const deletedCount = typeof data === "number" ? data : teamIds.length;
+
+      setSelectedTeamIds((current) => current.filter((teamId) => !teamIds.includes(teamId)));
+      setSelectedTeamId((current) => (current !== null && teamIds.includes(current) ? null : current));
+
+      if (deletedCount === 0) {
+        toast.error("No teams were deleted.");
+      } else {
+        toast.success(`Deleted ${deletedCount} team${deletedCount === 1 ? "" : "s"}`);
+      }
+
+      await loadDashboardData();
+    });
+  };
+
   const handleRefresh = () => {
     setRefreshing(true);
     loadDashboardData(true);
@@ -523,6 +608,41 @@ export default function AdminDashboardPage() {
   };
 
   const columns: ColumnDef<DashboardTeam>[] = [
+    {
+      id: "select",
+      header: () => (
+        <button
+          type="button"
+          onClick={(event) => {
+            event.stopPropagation();
+            toggleVisibleTeamSelection();
+          }}
+          className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80] transition hover:border-[#1B4D80]/40"
+          aria-label={allVisibleTeamsSelected ? "Deselect visible teams" : "Select visible teams"}
+        >
+          <span
+            className={`block h-3 w-3 rounded-[3px] ${allVisibleTeamsSelected ? "bg-[#1B4D80]" : "bg-transparent"}`}
+          />
+        </button>
+      ),
+      cell: ({ row }) => {
+        const isSelected = selectedTeamIdSet.has(row.original.team.id);
+
+        return (
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleTeamSelection(row.original.team.id);
+            }}
+            className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80] transition hover:border-[#1B4D80]/40"
+            aria-label={isSelected ? `Deselect ${row.original.team.team_name}` : `Select ${row.original.team.team_name}`}
+          >
+            <span className={`block h-3 w-3 rounded-[3px] ${isSelected ? "bg-[#1B4D80]" : "bg-transparent"}`} />
+          </button>
+        );
+      },
+    },
     {
       accessorKey: "team.team_name",
       header: "Team",
@@ -591,6 +711,17 @@ export default function AdminDashboardPage() {
             <CircleDashed className="h-3.5 w-3.5" />
             Pending
           </button>
+          <button
+            type="button"
+            onClick={(event) => {
+              event.stopPropagation();
+              deleteTeams([row.original.team.id]);
+            }}
+            className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 transition hover:bg-rose-100"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+            Delete
+          </button>
         </div>
       ),
     },
@@ -647,6 +778,7 @@ export default function AdminDashboardPage() {
             <div className="max-w-3xl space-y-3">
               <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50/80 px-3 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-[#1B4D80]">
                 <ShieldCheck className="h-3.5 w-3.5" />
+                <Sparkles className="h-3.5 w-3.5" />
                 AEC admin control center
               </div>
               <div className="space-y-2">
@@ -817,6 +949,34 @@ export default function AdminDashboardPage() {
             </div>
           </div>
 
+          {selectedTeamCount > 0 ? (
+            <div className="mb-4 flex flex-col gap-3 rounded-[28px] border border-rose-200 bg-rose-50/70 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-semibold text-rose-900">
+                  {selectedTeamCount} team{selectedTeamCount === 1 ? "" : "s"} selected
+                </p>
+                <p className="mt-1 text-xs text-rose-700">Use the delete button to remove the selected teams and their members.</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={clearSelectedTeams}
+                  className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-slate-300"
+                >
+                  Clear selection
+                </button>
+                <button
+                  type="button"
+                  onClick={() => deleteTeams(selectedTeamIds)}
+                  className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  Delete selected
+                </button>
+              </div>
+            </div>
+          ) : null}
+
           {loading ? (
             <div className="space-y-3">
               <div className="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 md:grid-cols-6">
@@ -861,6 +1021,7 @@ export default function AdminDashboardPage() {
                     <tbody>
                       {table.getRowModel().rows.map((row) => {
                         const teamStatus = row.original.status;
+                        const isSelected = selectedTeamIdSet.has(row.original.team.id);
 
                         return (
                           <motion.tr
@@ -868,6 +1029,8 @@ export default function AdminDashboardPage() {
                             layout
                             onClick={() => setSelectedTeamId(row.original.team.id)}
                             className={`cursor-pointer border-b border-slate-100 transition hover:bg-slate-50 ${
+                              isSelected ? "ring-1 ring-inset ring-[#1B4D80]/20" : ""
+                            } ${
                               teamStatus === "accepted"
                                 ? "bg-emerald-50/35"
                                 : teamStatus === "rejected"
@@ -903,6 +1066,8 @@ export default function AdminDashboardPage() {
                     }}
                     onClick={() => setSelectedTeamId(entry.team.id)}
                     className={`group rounded-[28px] border p-4 text-left shadow-[0_18px_50px_rgba(27,77,128,0.08)] transition hover:-translate-y-0.5 ${
+                      selectedTeamIdSet.has(entry.team.id) ? "ring-1 ring-inset ring-[#1B4D80]/20" : ""
+                    } ${
                       entry.status === "accepted"
                         ? "border-emerald-200 bg-emerald-50/60"
                         : entry.status === "rejected"
@@ -918,7 +1083,20 @@ export default function AdminDashboardPage() {
                         </div>
                         <p className="mt-1 text-sm text-slate-600">{entry.team.wilaya}</p>
                       </div>
-                      <ChevronRight className="mt-1 h-4 w-4 text-slate-400 transition group-hover:translate-x-0.5" />
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={(event) => {
+                            event.stopPropagation();
+                            toggleTeamSelection(entry.team.id);
+                          }}
+                          className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80]"
+                          aria-label={selectedTeamIdSet.has(entry.team.id) ? `Deselect ${entry.team.team_name}` : `Select ${entry.team.team_name}`}
+                        >
+                          <span className={`block h-3 w-3 rounded-[3px] ${selectedTeamIdSet.has(entry.team.id) ? "bg-[#1B4D80]" : "bg-transparent"}`} />
+                        </button>
+                        <ChevronRight className="mt-1 h-4 w-4 text-slate-400 transition group-hover:translate-x-0.5" />
+                      </div>
                     </div>
 
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-600">
@@ -962,6 +1140,16 @@ export default function AdminDashboardPage() {
                         className="rounded-full border border-amber-200 bg-white px-3 py-1.5 text-xs font-semibold text-amber-700"
                       >
                         Pending
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(event) => {
+                          event.stopPropagation();
+                          deleteTeams([entry.team.id]);
+                        }}
+                        className="rounded-full border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700"
+                      >
+                        Delete
                       </button>
                     </div>
                   </div>
@@ -1062,6 +1250,14 @@ export default function AdminDashboardPage() {
                         className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600"
                       >
                         Pending
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => deleteTeams([selectedTeam.team.id])}
+                        className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        Delete team
                       </button>
                     </div>
                   </div>
