@@ -26,8 +26,8 @@ export default function Home() {
         {/* Sponsors Logo Scroll Section */}
         <div
           id="sponsors"
-          className="relative z-30 flex flex-col items-center w-full py-16 md:py-20"
-          style={{ background: '#1B4D80' }}
+          className="relative z-30 flex flex-col items-center w-full py-8 md:py-14"
+          style={{ background: "#1B4D80" }}
         >
           {/* Decorative top line */}
           <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#F3C623] to-transparent opacity-30"></div>
@@ -38,20 +38,21 @@ export default function Home() {
           <h2
             className="aec text-3xl md:text-5xl font-semibold mb-2"
             style={{
-              background: 'linear-gradient(135deg, #F4F6FF 0%, #BAD7E9 50%, #F3C623 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background:
+                "linear-gradient(135deg, #F4F6FF 0%, #BAD7E9 50%, #F4F6FF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
             Our Sponsors
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#F3C623] to-transparent  rounded-full"></div>
 
-          <div className="w-full max-w-6xl mx-auto mt-8 bg-[#F4F6FF] py-8 md:py-12 px-4 rounded-3xl shadow-[0_12px_40px_rgba(244,246,255,0.05)] border border-white/20 relative overflow-hidden">
+          <div className="w-full max-w-6xl mx-auto mt-6 bg-[#F4F6FF] py-3 md:py-5 px-4 rounded-3xl shadow-[0_12px_40px_rgba(244,246,255,0.05)] border border-white/20 relative overflow-hidden">
             {/* Subtle inner shine */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"></div>
-            
+
             <div className="relative z-10 w-full">
               <LogoLoop
                 logos={[
@@ -71,34 +72,29 @@ export default function Home() {
           </div>
         </div>
 
-          {/* <div
-          id="sponsors"
-          className="relative z-30 flex flex-col items-center w-full py-16 md:py-20 mt-[-4rem]"
-          style={{ background: '#1B4D80' }}
+        {/* <div
+          className="relative z-30 flex flex-col items-center w-full py-8 md:py-14"
+          style={{ background: "#1B4D80" }}
         >
-         
-          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#F3C623] to-transparent opacity-30"></div>
+          <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-transparent via-[#F3C623] to-transparent opacity-30 "></div>
 
-          <span className=" mt-[-3rem] inline-block text-xs font-semibold tracking-[0.25em] uppercase text-[#EB8317] mb-3">
-            Proudly Supported By
-          </span> 
           <h2
-            className="aec text-3xl md:text-5xl font-semibold mb-2 "
+            className="aec text-3xl md:text-5xl font-semibold mb-2 mt-[-0.5rem]"
             style={{
-              background: 'linear-gradient(135deg, #F4F6FF 0%, #BAD7E9 50%, #F3C623 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
+              background:
+                "linear-gradient(135deg, #F4F6FF 0%, #BAD7E9 50%, #F4F6FF 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
             }}
           >
-            Our Sponsors
+            Our Media Partners
           </h2>
           <div className="w-16 h-1 bg-gradient-to-r from-transparent via-[#F3C623] to-transparent rounded-full"></div>
 
-          <div className="w-full max-w-6xl mx-auto mt-8 bg-[#F4F6FF] py-8 md:py-12 px-4 rounded-3xl shadow-[0_12px_40px_rgba(244,246,255,0.05)] border border-white/20 relative overflow-hidden">
-          
+          <div className="w-full max-w-6xl mx-auto mt-6 bg-[#F4F6FF] py-3 md:py-5 px-4 rounded-3xl shadow-[0_12px_40px_rgba(244,246,255,0.05)] border border-white/20 relative overflow-hidden">
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent pointer-events-none"></div>
-            
+
             <div className="relative z-10 w-full">
               <LogoLoop
                 logos={[
