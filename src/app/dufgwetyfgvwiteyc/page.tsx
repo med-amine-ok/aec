@@ -663,11 +663,7 @@ export default function AdminDashboardPage() {
       header: "Members",
       cell: ({ row }) => <span className="font-medium text-slate-700">{row.original.team.num_members}</span>,
     },
-    {
-      accessorKey: "team.created_at",
-      header: "Created at",
-      cell: ({ row }) => <span className="text-slate-500">{formatDateTime(row.original.team.created_at)}</span>,
-    },
+   
     {
       accessorKey: "status",
       header: "Status",
@@ -743,7 +739,7 @@ export default function AdminDashboardPage() {
         ["Participated before", formatBoolean(selectedTeam.team.participated_before)],
         ["Hands-on experience", formatBoolean(selectedTeam.team.hands_on_experience)],
         ["Heard about", selectedTeam.team.heard_about ?? ""],
-        ["Created at", formatDateTime(selectedTeam.team.created_at)],
+       
       ]
     : [];
 
@@ -1181,7 +1177,7 @@ export default function AdminDashboardPage() {
                 <div className="flex items-start justify-between gap-4">
                   <div className="space-y-2">
                     <div className="inline-flex items-center gap-2 rounded-full border border-sky-100 bg-sky-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-[#1B4D80]">
-                      Team detail drawer
+                      Team detail
                     </div>
                     <div>
                       <h2 className="text-2xl font-semibold text-slate-950">{selectedTeam.team.team_name}</h2>
