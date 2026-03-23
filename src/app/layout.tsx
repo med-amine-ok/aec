@@ -6,7 +6,7 @@ import OceanBackground from "./components/OceanBackground";
 import ErrorBoundary from "./components/error";
 import GlobalSplashScreen from "./components/GlobalSplashScreen";
 import { cn } from "@/lib/utils";
-
+import { Analytics } from "@vercel/analytics/next"
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 
@@ -37,6 +37,7 @@ export default function RootLayout({
       <body className={`${raleway.variable} antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
           <GlobalSplashScreen />
+          <Analytics />
           <OceanBackground />
         </ErrorBoundary>
         {children}
