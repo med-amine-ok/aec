@@ -317,7 +317,7 @@ const VOLUME_FRAGMENT = /* glsl */ `
 export default function OceanBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const showPlane = pathname !== '/dufgwetyfgvwiteyc';
+  const showPlane = pathname !== '/dashboard';
 
   useEffect(() => {
     const container = containerRef.current;

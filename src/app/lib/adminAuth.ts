@@ -2,7 +2,7 @@ export const ADMIN_LOGIN_EMAIL = 'aec@vic.com';
 export const ADMIN_LOGIN_PASSWORD = 't7ya/aec-2026';
 export const ADMIN_SESSION_KEY = 'aec_admin_session';
 export const ADMIN_STATUS_KEY = 'aec_admin_team_statuses';
-export const ADMIN_DASHBOARD_PATH = '/dufgwetyfgvwiteyc';
+export const ADMIN_DASHBOARD_PATH = '/dashboard';
 export const ADMIN_LOGIN_PATH = '/admin-login';
 
 export type TeamStatus = 'pending' | 'accepted' | 'rejected';

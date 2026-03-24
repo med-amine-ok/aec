@@ -647,9 +647,13 @@ export default function AdminDashboardPage() {
       accessorKey: "team.team_name",
       header: "Team",
       cell: ({ row }) => (
-        <div className="space-y-1">
-          <p className="font-semibold text-slate-900">{row.original.team.team_name}</p>
-          <p className="text-xs text-slate-500">{row.original.members.length} connected members</p>
+        <div className="max-w-[200px] space-y-1">
+          <p className="truncate font-semibold text-slate-900" title={row.original.team.team_name}>
+            {row.original.team.team_name}
+          </p>
+          <p className="truncate text-xs text-slate-500" title={`${row.original.members.length} connected members`}>
+            {row.original.members.length} connected members
+          </p>
         </div>
       ),
     },
@@ -1100,10 +1104,7 @@ export default function AdminDashboardPage() {
                         <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Members</p>
                         <p className="mt-1 font-semibold text-slate-900">{entry.team.num_members}</p>
                       </div>
-                      <div className="rounded-2xl border border-white/70 bg-white/70 px-3 py-2">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Created</p>
-                        <p className="mt-1 font-semibold text-slate-900">{formatDateTime(entry.team.created_at)}</p>
-                      </div>
+                     
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2">
