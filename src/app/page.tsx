@@ -71,8 +71,8 @@ export default function Home() {
             </div>
           </div>
         </div>
-
-        {/* <div
+{/* 
+        <div
           className="relative z-30 flex flex-col items-center w-full py-8 md:py-14"
           style={{ background: "#1B4D80" }}
         >
@@ -98,8 +98,12 @@ export default function Home() {
             <div className="relative z-10 w-full">
               <LogoLoop
                 logos={[
-                  { src: "/viclogo.png", alt: "VIC" },
-                  { src: "/inphamedis.png", alt: "INPHAMEDIS" },
+                  { src: "/El_Bilad.png", alt: "EL BILAD" },
+                  
+                 
+                  { src: "/ch1.png", alt: "ch1" },
+                   { src: "/jow.svg", alt: "JOW" },
+                  { src: "/jilfm.png", alt: "JILFM" },
                 ]}
                 speed={100}
                 direction="right"

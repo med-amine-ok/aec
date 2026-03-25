@@ -28,7 +28,7 @@ function Counter({ value }: { value: number }) {
 
 const cities = [
   { id: "algiers", name: "Algiers", x: "53%", y: "8%", logo: "/viclogo.png", club: "Visionary Innovation Club", place: "National School Polytechnic of Algiers", insta: "https://www.instagram.com/vic.enp/" },
-  { id: "oran", name: "Oran", x: "40%", y: "16%", logo: "/epc.png", club: "Engineering Pioneers Club", place: "National School Polytechnic of Oran", insta: "https://www.instagram.com/engineering_pioneers_club/" },
+  { id: "oran", name: "Oran", x: "40%", y: "16%", logo: "/ep.png", club: "", place: "National School Polytechnic of Oran", insta: "https://www.instagram.com/vic.enp/" },
   { id: "constantine", name: "Constantine", x: "65%", y: "13%", logo: "/skybridge.png", club: "Skybridge Club", place: "National School Polytechnic of Constantine", insta: "https://www.instagram.com/skybridge.club/" },
   { id: "ouargla", name: "Ouargla", x: "61%", y: "38%", logo: "/SCO.PNG", club: "Scientific Corner Ouargla", place: "University of Ouargla", insta: "https://www.instagram.com/scientific_corner/" },
 ];
