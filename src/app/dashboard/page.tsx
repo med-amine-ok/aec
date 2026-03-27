@@ -711,7 +711,7 @@ export default function AdminDashboardPage() {
             <CircleDashed className="h-3.5 w-3.5" />
             Pending
           </button>
-          <button
+          {/* <button
             type="button"
             onClick={(event) => {
               event.stopPropagation();
@@ -721,7 +721,7 @@ export default function AdminDashboardPage() {
           >
             <Trash2 className="h-3.5 w-3.5" />
             Delete
-          </button>
+          </button> */}
         </div>
       ),
     },
@@ -906,7 +906,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-3 xl:min-w-[420px]">
+            {/* <div className="grid gap-2 sm:grid-cols-3 xl:min-w-[420px]">
               <button
                 type="button"
                 onClick={() => exportTeams("all")}
@@ -931,7 +931,7 @@ export default function AdminDashboardPage() {
                 <Download className="h-4 w-4" />
                 Rejected CSV
               </button>
-            </div>
+            </div> */}
           </div>
         </section>
 
@@ -965,14 +965,14 @@ export default function AdminDashboardPage() {
                 >
                   Clear selection
                 </button>
-                <button
+                {/* <button
                   type="button"
                   onClick={() => deleteTeams(selectedTeamIds)}
                   className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
                 >
                   <Trash2 className="h-4 w-4" />
                   Delete selected
-                </button>
+                </button> */}
               </div>
             </div>
           ) : null}
