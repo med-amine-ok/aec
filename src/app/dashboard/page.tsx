@@ -1,6 +1,12 @@
 "use client";
 
-import { useDeferredValue, useEffect, useMemo, useState, useTransition } from "react";
+import {
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+  useTransition,
+} from "react";
 import { useRouter } from "next/navigation";
 import {
   ColumnDef,
@@ -92,7 +98,8 @@ const statusLabels: Record<TeamStatus, string> = {
 
 const statusStyles: Record<TeamStatus, string> = {
   pending: "border-amber-200 bg-amber-50 text-amber-700 shadow-amber-100/60",
-  accepted: "border-emerald-200 bg-emerald-50 text-emerald-700 shadow-emerald-100/60",
+  accepted:
+    "border-emerald-200 bg-emerald-50 text-emerald-700 shadow-emerald-100/60",
   rejected: "border-rose-200 bg-rose-50 text-rose-700 shadow-rose-100/60",
 };
 
@@ -103,13 +110,39 @@ const filterTabs: Array<{ id: "all" | TeamStatus; label: string }> = [
   { id: "rejected", label: "Rejected" },
 ];
 
-const wilayaFilters = ["all", "Alger", "Oran", "Ouargla", "Constantine"] as const;
+const wilayaFilters = [
+  "all",
+  "Alger",
+  "Oran",
+  "Ouargla",
+  "Constantine",
+] as const;
 
 const dashboardStats = [
-  { key: "total", label: "Total teams", icon: LayoutDashboard, tone: "from-sky-500 to-cyan-400" },
-  { key: "pending", label: "Pending", icon: CircleDashed, tone: "from-amber-500 to-orange-400" },
-  { key: "accepted", label: "Accepted", icon: CheckCircle2, tone: "from-emerald-500 to-teal-400" },
-  { key: "rejected", label: "Rejected", icon: SquareSlash, tone: "from-rose-500 to-red-400" },
+  {
+    key: "total",
+    label: "Total teams",
+    icon: LayoutDashboard,
+    tone: "from-sky-500 to-cyan-400",
+  },
+  {
+    key: "pending",
+    label: "Pending",
+    icon: CircleDashed,
+    tone: "from-amber-500 to-orange-400",
+  },
+  {
+    key: "accepted",
+    label: "Accepted",
+    icon: CheckCircle2,
+    tone: "from-emerald-500 to-teal-400",
+  },
+  {
+    key: "rejected",
+    label: "Rejected",
+    icon: SquareSlash,
+    tone: "from-rose-500 to-red-400",
+  },
 ] as const;
 
 const adminFontClass = "font-[family-name:var(--font-sans)]";
@@ -206,7 +239,9 @@ const flattenTeamsForExport = (teams: DashboardTeam[]) =>
           team_status: statusLabels[team.status],
           wilaya: team.team.wilaya,
           num_members: team.team.num_members,
-          different_universities: formatBoolean(team.team.different_universities),
+          different_universities: formatBoolean(
+            team.team.different_universities,
+          ),
           can_attend_physically: formatBoolean(team.team.can_attend_physically),
           participated_before: formatBoolean(team.team.participated_before),
           participation_experience: team.team.participation_experience ?? "",
@@ -262,12 +297,22 @@ const flattenTeamsForExport = (teams: DashboardTeam[]) =>
   });
 
 const statusBadge = (status: TeamStatus) => (
-  <span className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] ${statusStyles[status]}`}>
+  <span
+    className={`inline-flex items-center rounded-full border px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] ${statusStyles[status]}`}
+  >
     {statusLabels[status]}
   </span>
 );
 
-const MemberLink = ({ href, icon: Icon, label }: { href: string; icon: LucideIcon; label: string }) => {
+const MemberLink = ({
+  href,
+  icon: Icon,
+  label,
+}: {
+  href: string;
+  icon: LucideIcon;
+  label: string;
+}) => {
   if (!href || href === "#") {
     return (
       <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-400">
@@ -302,7 +347,8 @@ export default function AdminDashboardPage() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeFilter, setActiveFilter] = useState<"all" | TeamStatus>("all");
-  const [activeWilaya, setActiveWilaya] = useState<(typeof wilayaFilters)[number]>("all");
+  const [activeWilaya, setActiveWilaya] =
+    useState<(typeof wilayaFilters)[number]>("all");
   const [selectedTeamId, setSelectedTeamId] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<DetailTab>("overview");
   const [isPending, startTransition] = useTransition();
@@ -353,7 +399,7 @@ export default function AdminDashboardPage() {
         teamRows.reduce<Record<string, TeamStatus>>((accumulator, team) => {
           accumulator[String(team.id)] = team.status ?? "pending";
           return accumulator;
-        }, {})
+        }, {}),
       );
 
       let memberRows: MemberRow[] = [];
@@ -378,7 +424,10 @@ export default function AdminDashboardPage() {
         toast.success("Dashboard refreshed");
       }
     } catch (fetchError) {
-      const message = fetchError instanceof Error ? fetchError.message : "Unable to fetch dashboard data.";
+      const message =
+        fetchError instanceof Error
+          ? fetchError.message
+          : "Unable to fetch dashboard data.";
       setErrorMessage(message);
       toast.error(message);
     } finally {
@@ -412,7 +461,12 @@ export default function AdminDashboardPage() {
     return teams.map((team) => {
       const teamMembers = teamMap.get(team.id) ?? [];
       const status = statusMap[String(team.id)] ?? "pending";
-      const searchIndex = [team.team_name, team.wilaya, ...teamMembers.map((member) => member.university), ...teamMembers.map((member) => member.field_of_study)]
+      const searchIndex = [
+        team.team_name,
+        team.wilaya,
+        ...teamMembers.map((member) => member.university),
+        ...teamMembers.map((member) => member.field_of_study),
+      ]
         .join(" ")
         .toLowerCase();
 
@@ -429,28 +483,51 @@ export default function AdminDashboardPage() {
     const trimmedSearch = deferredSearch.trim().toLowerCase();
 
     return dashboardTeams.filter((entry) => {
-      const matchesFilter = activeFilter === "all" ? true : entry.status === activeFilter;
-      const matchesWilaya = activeWilaya === "all" ? true : entry.team.wilaya === activeWilaya;
-      const matchesSearch = trimmedSearch.length === 0 ? true : entry.searchIndex.includes(trimmedSearch);
+      const matchesFilter =
+        activeFilter === "all" ? true : entry.status === activeFilter;
+      const matchesWilaya =
+        activeWilaya === "all" ? true : entry.team.wilaya === activeWilaya;
+      const matchesSearch =
+        trimmedSearch.length === 0
+          ? true
+          : entry.searchIndex.includes(trimmedSearch);
 
       return matchesFilter && matchesWilaya && matchesSearch;
     });
   }, [activeFilter, activeWilaya, dashboardTeams, deferredSearch]);
 
   const wilayaCounts = useMemo(() => {
-    return dashboardTeams.reduce<Record<string, number>>((accumulator, entry) => {
-      accumulator[entry.team.wilaya] = (accumulator[entry.team.wilaya] ?? 0) + 1;
-      return accumulator;
-    }, {});
+    return dashboardTeams.reduce<Record<string, number>>(
+      (accumulator, entry) => {
+        accumulator[entry.team.wilaya] =
+          (accumulator[entry.team.wilaya] ?? 0) + 1;
+        return accumulator;
+      },
+      {},
+    );
   }, [dashboardTeams]);
 
-  const selectedTeam = selectedTeamId === null ? null : dashboardTeams.find((entry) => entry.team.id === selectedTeamId) ?? null;
+  const selectedTeam =
+    selectedTeamId === null
+      ? null
+      : (dashboardTeams.find((entry) => entry.team.id === selectedTeamId) ??
+        null);
   const selectedMembers = selectedTeam?.members ?? [];
-  const selectedStatus = selectedTeam ? statusMap[String(selectedTeam.team.id)] ?? "pending" : "pending";
-  const selectedTeamIdSet = useMemo(() => new Set(selectedTeamIds), [selectedTeamIds]);
+  const selectedStatus = selectedTeam
+    ? (statusMap[String(selectedTeam.team.id)] ?? "pending")
+    : "pending";
+  const selectedTeamIdSet = useMemo(
+    () => new Set(selectedTeamIds),
+    [selectedTeamIds],
+  );
   const selectedTeamCount = selectedTeamIds.length;
-  const visibleTeamIds = useMemo(() => visibleTeams.map((team) => team.team.id), [visibleTeams]);
-  const allVisibleTeamsSelected = visibleTeamIds.length > 0 && visibleTeamIds.every((teamId) => selectedTeamIdSet.has(teamId));
+  const visibleTeamIds = useMemo(
+    () => visibleTeams.map((team) => team.team.id),
+    [visibleTeams],
+  );
+  const allVisibleTeamsSelected =
+    visibleTeamIds.length > 0 &&
+    visibleTeamIds.every((teamId) => selectedTeamIdSet.has(teamId));
 
   const stats = useMemo(() => {
     const totals = dashboardTeams.reduce(
@@ -459,7 +536,7 @@ export default function AdminDashboardPage() {
         accumulator[entry.status] += 1;
         return accumulator;
       },
-      { total: 0, pending: 0, accepted: 0, rejected: 0 }
+      { total: 0, pending: 0, accepted: 0, rejected: 0 },
     );
 
     return totals;
@@ -487,7 +564,8 @@ export default function AdminDashboardPage() {
       if (error) {
         toast.error(error.message ?? "Failed to save status.");
         setStatusMap((current) => {
-          const fallbackStatus = teams.find((team) => team.id === teamId)?.status ?? "pending";
+          const fallbackStatus =
+            teams.find((team) => team.id === teamId)?.status ?? "pending";
 
           return {
             ...current,
@@ -503,7 +581,9 @@ export default function AdminDashboardPage() {
 
   const toggleTeamSelection = (teamId: number) => {
     setSelectedTeamIds((current) =>
-      current.includes(teamId) ? current.filter((currentId) => currentId !== teamId) : [...current, teamId]
+      current.includes(teamId)
+        ? current.filter((currentId) => currentId !== teamId)
+        : [...current, teamId],
     );
   };
 
@@ -514,7 +594,9 @@ export default function AdminDashboardPage() {
       }
 
       const currentSet = new Set(current);
-      const shouldSelectAllVisible = !visibleTeamIds.every((teamId) => currentSet.has(teamId));
+      const shouldSelectAllVisible = !visibleTeamIds.every((teamId) =>
+        currentSet.has(teamId),
+      );
 
       if (shouldSelectAllVisible) {
         return Array.from(new Set([...current, ...visibleTeamIds]));
@@ -533,11 +615,18 @@ export default function AdminDashboardPage() {
       return;
     }
 
-    const teamsToDelete = dashboardTeams.filter((entry) => teamIds.includes(entry.team.id));
-    const previewNames = teamsToDelete.slice(0, 3).map((entry) => entry.team.team_name);
-    const previewText = previewNames.length > 0 ? `\n\n${previewNames.join("\n")}${teamsToDelete.length > previewNames.length ? "\n..." : ""}` : "";
+    const teamsToDelete = dashboardTeams.filter((entry) =>
+      teamIds.includes(entry.team.id),
+    );
+    const previewNames = teamsToDelete
+      .slice(0, 3)
+      .map((entry) => entry.team.team_name);
+    const previewText =
+      previewNames.length > 0
+        ? `\n\n${previewNames.join("\n")}${teamsToDelete.length > previewNames.length ? "\n..." : ""}`
+        : "";
     const confirmed = window.confirm(
-      `Delete ${teamIds.length} team${teamIds.length === 1 ? "" : "s"}? This permanently removes the team records and their members.${previewText}`
+      `Delete ${teamIds.length} team${teamIds.length === 1 ? "" : "s"}? This permanently removes the team records and their members.${previewText}`,
     );
 
     if (!confirmed) {
@@ -567,13 +656,19 @@ export default function AdminDashboardPage() {
 
       const deletedCount = typeof data === "number" ? data : teamIds.length;
 
-      setSelectedTeamIds((current) => current.filter((teamId) => !teamIds.includes(teamId)));
-      setSelectedTeamId((current) => (current !== null && teamIds.includes(current) ? null : current));
+      setSelectedTeamIds((current) =>
+        current.filter((teamId) => !teamIds.includes(teamId)),
+      );
+      setSelectedTeamId((current) =>
+        current !== null && teamIds.includes(current) ? null : current,
+      );
 
       if (deletedCount === 0) {
         toast.error("No teams were deleted.");
       } else {
-        toast.success(`Deleted ${deletedCount} team${deletedCount === 1 ? "" : "s"}`);
+        toast.success(
+          `Deleted ${deletedCount} team${deletedCount === 1 ? "" : "s"}`,
+        );
       }
 
       await loadDashboardData();
@@ -587,7 +682,10 @@ export default function AdminDashboardPage() {
 
   const exportTeams = (status: "all" | TeamStatus) => {
     const exportSet = visibleTeams.length > 0 ? visibleTeams : dashboardTeams;
-    const scopedTeams = status === "all" ? exportSet : exportSet.filter((entry) => entry.status === status);
+    const scopedTeams =
+      status === "all"
+        ? exportSet
+        : exportSet.filter((entry) => entry.status === status);
 
     if (scopedTeams.length === 0) {
       toast.error("No teams match the current export filter.");
@@ -596,10 +694,12 @@ export default function AdminDashboardPage() {
 
     downloadCsv(
       `aec-teams-${status}-${new Date().toISOString().slice(0, 10)}.csv`,
-      flattenTeamsForExport(scopedTeams)
+      flattenTeamsForExport(scopedTeams),
     );
 
-    toast.success(`Exported ${status === "all" ? "all teams" : statusLabels[status].toLowerCase()} teams`);
+    toast.success(
+      `Exported ${status === "all" ? "all teams" : statusLabels[status].toLowerCase()} teams`,
+    );
   };
 
   const goToLogin = () => {
@@ -618,7 +718,11 @@ export default function AdminDashboardPage() {
             toggleVisibleTeamSelection();
           }}
           className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80] transition hover:border-[#1B4D80]/40"
-          aria-label={allVisibleTeamsSelected ? "Deselect visible teams" : "Select visible teams"}
+          aria-label={
+            allVisibleTeamsSelected
+              ? "Deselect visible teams"
+              : "Select visible teams"
+          }
         >
           <span
             className={`block h-3 w-3 rounded-[3px] ${allVisibleTeamsSelected ? "bg-[#1B4D80]" : "bg-transparent"}`}
@@ -636,9 +740,15 @@ export default function AdminDashboardPage() {
               toggleTeamSelection(row.original.team.id);
             }}
             className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80] transition hover:border-[#1B4D80]/40"
-            aria-label={isSelected ? `Deselect ${row.original.team.team_name}` : `Select ${row.original.team.team_name}`}
+            aria-label={
+              isSelected
+                ? `Deselect ${row.original.team.team_name}`
+                : `Select ${row.original.team.team_name}`
+            }
           >
-            <span className={`block h-3 w-3 rounded-[3px] ${isSelected ? "bg-[#1B4D80]" : "bg-transparent"}`} />
+            <span
+              className={`block h-3 w-3 rounded-[3px] ${isSelected ? "bg-[#1B4D80]" : "bg-transparent"}`}
+            />
           </button>
         );
       },
@@ -648,10 +758,16 @@ export default function AdminDashboardPage() {
       header: "Team",
       cell: ({ row }) => (
         <div className="max-w-[200px] space-y-1">
-          <p className="truncate font-semibold text-slate-900" title={row.original.team.team_name}>
+          <p
+            className="truncate font-semibold text-slate-900"
+            title={row.original.team.team_name}
+          >
             {row.original.team.team_name}
           </p>
-          <p className="truncate text-xs text-slate-500" title={`${row.original.members.length} connected members`}>
+          <p
+            className="truncate text-xs text-slate-500"
+            title={`${row.original.members.length} connected members`}
+          >
             {row.original.members.length} connected members
           </p>
         </div>
@@ -660,14 +776,20 @@ export default function AdminDashboardPage() {
     {
       accessorKey: "team.wilaya",
       header: "Wilaya",
-      cell: ({ row }) => <span className="text-slate-700">{row.original.team.wilaya}</span>,
+      cell: ({ row }) => (
+        <span className="text-slate-700">{row.original.team.wilaya}</span>
+      ),
     },
     {
       accessorKey: "team.num_members",
       header: "Members",
-      cell: ({ row }) => <span className="font-medium text-slate-700">{row.original.team.num_members}</span>,
+      cell: ({ row }) => (
+        <span className="font-medium text-slate-700">
+          {row.original.team.num_members}
+        </span>
+      ),
     },
-   
+
     {
       accessorKey: "status",
       header: "Status",
@@ -738,12 +860,23 @@ export default function AdminDashboardPage() {
         ["Team name", selectedTeam.team.team_name],
         ["Wilaya", selectedTeam.team.wilaya],
         ["Members", String(selectedTeam.team.num_members)],
-        ["Different universities", formatBoolean(selectedTeam.team.different_universities)],
-        ["Can attend physically", formatBoolean(selectedTeam.team.can_attend_physically)],
-        ["Participated before", formatBoolean(selectedTeam.team.participated_before)],
-        ["Hands-on experience", formatBoolean(selectedTeam.team.hands_on_experience)],
+        [
+          "Different universities",
+          formatBoolean(selectedTeam.team.different_universities),
+        ],
+        [
+          "Can attend physically",
+          formatBoolean(selectedTeam.team.can_attend_physically),
+        ],
+        [
+          "Participated before",
+          formatBoolean(selectedTeam.team.participated_before),
+        ],
+        [
+          "Hands-on experience",
+          formatBoolean(selectedTeam.team.hands_on_experience),
+        ],
         ["Heard about", selectedTeam.team.heard_about ?? ""],
-       
       ]
     : [];
 
@@ -751,7 +884,9 @@ export default function AdminDashboardPage() {
 
   if (!isReady) {
     return (
-      <main className={`${adminFontClass} min-h-screen bg-[#F4F6FF] text-slate-900`}>
+      <main
+        className={`${adminFontClass} min-h-screen bg-[#F4F6FF] text-slate-900`}
+      >
         <div className="flex min-h-screen items-center justify-center px-6">
           <div className="rounded-3xl border border-white/70 bg-white/80 px-6 py-5 shadow-[0_25px_80px_rgba(27,77,128,0.12)] backdrop-blur-xl">
             <div className="flex items-center gap-3 text-sm text-slate-600">
@@ -765,7 +900,9 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <main className={`${adminFontClass} min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(27,77,128,0.18),_transparent_28%),linear-gradient(180deg,#F4F6FF_0%,#EEF3FF_100%)] text-slate-900`}>
+    <main
+      className={`${adminFontClass} min-h-screen bg-[radial-gradient(circle_at_top_left,_rgba(27,77,128,0.18),_transparent_28%),linear-gradient(180deg,#F4F6FF_0%,#EEF3FF_100%)] text-slate-900`}
+    >
       <div className="mx-auto flex min-h-screen w-full max-w-[1600px] flex-col px-4 py-4 sm:px-6 lg:px-8 lg:py-6">
         <motion.section
           initial={{ opacity: 0, y: -14 }}
@@ -786,7 +923,8 @@ export default function AdminDashboardPage() {
                   Professional competition operations, tuned for fast review.
                 </h1>
                 <p className="max-w-3xl text-sm leading-6 text-slate-600 sm:text-base">
-                  Review teams, inspect full registrations, update statuses instantly, and export CSVs without leaving the page.
+                  Review teams, inspect full registrations, update statuses
+                  instantly, and export CSVs without leaving the page.
                 </p>
               </div>
             </div>
@@ -797,7 +935,9 @@ export default function AdminDashboardPage() {
                 onClick={handleRefresh}
                 className="inline-flex items-center gap-2 rounded-full border border-[#1B4D80]/15 bg-white px-4 py-2 text-sm font-semibold text-[#1B4D80] shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
               >
-                <RefreshCw className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`} />
+                <RefreshCw
+                  className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+                />
                 Live refresh
               </button>
               <button
@@ -825,11 +965,17 @@ export default function AdminDashboardPage() {
                 transition={{ delay: index * 0.06, duration: 0.4 }}
                 className="group relative overflow-hidden rounded-[28px] border border-white/70 bg-white/80 p-5 shadow-[0_18px_50px_rgba(27,77,128,0.08)] backdrop-blur-xl"
               >
-                <div className={`absolute inset-0 bg-gradient-to-br ${stat.tone} opacity-[0.08] transition group-hover:opacity-[0.12]`} />
+                <div
+                  className={`absolute inset-0 bg-gradient-to-br ${stat.tone} opacity-[0.08] transition group-hover:opacity-[0.12]`}
+                />
                 <div className="relative flex items-center justify-between">
                   <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">{stat.label}</p>
-                    <p className="mt-2 text-3xl font-semibold text-slate-950">{value}</p>
+                    <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                      {stat.label}
+                    </p>
+                    <p className="mt-2 text-3xl font-semibold text-slate-950">
+                      {value}
+                    </p>
                   </div>
                   <div className="rounded-2xl border border-white/80 bg-white p-3 shadow-sm">
                     <Icon className="h-5 w-5 text-[#1B4D80]" />
@@ -844,7 +990,9 @@ export default function AdminDashboardPage() {
           <div className="flex flex-col gap-4 xl:flex-row xl:items-end xl:justify-between">
             <div className="grid flex-1 gap-3 xl:grid-cols-[1fr_auto] xl:items-end">
               <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Search teams</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Search teams
+                </label>
                 <div className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 shadow-inner transition focus-within:border-[#1B4D80]/30 focus-within:bg-white">
                   <Search className="h-4 w-4 text-slate-400" />
                   <input
@@ -857,7 +1005,9 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="space-y-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Filters</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Filters
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {filterTabs.map((tab) => {
                     const active = activeFilter === tab.id;
@@ -881,11 +1031,16 @@ export default function AdminDashboardPage() {
               </div>
 
               <div className="space-y-2 xl:col-span-2">
-                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Wilaya</label>
+                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Wilaya
+                </label>
                 <div className="flex flex-wrap gap-2">
                   {wilayaFilters.map((wilaya) => {
                     const active = activeWilaya === wilaya;
-                    const count = wilaya === "all" ? dashboardTeams.length : wilayaCounts[wilaya] ?? 0;
+                    const count =
+                      wilaya === "all"
+                        ? dashboardTeams.length
+                        : (wilayaCounts[wilaya] ?? 0);
 
                     return (
                       <button
@@ -898,7 +1053,9 @@ export default function AdminDashboardPage() {
                             : "border-slate-200 bg-white text-slate-600 hover:border-[#1B4D80]/25 hover:text-[#1B4D80]"
                         }`}
                       >
-                        {wilaya === "all" ? `All wilayas (${count})` : `${wilaya} (${count})`}
+                        {wilaya === "all"
+                          ? `All wilayas (${count})`
+                          : `${wilaya} (${count})`}
                       </button>
                     );
                   })}
@@ -944,8 +1101,12 @@ export default function AdminDashboardPage() {
         <section className="mt-5 flex-1 rounded-[32px] border border-white/70 bg-white/80 p-4 shadow-[0_22px_80px_rgba(27,77,128,0.10)] backdrop-blur-xl sm:p-5">
           <div className="mb-4 flex items-center justify-between gap-3 border-b border-slate-200/80 pb-4">
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Teams table</p>
-              <h2 className="mt-1 text-lg font-semibold text-slate-950">Review queue</h2>
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                Teams table
+              </p>
+              <h2 className="mt-1 text-lg font-semibold text-slate-950">
+                Review queue
+              </h2>
             </div>
           </div>
 
@@ -953,9 +1114,13 @@ export default function AdminDashboardPage() {
             <div className="mb-4 flex flex-col gap-3 rounded-[28px] border border-rose-200 bg-rose-50/70 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm font-semibold text-rose-900">
-                  {selectedTeamCount} team{selectedTeamCount === 1 ? "" : "s"} selected
+                  {selectedTeamCount} team{selectedTeamCount === 1 ? "" : "s"}{" "}
+                  selected
                 </p>
-                <p className="mt-1 text-xs text-rose-700">Use the delete button to remove the selected teams and their members.</p>
+                <p className="mt-1 text-xs text-rose-700">
+                  Use the delete button to remove the selected teams and their
+                  members.
+                </p>
               </div>
               <div className="flex flex-wrap gap-2">
                 <button
@@ -981,11 +1146,17 @@ export default function AdminDashboardPage() {
             <div className="space-y-3">
               <div className="grid gap-3 rounded-3xl border border-slate-200 bg-white p-4 md:grid-cols-6">
                 {Array.from({ length: 6 }).map((_, index) => (
-                  <div key={index} className="h-4 animate-pulse rounded-full bg-slate-200" />
+                  <div
+                    key={index}
+                    className="h-4 animate-pulse rounded-full bg-slate-200"
+                  />
                 ))}
               </div>
               {Array.from({ length: 5 }).map((_, index) => (
-                <div key={index} className="h-20 animate-pulse rounded-3xl border border-slate-200 bg-slate-100/90" />
+                <div
+                  key={index}
+                  className="h-20 animate-pulse rounded-3xl border border-slate-200 bg-slate-100/90"
+                />
               ))}
             </div>
           ) : null}
@@ -995,9 +1166,12 @@ export default function AdminDashboardPage() {
               <div className="rounded-2xl border border-white bg-white p-4 shadow-sm">
                 <Filter className="h-6 w-6 text-[#1B4D80]" />
               </div>
-              <h3 className="mt-4 text-xl font-semibold text-slate-950">No teams match the current view</h3>
+              <h3 className="mt-4 text-xl font-semibold text-slate-950">
+                No teams match the current view
+              </h3>
               <p className="mt-2 max-w-md text-sm text-slate-500">
-                Try a different search term or switch to the full queue to review the submitted registrations.
+                Try a different search term or switch to the full queue to
+                review the submitted registrations.
               </p>
             </div>
           ) : null}
@@ -1009,10 +1183,21 @@ export default function AdminDashboardPage() {
                   <table className="w-full border-collapse text-left text-sm">
                     <thead className="sticky top-0 z-10 bg-white/95 backdrop-blur-xl">
                       {table.getHeaderGroups().map((headerGroup) => (
-                        <tr key={headerGroup.id} className="border-b border-slate-200">
+                        <tr
+                          key={headerGroup.id}
+                          className="border-b border-slate-200"
+                        >
                           {headerGroup.headers.map((header) => (
-                            <th key={header.id} className="px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
-                              {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                            <th
+                              key={header.id}
+                              className="px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500"
+                            >
+                              {header.isPlaceholder
+                                ? null
+                                : flexRender(
+                                    header.column.columnDef.header,
+                                    header.getContext(),
+                                  )}
                             </th>
                           ))}
                         </tr>
@@ -1021,15 +1206,21 @@ export default function AdminDashboardPage() {
                     <tbody>
                       {table.getRowModel().rows.map((row) => {
                         const teamStatus = row.original.status;
-                        const isSelected = selectedTeamIdSet.has(row.original.team.id);
+                        const isSelected = selectedTeamIdSet.has(
+                          row.original.team.id,
+                        );
 
                         return (
                           <motion.tr
                             key={row.id}
                             layout
-                            onClick={() => setSelectedTeamId(row.original.team.id)}
+                            onClick={() =>
+                              setSelectedTeamId(row.original.team.id)
+                            }
                             className={`cursor-pointer border-b border-slate-100 transition hover:bg-slate-50 ${
-                              isSelected ? "ring-1 ring-inset ring-[#1B4D80]/20" : ""
+                              isSelected
+                                ? "ring-1 ring-inset ring-[#1B4D80]/20"
+                                : ""
                             } ${
                               teamStatus === "accepted"
                                 ? "bg-emerald-50/35"
@@ -1039,8 +1230,14 @@ export default function AdminDashboardPage() {
                             }`}
                           >
                             {row.getVisibleCells().map((cell) => (
-                              <td key={cell.id} className="px-5 py-4 align-middle">
-                                {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                              <td
+                                key={cell.id}
+                                className="px-5 py-4 align-middle"
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext(),
+                                )}
                               </td>
                             ))}
                           </motion.tr>
@@ -1066,7 +1263,9 @@ export default function AdminDashboardPage() {
                     }}
                     onClick={() => setSelectedTeamId(entry.team.id)}
                     className={`group rounded-[28px] border p-4 text-left shadow-[0_18px_50px_rgba(27,77,128,0.08)] transition hover:-translate-y-0.5 ${
-                      selectedTeamIdSet.has(entry.team.id) ? "ring-1 ring-inset ring-[#1B4D80]/20" : ""
+                      selectedTeamIdSet.has(entry.team.id)
+                        ? "ring-1 ring-inset ring-[#1B4D80]/20"
+                        : ""
                     } ${
                       entry.status === "accepted"
                         ? "border-emerald-200 bg-emerald-50/60"
@@ -1078,10 +1277,14 @@ export default function AdminDashboardPage() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <div className="flex items-center gap-2">
-                          <h3 className="text-base font-semibold text-slate-950">{entry.team.team_name}</h3>
+                          <h3 className="text-base font-semibold text-slate-950">
+                            {entry.team.team_name}
+                          </h3>
                           {statusBadge(entry.status)}
                         </div>
-                        <p className="mt-1 text-sm text-slate-600">{entry.team.wilaya}</p>
+                        <p className="mt-1 text-sm text-slate-600">
+                          {entry.team.wilaya}
+                        </p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -1091,9 +1294,15 @@ export default function AdminDashboardPage() {
                             toggleTeamSelection(entry.team.id);
                           }}
                           className="inline-flex h-5 w-5 items-center justify-center rounded border border-slate-300 bg-white text-[#1B4D80]"
-                          aria-label={selectedTeamIdSet.has(entry.team.id) ? `Deselect ${entry.team.team_name}` : `Select ${entry.team.team_name}`}
+                          aria-label={
+                            selectedTeamIdSet.has(entry.team.id)
+                              ? `Deselect ${entry.team.team_name}`
+                              : `Select ${entry.team.team_name}`
+                          }
                         >
-                          <span className={`block h-3 w-3 rounded-[3px] ${selectedTeamIdSet.has(entry.team.id) ? "bg-[#1B4D80]" : "bg-transparent"}`} />
+                          <span
+                            className={`block h-3 w-3 rounded-[3px] ${selectedTeamIdSet.has(entry.team.id) ? "bg-[#1B4D80]" : "bg-transparent"}`}
+                          />
                         </button>
                         <ChevronRight className="mt-1 h-4 w-4 text-slate-400 transition group-hover:translate-x-0.5" />
                       </div>
@@ -1101,10 +1310,13 @@ export default function AdminDashboardPage() {
 
                     <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-600">
                       <div className="rounded-2xl border border-white/70 bg-white/70 px-3 py-2">
-                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Members</p>
-                        <p className="mt-1 font-semibold text-slate-900">{entry.team.num_members}</p>
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
+                          Members
+                        </p>
+                        <p className="mt-1 font-semibold text-slate-900">
+                          {entry.team.num_members}
+                        </p>
                       </div>
-                     
                     </div>
 
                     <div className="mt-4 flex flex-wrap gap-2">
@@ -1138,7 +1350,7 @@ export default function AdminDashboardPage() {
                       >
                         Pending
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         onClick={(event) => {
                           event.stopPropagation();
@@ -1147,7 +1359,7 @@ export default function AdminDashboardPage() {
                         className="rounded-full border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-700"
                       >
                         Delete
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 ))}
@@ -1181,9 +1393,13 @@ export default function AdminDashboardPage() {
                       Team detail
                     </div>
                     <div>
-                      <h2 className="text-2xl font-semibold text-slate-950">{selectedTeam.team.team_name}</h2>
+                      <h2 className="text-2xl font-semibold text-slate-950">
+                        {selectedTeam.team.team_name}
+                      </h2>
                       <p className="mt-1 text-sm text-slate-500">
-                        {selectedTeam.team.wilaya} • {selectedTeam.team.num_members} members • {statusLabels[selectedStatus]}
+                        {selectedTeam.team.wilaya} •{" "}
+                        {selectedTeam.team.num_members} members •{" "}
+                        {statusLabels[selectedStatus]}
                       </p>
                     </div>
                   </div>
@@ -1198,24 +1414,26 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  {(["overview", "members", "motivation"] as DetailTab[]).map((tab) => {
-                    const active = activeTab === tab;
+                  {(["overview", "members", "motivation"] as DetailTab[]).map(
+                    (tab) => {
+                      const active = activeTab === tab;
 
-                    return (
-                      <button
-                        key={tab}
-                        type="button"
-                        onClick={() => setActiveTab(tab)}
-                        className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition ${
-                          active
-                            ? "bg-[#1B4D80] text-white shadow-[0_12px_30px_rgba(27,77,128,0.22)]"
-                            : "border border-slate-200 bg-white text-slate-600 hover:border-[#1B4D80]/25 hover:text-[#1B4D80]"
-                        }`}
-                      >
-                        {tab}
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={tab}
+                          type="button"
+                          onClick={() => setActiveTab(tab)}
+                          className={`rounded-full px-4 py-2 text-sm font-semibold capitalize transition ${
+                            active
+                              ? "bg-[#1B4D80] text-white shadow-[0_12px_30px_rgba(27,77,128,0.22)]"
+                              : "border border-slate-200 bg-white text-slate-600 hover:border-[#1B4D80]/25 hover:text-[#1B4D80]"
+                          }`}
+                        >
+                          {tab}
+                        </button>
+                      );
+                    },
+                  )}
                 </div>
               </div>
 
@@ -1223,39 +1441,47 @@ export default function AdminDashboardPage() {
                 <div className="mb-5 rounded-[28px] border border-white/80 bg-white/80 p-5 shadow-[0_18px_50px_rgba(27,77,128,0.08)]">
                   <div className="flex flex-wrap items-center justify-between gap-3">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Status</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+                        Status
+                      </p>
                       <div className="mt-2">{statusBadge(selectedStatus)}</div>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       <button
                         type="button"
-                        onClick={() => updateStatus(selectedTeam.team.id, "accepted")}
+                        onClick={() =>
+                          updateStatus(selectedTeam.team.id, "accepted")
+                        }
                         className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-emerald-600"
                       >
                         Accept
                       </button>
                       <button
                         type="button"
-                        onClick={() => updateStatus(selectedTeam.team.id, "rejected")}
+                        onClick={() =>
+                          updateStatus(selectedTeam.team.id, "rejected")
+                        }
                         className="rounded-full bg-rose-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-600"
                       >
                         Reject
                       </button>
                       <button
                         type="button"
-                        onClick={() => updateStatus(selectedTeam.team.id, "pending")}
+                        onClick={() =>
+                          updateStatus(selectedTeam.team.id, "pending")
+                        }
                         className="rounded-full bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600"
                       >
                         Pending
                       </button>
-                      <button
+                      {/* <button
                         type="button"
                         onClick={() => deleteTeams([selectedTeam.team.id])}
                         className="inline-flex items-center gap-2 rounded-full bg-rose-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-rose-700"
                       >
                         <Trash2 className="h-4 w-4" />
                         Delete team
-                      </button>
+                      </button> */}
                     </div>
                   </div>
                 </div>
@@ -1263,9 +1489,16 @@ export default function AdminDashboardPage() {
                 {activeTab === "overview" ? (
                   <div className="grid gap-4 sm:grid-cols-2">
                     {detailFields.map(([label, value]) => (
-                      <div key={label} className="rounded-[24px] border border-white/80 bg-white/85 p-4 shadow-[0_14px_40px_rgba(27,77,128,0.07)]">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">{label}</p>
-                        <p className="mt-2 text-sm leading-6 text-slate-800">{value || "—"}</p>
+                      <div
+                        key={label}
+                        className="rounded-[24px] border border-white/80 bg-white/85 p-4 shadow-[0_14px_40px_rgba(27,77,128,0.07)]"
+                      >
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                          {label}
+                        </p>
+                        <p className="mt-2 text-sm leading-6 text-slate-800">
+                          {value || "—"}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -1275,18 +1508,25 @@ export default function AdminDashboardPage() {
                   <div className="space-y-4">
                     {selectedMembers.length > 0 ? (
                       selectedMembers.map((member) => (
-                        <div key={member.id} className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]">
+                        <div
+                          key={member.id}
+                          className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]"
+                        >
                           <div className="flex flex-wrap items-start justify-between gap-3">
                             <div>
                               <div className="flex flex-wrap items-center gap-2">
-                                <h3 className="text-lg font-semibold text-slate-950">{member.full_name}</h3>
+                                <h3 className="text-lg font-semibold text-slate-950">
+                                  {member.full_name}
+                                </h3>
                                 {member.is_leader ? (
                                   <span className="rounded-full border border-[#1B4D80]/15 bg-[#1B4D80]/8 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-[#1B4D80]">
                                     Leader
                                   </span>
                                 ) : null}
                               </div>
-                              <p className="mt-1 text-sm text-slate-500">{member.university} • {member.field_of_study}</p>
+                              <p className="mt-1 text-sm text-slate-500">
+                                {member.university} • {member.field_of_study}
+                              </p>
                             </div>
                             <p className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1 text-xs font-semibold text-slate-600">
                               Year {member.year_of_study}
@@ -1305,14 +1545,25 @@ export default function AdminDashboardPage() {
                           </div>
 
                           <div className="mt-4 flex flex-wrap gap-2">
-                            <MemberLink href={toExternalHref(member.discord)} icon={MessageSquare} label="Discord" />
-                            <MemberLink href={toExternalHref(member.linkedin)} icon={ExternalLink} label="LinkedIn" />
+                            <MemberLink
+                              href={toExternalHref(member.discord)}
+                              icon={MessageSquare}
+                              label="Discord"
+                            />
+                            <MemberLink
+                              href={toExternalHref(member.linkedin)}
+                              icon={ExternalLink}
+                              label="LinkedIn"
+                            />
                           </div>
 
                           <div className="mt-4 rounded-2xl border border-slate-200 bg-slate-50/80 p-4">
-                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Software tools</p>
+                            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                              Software tools
+                            </p>
                             <div className="mt-3 flex flex-wrap gap-2">
-                              {member.software_tools && member.software_tools.length > 0 ? (
+                              {member.software_tools &&
+                              member.software_tools.length > 0 ? (
                                 member.software_tools.map((tool) => (
                                   <span
                                     key={`${member.id}-${tool}`}
@@ -1322,7 +1573,9 @@ export default function AdminDashboardPage() {
                                   </span>
                                 ))
                               ) : (
-                                <span className="text-sm text-slate-500">No tools listed.</span>
+                                <span className="text-sm text-slate-500">
+                                  No tools listed.
+                                </span>
                               )}
                             </div>
                           </div>
@@ -1339,46 +1592,70 @@ export default function AdminDashboardPage() {
                 {activeTab === "motivation" ? (
                   <div className="space-y-4">
                     <div className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Motivation</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        Motivation
+                      </p>
                       <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                        {selectedTeam.team.motivation || "No motivation text provided."}
+                        {selectedTeam.team.motivation ||
+                          "No motivation text provided."}
                       </p>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-2">
                       <div className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Participation experience</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                          Participation experience
+                        </p>
                         <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                          {selectedTeam.team.participation_experience || "No previous participation details shared."}
+                          {selectedTeam.team.participation_experience ||
+                            "No previous participation details shared."}
                         </p>
                       </div>
                       <div className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]">
-                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Hands-on details</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                          Hands-on details
+                        </p>
                         <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                          {selectedTeam.team.hands_on_details || "No hands-on details provided."}
+                          {selectedTeam.team.hands_on_details ||
+                            "No hands-on details provided."}
                         </p>
                       </div>
                     </div>
 
                     <div className="grid gap-4 sm:grid-cols-3">
                       <div className="rounded-[24px] border border-slate-200 bg-white/85 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Participated before</p>
-                        <p className="mt-2 text-sm font-semibold text-slate-900">{formatBoolean(selectedTeam.team.participated_before)}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                          Participated before
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-slate-900">
+                          {formatBoolean(selectedTeam.team.participated_before)}
+                        </p>
                       </div>
                       <div className="rounded-[24px] border border-slate-200 bg-white/85 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Hands-on experience</p>
-                        <p className="mt-2 text-sm font-semibold text-slate-900">{formatBoolean(selectedTeam.team.hands_on_experience)}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                          Hands-on experience
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-slate-900">
+                          {formatBoolean(selectedTeam.team.hands_on_experience)}
+                        </p>
                       </div>
                       <div className="rounded-[24px] border border-slate-200 bg-white/85 p-4">
-                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Heard about</p>
-                        <p className="mt-2 text-sm font-semibold text-slate-900">{selectedTeam.team.heard_about || "Not specified"}</p>
+                        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+                          Heard about
+                        </p>
+                        <p className="mt-2 text-sm font-semibold text-slate-900">
+                          {selectedTeam.team.heard_about || "Not specified"}
+                        </p>
                       </div>
                     </div>
 
                     <div className="rounded-[28px] border border-white/80 bg-white/85 p-5 shadow-[0_14px_40px_rgba(27,77,128,0.08)]">
-                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Anything else to add</p>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                        Anything else to add
+                      </p>
                       <p className="mt-3 whitespace-pre-wrap text-sm leading-7 text-slate-700">
-                        {selectedTeam.team.anything_to_add || "No additional note provided."}
+                        {selectedTeam.team.anything_to_add ||
+                          "No additional note provided."}
                       </p>
                     </div>
                   </div>
