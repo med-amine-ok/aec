@@ -36,7 +36,7 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body className={`${raleway.variable} antialiased`} suppressHydrationWarning>
         <ErrorBoundary>
-          <GlobalSplashScreen />
+          
           <Analytics />
           <OceanBackground />
         </ErrorBoundary>
