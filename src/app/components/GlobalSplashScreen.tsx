@@ -32,7 +32,7 @@ export default function GlobalSplashScreen() {
       suppressHydrationWarning
       className={`fixed inset-0 z-[100] flex items-center justify-center bg-[#050B14] overflow-hidden transition-opacity duration-1000 ease-out ${isFading ? 'opacity-0' : 'opacity-100'}`}
     >
-      {/* Desktop Splash Video */}
+{/*       
       <video 
         autoPlay 
         muted 
@@ -43,7 +43,7 @@ export default function GlobalSplashScreen() {
         <source src="/animh.mp4" type="video/mp4" />
       </video>
 
-      {/* Mobile Splash Video */}
+     
       <video 
         autoPlay 
         muted 
@@ -59,7 +59,7 @@ export default function GlobalSplashScreen() {
         className={`absolute top-6 right-6 px-4 py-2 bg-white/5 hover:bg-white/10 text-white/50 hover:text-white rounded-lg backdrop-blur-sm transition-all z-50 text-sm font-medium tracking-wider border border-white/10 hover:border-white/30 ${isFading ? 'opacity-0 cursor-default' : 'opacity-100'}`}
       >
         Skip
-      </button>
+      </button> */}
     </div>
   );
 }

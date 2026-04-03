@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { usePathname } from 'next/navigation';
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import * as THREE from "three";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
 // ============================================================
 // Port of the Three.js Ocean Scene (sky + sea only) as a React
@@ -317,19 +317,23 @@ const VOLUME_FRAGMENT = /* glsl */ `
 export default function OceanBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
-  const showPlane = pathname !== '/dashboard';
+  const showPlane = pathname !== "/dashboard";
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
     if (prefersReducedMotion) return;
 
     // WebGL availability check
     try {
-      const testCanvas = document.createElement('canvas');
-      const gl = testCanvas.getContext('webgl') || testCanvas.getContext('experimental-webgl');
+      const testCanvas = document.createElement("canvas");
+      const gl =
+        testCanvas.getContext("webgl") ||
+        testCanvas.getContext("experimental-webgl");
       if (!gl) return;
     } catch {
       return;
@@ -337,9 +341,9 @@ export default function OceanBackground() {
 
     // ---------- Register custom shader chunks ----------
     const chunks = THREE.ShaderChunk as Record<string, string>;
-    chunks['global'] = GLOBAL_CHUNK;
-    chunks['skybox'] = SKYBOX_CHUNK;
-    chunks['ocean'] = OCEAN_CHUNK;
+    chunks["global"] = GLOBAL_CHUNK;
+    chunks["skybox"] = SKYBOX_CHUNK;
+    chunks["ocean"] = OCEAN_CHUNK;
 
     // ---------- Clock ----------
     const clock = new THREE.Clock();
@@ -352,35 +356,37 @@ export default function OceanBackground() {
       antialias: false,
       alpha: false,
     });
-    
+
     // Overlay Renderer (for the Plane at 40)
     const overlayRenderer = new THREE.WebGLRenderer({
       antialias: true,
       alpha: true,
       depth: true,
-      powerPreference: 'high-performance',
+      powerPreference: "high-performance",
     });
     overlayRenderer.setClearColor(0x000000, 0);
 
     const isMobile = window.innerWidth < 768;
-    const pixelRatio = isMobile ? Math.min(window.devicePixelRatio, 1) : Math.min(window.devicePixelRatio, 1.5);
-    
-    [bgRenderer, overlayRenderer].forEach(r => {
+    const pixelRatio = isMobile
+      ? Math.min(window.devicePixelRatio, 1)
+      : Math.min(window.devicePixelRatio, 1.5);
+
+    [bgRenderer, overlayRenderer].forEach((r) => {
       r.setPixelRatio(pixelRatio);
       r.setSize(container.clientWidth, container.clientHeight, false);
-      r.domElement.style.display = 'block';
+      r.domElement.style.display = "block";
     });
 
     container.appendChild(bgRenderer.domElement);
 
     // Create a dynamic overlay container for the plane
-    const overlayContainer = document.createElement('div');
+    const overlayContainer = document.createElement("div");
     Object.assign(overlayContainer.style, {
-      position: 'fixed',
+      position: "fixed",
       inset: 0,
       zIndex: 40,
-      pointerEvents: 'none',
-      overflow: 'hidden',
+      pointerEvents: "none",
+      overflow: "hidden",
     });
     document.body.appendChild(overlayContainer);
     overlayContainer.appendChild(overlayRenderer.domElement);
@@ -393,7 +399,7 @@ export default function OceanBackground() {
       70,
       container.clientWidth / container.clientHeight,
       0.3,
-      4000
+      4000,
     );
     camera.position.set(0, 2, 0);
     // Look slightly above horizon for a nice view
@@ -404,7 +410,10 @@ export default function OceanBackground() {
     function getAlgeriaDecimalHour() {
       const now = new Date();
       // Get current UTC hours as a decimal
-      const utcHours = now.getUTCHours() + now.getUTCMinutes() / 60 + now.getUTCSeconds() / 3600;
+      const utcHours =
+        now.getUTCHours() +
+        now.getUTCMinutes() / 60 +
+        now.getUTCSeconds() / 3600;
       // Algeria is UTC+1
       return (utcHours + 1) % 24;
     }
@@ -414,7 +423,7 @@ export default function OceanBackground() {
     const skyInitial = new THREE.Vector3(0, 1, 0);
     const skyAxis = new THREE.Vector3(0, 0, 1).applyAxisAngle(
       new THREE.Vector3(0, 1, 0),
-      THREE.MathUtils.degToRad(-30)
+      THREE.MathUtils.degToRad(-30),
     );
     // Map Algeria time to sky angle: angle=0 → noon, angle=π → midnight
     const algeriaHour = getAlgeriaDecimalHour();
@@ -429,9 +438,15 @@ export default function OceanBackground() {
       const u = skyAxis;
       const u2 = skyAxis.clone().multiply(skyAxis);
       rotationMatrix.value.set(
-        cos + u2.x * cos1,            u.x * u.y * cos1 - u.z * sin, u.x * u.z * cos1 + u.y * sin,
-        u.y * u.x * cos1 + u.z * sin, cos + u2.y * cos1,            u.y * u.z * cos1 - u.x * sin,
-        u.z * u.x * cos1 - u.y * sin, u.z * u.y * cos1 + u.x * sin, cos + u2.z * cos1
+        cos + u2.x * cos1,
+        u.x * u.y * cos1 - u.z * sin,
+        u.x * u.z * cos1 + u.y * sin,
+        u.y * u.x * cos1 + u.z * sin,
+        cos + u2.y * cos1,
+        u.y * u.z * cos1 - u.x * sin,
+        u.z * u.x * cos1 - u.y * sin,
+        u.z * u.y * cos1 + u.x * sin,
+        cos + u2.z * cos1,
       );
     }
 
@@ -449,18 +464,55 @@ export default function OceanBackground() {
     const starsMap = new Uint8Array(gridSize * gridSize * 24);
 
     function vector3ToStarMap(dir: THREE.Vector3, value: number[]) {
-      const absDir = new THREE.Vector3(Math.abs(dir.x), Math.abs(dir.y), Math.abs(dir.z));
+      const absDir = new THREE.Vector3(
+        Math.abs(dir.x),
+        Math.abs(dir.y),
+        Math.abs(dir.z),
+      );
       const xPositive = dir.x > 0;
       const yPositive = dir.y > 0;
       const zPositive = dir.z > 0;
-      let maxAxis = 0, u = 0, v = 0, i = 0;
+      let maxAxis = 0,
+        u = 0,
+        v = 0,
+        i = 0;
 
-      if (xPositive && absDir.x >= absDir.y && absDir.x >= absDir.z) { maxAxis = absDir.x; u = -dir.z; v = dir.y; i = 0; }
-      if (!xPositive && absDir.x >= absDir.y && absDir.x >= absDir.z) { maxAxis = absDir.x; u = dir.z; v = dir.y; i = 1; }
-      if (yPositive && absDir.y >= absDir.x && absDir.y >= absDir.z) { maxAxis = absDir.y; u = dir.x; v = -dir.z; i = 2; }
-      if (!yPositive && absDir.y >= absDir.x && absDir.y >= absDir.z) { maxAxis = absDir.y; u = dir.x; v = dir.z; i = 3; }
-      if (zPositive && absDir.z >= absDir.x && absDir.z >= absDir.y) { maxAxis = absDir.z; u = dir.x; v = dir.y; i = 4; }
-      if (!zPositive && absDir.z >= absDir.x && absDir.z >= absDir.y) { maxAxis = absDir.z; u = -dir.x; v = dir.y; i = 5; }
+      if (xPositive && absDir.x >= absDir.y && absDir.x >= absDir.z) {
+        maxAxis = absDir.x;
+        u = -dir.z;
+        v = dir.y;
+        i = 0;
+      }
+      if (!xPositive && absDir.x >= absDir.y && absDir.x >= absDir.z) {
+        maxAxis = absDir.x;
+        u = dir.z;
+        v = dir.y;
+        i = 1;
+      }
+      if (yPositive && absDir.y >= absDir.x && absDir.y >= absDir.z) {
+        maxAxis = absDir.y;
+        u = dir.x;
+        v = -dir.z;
+        i = 2;
+      }
+      if (!yPositive && absDir.y >= absDir.x && absDir.y >= absDir.z) {
+        maxAxis = absDir.y;
+        u = dir.x;
+        v = dir.z;
+        i = 3;
+      }
+      if (zPositive && absDir.z >= absDir.x && absDir.z >= absDir.y) {
+        maxAxis = absDir.z;
+        u = dir.x;
+        v = dir.y;
+        i = 4;
+      }
+      if (!zPositive && absDir.z >= absDir.x && absDir.z >= absDir.y) {
+        maxAxis = absDir.z;
+        u = -dir.x;
+        v = dir.y;
+        i = 5;
+      }
 
       u = Math.floor((u / maxAxis + 1) * 0.5 * gridSize);
       v = Math.floor((v / maxAxis + 1) * 0.5 * gridSize);
@@ -479,14 +531,20 @@ export default function OceanBackground() {
       const c = Math.sqrt(1 - b * b);
       const target = new THREE.Vector3(Math.cos(a) * c, Math.sin(a) * c, b);
       vector3ToStarMap(target, [
-        THREE.MathUtils.lerp(0.5 - maxOffset, 0.5 + maxOffset, rng.next()) * 255,
-        THREE.MathUtils.lerp(0.5 - maxOffset, 0.5 + maxOffset, rng.next()) * 255,
+        THREE.MathUtils.lerp(0.5 - maxOffset, 0.5 + maxOffset, rng.next()) *
+          255,
+        THREE.MathUtils.lerp(0.5 - maxOffset, 0.5 + maxOffset, rng.next()) *
+          255,
         Math.pow(rng.next(), 6) * 255,
         rng.next() * 255,
       ]);
     }
 
-    const starsTexture = new THREE.DataTexture(starsMap, gridSize * 6, gridSize);
+    const starsTexture = new THREE.DataTexture(
+      starsMap,
+      gridSize * 6,
+      gridSize,
+    );
     starsTexture.wrapS = THREE.RepeatWrapping;
     starsTexture.wrapT = THREE.RepeatWrapping;
     starsTexture.needsUpdate = true;
@@ -496,7 +554,7 @@ export default function OceanBackground() {
     const ditherSizeUniform = new THREE.Uniform(new THREE.Vector2());
     const ditherUniform = new THREE.Uniform<THREE.Texture | null>(null);
     const loader = new THREE.TextureLoader();
-    loader.load('/ocean/bluenoise.png', (texture) => {
+    loader.load("/ocean/bluenoise.png", (texture) => {
       ditherSizeUniform.value.set(texture.image.width, texture.image.height);
       texture.wrapS = THREE.RepeatWrapping;
       texture.wrapT = THREE.RepeatWrapping;
@@ -540,26 +598,38 @@ export default function OceanBackground() {
     // ---------- Skybox mesh ----------
     const skyHalfSize = 2000;
     const skyVertices = new Float32Array([
-      -skyHalfSize, -skyHalfSize, -skyHalfSize,
-       skyHalfSize, -skyHalfSize, -skyHalfSize,
-      -skyHalfSize, -skyHalfSize,  skyHalfSize,
-       skyHalfSize, -skyHalfSize,  skyHalfSize,
-      -skyHalfSize,  skyHalfSize, -skyHalfSize,
-       skyHalfSize,  skyHalfSize, -skyHalfSize,
-      -skyHalfSize,  skyHalfSize,  skyHalfSize,
-       skyHalfSize,  skyHalfSize,  skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
+      -skyHalfSize,
+      -skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
+      skyHalfSize,
     ]);
     const skyIndices = [
-      2, 3, 0, 3, 1, 0,
-      0, 1, 4, 1, 5, 4,
-      1, 3, 5, 3, 7, 5,
-      3, 2, 7, 2, 6, 7,
-      2, 0, 6, 0, 4, 6,
-      4, 5, 6, 5, 7, 6,
+      2, 3, 0, 3, 1, 0, 0, 1, 4, 1, 5, 4, 1, 3, 5, 3, 7, 5, 3, 2, 7, 2, 6, 7, 2,
+      0, 6, 0, 4, 6, 4, 5, 6, 5, 7, 6,
     ];
     const skyGeo = new THREE.BufferGeometry();
-    skyGeo.setAttribute('position', new THREE.BufferAttribute(skyVertices, 3));
-    skyGeo.setAttribute('coord', new THREE.BufferAttribute(skyVertices, 3));
+    skyGeo.setAttribute("position", new THREE.BufferAttribute(skyVertices, 3));
+    skyGeo.setAttribute("coord", new THREE.BufferAttribute(skyVertices, 3));
     skyGeo.setIndex(skyIndices);
 
     const skyMat = new THREE.ShaderMaterial({
@@ -612,7 +682,7 @@ export default function OceanBackground() {
 
     if (showPlane) {
       const gltfLoader = new GLTFLoader();
-      gltfLoader.load('/source/scene.gltf', (gltf) => {
+      gltfLoader.load("/source/scene.gltf", (gltf) => {
         const raw = gltf.scene;
 
         // The Sketchfab GLTF has nested node matrices that rotate the model.
@@ -654,7 +724,7 @@ export default function OceanBackground() {
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     }
-    window.addEventListener('resize', onResize);
+    window.addEventListener("resize", onResize);
 
     let isVisible = true;
     let isDestroyed = false;
@@ -662,9 +732,9 @@ export default function OceanBackground() {
     const targetFrameMs = 1000 / 30;
 
     const onVisibilityChange = () => {
-      isVisible = document.visibilityState === 'visible';
+      isVisible = document.visibilityState === "visible";
     };
-    document.addEventListener('visibilitychange', onVisibilityChange);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     // Disable IntersectionObserver to keep plane visible across all sections
     /*
@@ -712,7 +782,7 @@ export default function OceanBackground() {
       directionalLight.position.set(
         dirToLight.x * 200,
         dirToLight.y * 200,
-        dirToLight.z * 200
+        dirToLight.z * 200,
       );
       directionalLight.intensity = Math.max(sunVisibility.value * 1.0, 0.15);
       ambientLight.intensity = Math.max(sunVisibility.value * 0.6, 0.1);
@@ -726,8 +796,8 @@ export default function OceanBackground() {
     return () => {
       isDestroyed = true;
       cancelAnimationFrame(animId);
-      window.removeEventListener('resize', onResize);
-      document.removeEventListener('visibilitychange', onVisibilityChange);
+      window.removeEventListener("resize", onResize);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
       // observer.disconnect(); // Disabled with observer removal
       bgRenderer.dispose();
       overlayRenderer.dispose();
@@ -740,7 +810,7 @@ export default function OceanBackground() {
           if (child instanceof THREE.Mesh) {
             child.geometry?.dispose();
             if (Array.isArray(child.material)) {
-              child.material.forEach(m => m.dispose());
+              child.material.forEach((m) => m.dispose());
             } else {
               child.material?.dispose();
             }
@@ -760,10 +830,10 @@ export default function OceanBackground() {
     <div
       ref={containerRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         inset: 0,
         zIndex: -1,
-        overflow: 'hidden',
+        overflow: "hidden",
       }}
     />
   );

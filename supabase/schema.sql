@@ -9,6 +9,7 @@ create table if not exists public.teams (
   wilaya text not null check (wilaya in ('Alger', 'Oran', 'Ouargla', 'Constantine')),
   team_name text not null,
   status text not null default 'pending' check (status in ('pending', 'accepted', 'rejected')),
+  ranking integer,
   num_members integer not null check (num_members in (3, 4)),
   different_universities boolean,
   can_attend_physically boolean,
@@ -25,6 +26,9 @@ create table if not exists public.teams (
 alter table public.teams
   add column if not exists status text not null default 'pending';
 
+alter table public.teams
+  add column if not exists ranking integer;
+
 do $$
 begin
   if not exists (
@@ -35,6 +39,20 @@ begin
     alter table public.teams
       add constraint teams_status_check
       check (status in ('pending', 'accepted', 'rejected'));
+  end if;
+end
+$$;
+
+do $$
+begin
+  if not exists (
+    select 1
+    from pg_constraint
+    where conname = 'teams_ranking_check'
+  ) then
+    alter table public.teams
+      add constraint teams_ranking_check
+      check (ranking is null or ranking > 0);
   end if;
 end
 $$;
@@ -143,6 +161,35 @@ $$;
 
 revoke all on function public.update_team_status(bigint, text) from public;
 grant execute on function public.update_team_status(bigint, text) to anon;
+
+create or replace function public.update_team_ranking(p_team_id bigint, p_ranking integer)
+returns public.teams
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  updated_team public.teams;
+begin
+  if p_ranking is not null and p_ranking < 1 then
+    raise exception 'Invalid team ranking: %', p_ranking;
+  end if;
+
+  update public.teams
+  set ranking = p_ranking
+  where id = p_team_id
+  returning * into updated_team;
+
+  if not found then
+    raise exception 'Team % not found', p_team_id;
+  end if;
+
+  return updated_team;
+end;
+$$;
+
+revoke all on function public.update_team_ranking(bigint, integer) from public;
+grant execute on function public.update_team_ranking(bigint, integer) to anon;
 
 create or replace function public.delete_teams(p_team_ids bigint[])
 returns integer
