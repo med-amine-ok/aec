@@ -609,6 +609,72 @@ export default function AdminDashboardPage() {
     });
   };
 
+  const bulkUpdateStatus = (teamIds: number[], nextStatus: TeamStatus) => {
+    if (teamIds.length === 0) {
+      return;
+    }
+
+    const previousStatuses = new Map(
+      teamIds.map((teamId) => [
+        teamId,
+        teams.find((team) => team.id === teamId)?.status ?? "pending",
+      ]),
+    );
+
+    startTransition(async () => {
+      setStatusMap((current) => {
+        const nextMap = { ...current };
+
+        teamIds.forEach((teamId) => {
+          nextMap[String(teamId)] = nextStatus;
+        });
+
+        return nextMap;
+      });
+
+      const supabase = getSupabaseClient() as any;
+
+      if (!supabase) {
+        toast.error("Supabase client is unavailable.");
+        return;
+      }
+
+      const failures: number[] = [];
+
+      for (const teamId of teamIds) {
+        const { error } = await supabase.rpc("update_team_status", {
+          p_team_id: teamId,
+          p_status: nextStatus,
+        });
+
+        if (error) {
+          failures.push(teamId);
+        }
+      }
+
+      if (failures.length > 0) {
+        setStatusMap((current) => {
+          const restored = { ...current };
+
+          failures.forEach((teamId) => {
+            restored[String(teamId)] = previousStatuses.get(teamId) ?? "pending";
+          });
+
+          return restored;
+        });
+
+        toast.error(
+          `Updated ${teamIds.length - failures.length} team${teamIds.length - failures.length === 1 ? "" : "s"}; ${failures.length} failed.`,
+        );
+        return;
+      }
+
+      toast.success(
+        `Marked ${teamIds.length} team${teamIds.length === 1 ? "" : "s"} as ${statusLabels[nextStatus].toLowerCase()}`,
+      );
+    });
+  };
+
   const updateRanking = (teamId: number, nextRanking: number | null) => {
     const previousRanking =
       teams.find((team) => team.id === teamId)?.ranking ?? null;
@@ -751,25 +817,34 @@ export default function AdminDashboardPage() {
     loadDashboardData(true);
   };
 
-  const exportTeams = (status: "all" | TeamStatus) => {
+  const exportTeams = (
+    status: "all" | TeamStatus,
+    wilaya: (typeof wilayaFilters)[number] = "all",
+  ) => {
     const exportSet = visibleTeams.length > 0 ? visibleTeams : dashboardTeams;
-    const scopedTeams =
-      status === "all"
-        ? exportSet
-        : exportSet.filter((entry) => entry.status === status);
+    const scopedTeams = exportSet.filter((entry) => {
+      const matchesStatus =
+        status === "all" ? true : entry.status === status;
+      const matchesWilaya = wilaya === "all" ? true : entry.team.wilaya === wilaya;
+
+      return matchesStatus && matchesWilaya;
+    });
 
     if (scopedTeams.length === 0) {
       toast.error("No teams match the current export filter.");
       return;
     }
 
+    const fileScope =
+      wilaya === "all" ? status : `${status}-${wilaya.toLowerCase()}`;
+
     downloadCsv(
-      `aec-teams-${status}-${new Date().toISOString().slice(0, 10)}.csv`,
+      `aec-teams-${fileScope}-${new Date().toISOString().slice(0, 10)}.csv`,
       flattenTeamsForExport(scopedTeams),
     );
 
     toast.success(
-      `Exported ${status === "all" ? "all teams" : statusLabels[status].toLowerCase()} teams`,
+      `Exported ${wilaya === "all" ? (status === "all" ? "all teams" : `${statusLabels[status].toLowerCase()} teams`) : `${wilaya} teams`}`,
     );
   };
 
@@ -1143,7 +1218,7 @@ export default function AdminDashboardPage() {
               </div>
             </div>
 
-            {/* <div className="grid gap-2 sm:grid-cols-3 xl:min-w-[420px]">
+            <div className="grid gap-2 sm:grid-cols-3 xl:min-w-[420px]">
               <button
                 type="button"
                 onClick={() => exportTeams("all")}
@@ -1168,7 +1243,33 @@ export default function AdminDashboardPage() {
                 <Download className="h-4 w-4" />
                 Rejected CSV
               </button>
-            </div> */}
+            </div>
+          </div>
+          <div className="mt-4 border-t border-slate-200/80 pt-4">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <label className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                  Wilaya exports
+                </label>
+                <p className="mt-1 text-sm text-slate-500">
+                  Export accepted teams for a specific wilaya.
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {wilayaFilters
+                  .filter((wilaya) => wilaya !== "all")
+                  .map((wilaya) => (
+                    <button
+                      key={wilaya}
+                      type="button"
+                      onClick={() => exportTeams("accepted", wilaya)}
+                      className="rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-700 transition hover:border-[#1B4D80]/25 hover:text-[#1B4D80]"
+                    >
+                      {wilaya}
+                    </button>
+                  ))}
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1203,6 +1304,27 @@ export default function AdminDashboardPage() {
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => bulkUpdateStatus(selectedTeamIds, "accepted")}
+                  className="rounded-full border border-emerald-200 bg-white px-4 py-2 text-sm font-semibold text-emerald-700 transition hover:border-emerald-300 hover:bg-emerald-50"
+                >
+                  Bulk accept
+                </button>
+                <button
+                  type="button"
+                  onClick={() => bulkUpdateStatus(selectedTeamIds, "rejected")}
+                  className="rounded-full border border-rose-200 bg-white px-4 py-2 text-sm font-semibold text-rose-700 transition hover:border-rose-300 hover:bg-rose-50"
+                >
+                  Bulk reject
+                </button>
+                <button
+                  type="button"
+                  onClick={() => bulkUpdateStatus(selectedTeamIds, "pending")}
+                  className="rounded-full border border-amber-200 bg-white px-4 py-2 text-sm font-semibold text-amber-700 transition hover:border-amber-300 hover:bg-amber-50"
+                >
+                  Bulk pending
+                </button>
                 <button
                   type="button"
                   onClick={clearSelectedTeams}

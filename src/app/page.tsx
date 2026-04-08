@@ -56,8 +56,11 @@ export default function Home() {
             <div className="relative z-10 w-full">
               <LogoLoop
                 logos={[
-                  { src: "/viclogo.png", alt: "VIC" },
+                
+                  { src: "/gam.webp", alt: "INPHAMEDIS" },
                   { src: "/inphamedis.png", alt: "INPHAMEDIS" },
+                  { src: "/biopharm.png", alt: "INPHAMEDIS" },
+
                 ]}
                 speed={100}
                 direction="left"
