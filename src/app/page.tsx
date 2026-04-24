@@ -60,6 +60,12 @@ export default function Home() {
                   { src: "/gam.webp", alt: "INPHAMEDIS" },
                   { src: "/inphamedis.png", alt: "INPHAMEDIS" },
                   { src: "/biopharm.png", alt: "INPHAMEDIS" },
+                  { src: "/arh.png", alt: "INPHAMEDIS" },
+                  { src: "/TALA.png", alt: "INPHAMEDIS" },
+                  { src: "/stitch.png", alt: "INPHAMEDIS" },
+                  { src: "/hamoud.svg", alt: "INPHAMEDIS" },
+                  { src: "/adichim.png", alt: "INPHAMEDIS" },
+                  { src: "/acs.jpg", alt: "INPHAMEDIS" },
 
                 ]}
                 speed={100}

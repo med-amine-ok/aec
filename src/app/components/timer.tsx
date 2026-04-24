@@ -40,10 +40,10 @@ export default function Timer({ targetDate = '2026-04-04T00:00:00' }: TimerProps
 
   if (timeLeft === 0) {
     return (
-      <div className="flex items-center gap-4 mt-8 px-6 py-3 rounded-full bg-[#1B4D80]/40 border border-[#EB8317]/30 backdrop-blur-md shadow-[0_8px_32px_rgba(5,25,53,0.5)] z-20">
-        <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#EB8317]">Registration</span>
+      <div className="z-20">
+        {/* <span className="text-xs font-semibold tracking-[0.2em] uppercase text-[#EB8317]">Registration</span>
         <div className="w-1.5 h-1.5 rounded-full bg-[#EB8317]"></div>
-        <span className="text-[#F4F6FF] text-sm font-bold tracking-widest uppercase">Closed</span>
+        <span className="text-[#F4F6FF] text-sm font-bold tracking-widest uppercase">Closed</span> */}
       </div>
     );
   }
